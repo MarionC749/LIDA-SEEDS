@@ -34,7 +34,7 @@ body {
     left: 0;
     right: 0;
 
-    height: 80px; /* Adjust height as needed */
+    height: 80px;
     background-color: #92cf3c; /* Set background color for visibility */
     
     display: flex;
@@ -60,16 +60,17 @@ body {
 
 /*Main App (below navbar) */
 .app-shell {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 80px);
-    padding-top: 80px;
+    overflow: hidden;
 }
 
 .main-content{
     display: flex;
     flex: 1; /*takes remaining space*/
     overflow: hidden;
+    padding-top: 80px;
 }
 
 /* Customized Layer Selector Checklist */
@@ -99,7 +100,8 @@ body {
     position: relative;
     padding: 20px;
     width: 0;
-    overflow: hidden;
+    height: 100%;
+    overflow: hidden; /*closed state hides content*/
     transition: 0.3s ease;
     border-left: 1px solid #ddd;
 }
@@ -127,6 +129,7 @@ body {
 
 /* Info Sidebar when OPEN*/
 .info-sidebar-open {
+    overflow-y: auto; /*enbales vertical scrolling*/
     width: 300px;
     padding: 5px;
     background: white;

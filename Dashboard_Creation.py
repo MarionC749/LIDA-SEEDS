@@ -40,13 +40,24 @@ types_colors= {"Allotments": "#D55E00",
                "Urban Farms": "#F0E442" 
 }
 
+#-------------------------------------------------------------
+
 #Import Leeds outline
 Leeds_outline = gpd.read_file("Data/Processed_Data/Leeds_boundaries.gpkg")
 #Ensure CRS is correct
 Leeds_outline = Leeds_outline.to_crs(4326)
 
 #-------------------------------------------------------------
-#App layout
+#Import Leeds postcode geometries
+Leeds_postcodes = gpd.read_file("Data/Processed_Data/leeds_postcodes.gpkg")
+#Ensure postcodes are strings
+Leeds_postcodes['Postcode'] = Leeds_postcodes['Postcode'].astype(str)
+#Ensure CRS is correct
+Leeds_postcodes  = Leeds_postcodes.to_crs(4326)
+
+
+#-------------------------------------------------------------
+# APP LAYOUT
 
 app.layout= html.Div(
     className= 'app-shell', 
@@ -63,13 +74,17 @@ app.layout= html.Div(
             ]
         ),
         
-        # ------ SideBar State ------
+        # ------ Map and SideBar State Store ------
         dcc.Store(
-            id= 'sidebar_state',
-            data={'open': False, 
-                  'uid': None, #store uid of clicked feature
-                  'lat': None, #store coordinates of clicked feature
-                  'lon': None}
+            id= 'map_state',
+            data={'layers': ['Allotments'], #initial state of map
+                'postcode': None,
+                  'sidebar': {
+                      'open': False, 
+                      'uid': None, #store uid of clicked feature
+                      'lat': None, #store coordinates of clicked feature
+                      'lon': None}
+                  }
         ),
     
         # ------ Main Layout ------
@@ -78,8 +93,25 @@ app.layout= html.Div(
             children= [
                 
                 # ------ Left Panel ------
-                # Checklist component allows multiple layers selection simultaneously
+                
                 html.Div([
+                    
+                    # ------ Postcode DropDown ------
+                    dcc.Dropdown(
+                        id='postcode_search',
+                        options= [],
+                        placeholder= ('Search postcode...'),
+                        searchable= True,
+                        clearable= True,
+                        style= {
+                            'display': 'flex',
+                            'justifyContent': 'center',
+                            'width': '300px',
+                            'padding': '10px'},
+                    ),
+                    
+                    # ------ Layers Checklist ------
+                    # Checklist component allows multiple layers selection simultaneously
                     dcc.Checklist(
                         id="layer-selector",
                         className= "custom-checklist",
@@ -108,8 +140,12 @@ app.layout= html.Div(
                         value=["Allotments"], #initial value
                         ),
                     
-                    html.Div(id="output_container")
+                    html.Div(id="output_container", style={
+                        'textAlign': 'center',
+                    }),
+                    
                 ]),
+                
 
                 # ------ Middle Map ------
                 html.Div(
@@ -152,7 +188,7 @@ app.layout= html.Div(
             ]
         ),
         
-        # ------ BOTTOM NAVBAR ------
+        # ------ FOOTER BOTTOM NAVBAR ------
         html.Footer(
             className='footer-navbar',
             children=[
@@ -170,21 +206,105 @@ app.layout= html.Div(
 )
 
 #-------------------------------------------------------------------------------------------------------------
-# ------ Map Creation ------
+# ------ Map State Callbacks ------
 
-
-# Connect the Plotly map with Dash Components
-# Only map, no sidebar
 @app.callback(
-    Output('output_container', 'children'),
-    Output('Existing_CGSs_MAP', 'figure'),
+    Output('map_state', 'data'),
     Input('layer-selector', 'value'),
-    Input('sidebar_state', 'data') #for zoom and halo on clicked feature
+    Input('postcode_search', 'value'),
+    Input('Existing_CGSs_MAP', 'clickData'),
+    Input('close-sidebar-btn', 'n_clicks'),
+    State('map_state', 'data'),
+    prevent_initial_call= True
 )
 
-def update_dashboard(slctd_layers, sidebar_state):
+def update_map_state(layers, postcode, clickData, close_clicks, state):
     
-    # ------ Create basemap ------
+    state= state or {
+        'layers': [],
+        'postcode': None,
+        'sidebar': {
+            'open': False,
+            'uid': None,
+            'lat': None,
+            'lon': None
+        }
+    }
+
+    ctx= dash.callback_context
+    trigger= ctx.triggered[0]['prop_id'].split('.')[0]
+    
+    # ------ LAYER SELECTION ------
+    if trigger == 'layer-selector':
+        state['layers']= layers or []
+        
+    # ------ POSTCODE ------
+    elif trigger == 'postcode_search':
+        state['postcode'] = postcode
+        
+    # ------ MAP CLICK ------
+    elif trigger == 'Existing_CGSs_MAP' and clickData:
+        point = clickData['points'][0]
+        uid, lat, lon = point.get('customdata') #store the uid and coordinates of clicked feature
+        
+        state['sidebar']= {
+            'open': True, 
+            'uid': uid,
+            'lat': lat,
+            'lon': lon}
+        
+    # ------ CLOSE SIDEBAR BUTTON ------
+    if trigger == 'close-sidebar-btn':
+        state['sidebar'] = {
+            'open': False, 
+            'uid': None,
+            'lat': None,
+            'lon': None}
+    
+    return state
+
+#-------------------------------------------------------------------------------------------------------------
+# ------ Map Creation ------
+
+# Connect the Plotly map with Dash Components
+# Only one callback builds the map
+@app.callback(
+    Output('Existing_CGSs_MAP', 'figure'),
+    Output('output_container', 'children'),
+    Input('map_state', 'data'),
+)
+
+def update_dashboard(state):
+    
+    #Define what the state of the map should be
+    state = state or {}
+    layers = state.get('layers', [])
+    postcode= state.get('postcode')
+    sidebar= state.get('sidebar', {})
+    
+    #Apply base map creation function
+    fig= build_base_map()
+    
+    #If layers are selected, show points/polygons on map
+    #Filter data
+    filtered_points= points[points['Type'].isin(layers)].copy()
+    filtered_polygons= polygons[polygons['Type'].isin(layers)].copy()
+    
+    #Apply the different map creation functions
+    add_points(fig, filtered_points)
+    add_polygons(fig, filtered_polygons)
+    
+    apply_zoom_logic(fig, postcode, sidebar)
+    
+    count= len(filtered_points) + len(filtered_polygons)
+    
+    return fig, f"{count} sites displayed"
+    
+#-------------------------------------------------------------------------------------------------------------
+# Helper functions for map creation
+    
+#------ CREATE BASE MAP FUNCTION ------
+def build_base_map():
     fig= go.Figure()
     
     fig.update_layout(
@@ -213,35 +333,32 @@ def update_dashboard(slctd_layers, sidebar_state):
             )
         )
     
-    # ------ No layers selected - display empty map ------
-    #add invisble dummy marker to ensure map shows
-    if not slctd_layers:
-        fig.add_trace(
-            go.Scattermap(
-                lat=[53.8],
-                lon=[-1.55],
-                mode="markers",
-                marker=dict(size=1, opacity=0),
-            )
-        )
-        return ("No layers selected", 
-                fig)
+    return fig
+    
+    # # ------ No layers selected - display empty map ------
+    # #add invisble dummy marker to ensure map shows
+    # if not layers:
+    #     fig.add_trace(
+    #         go.Scattermap(
+    #             lat=[53.8],
+    #             lon=[-1.55],
+    #             mode="markers",
+    #             marker=dict(size=1, opacity=0),
+    #         )
+    #     )
+    #     return ("No layers selected", 
+    #             fig)
               
-                
-    # ------ Layers Selection ------
+  
+#Function to get coloring
+def hex_to_rgba(hex_color, alpha):
+    hex_color= hex_color.lstrip('#')
+    r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return f'rgba({r},{g}, {b}, {alpha})'
     
-    #If layers are selected, show points/polygons on base map
-    #Filter data
-    filtered_points= points[points['Type'].isin(slctd_layers)].copy()
-    filtered_polygons= polygons[polygons['Type'].isin(slctd_layers)].copy()
-    
-    def hex_to_rgba(hex_color, alpha):
-        hex_color= hex_color.lstrip('#')
-        r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-        return f'rgba({r},{g}, {b}, {alpha})'
-    
-    # POINTS
-    #Add points (each category/layer having a different color on map)
+#------ POINTS FUNCTION ------
+#Add points (each category/layer having a different color on map)
+def add_points(fig, filtered_points):
     if not filtered_points.empty:
         for category in filtered_points['Type'].unique():
             subset= filtered_points[filtered_points["Type"] == category]
@@ -258,7 +375,8 @@ def update_dashboard(slctd_layers, sidebar_state):
                 )
             )
 
-    # POLYGONS
+#------ POLYGONS FUNCTION ------
+def add_polygons(fig, filtered_polygons):
     for _, row in filtered_polygons.iterrows():
         geom= row.geometry
         color= types_colors.get(row['Type'], "gray")
@@ -289,10 +407,15 @@ def update_dashboard(slctd_layers, sidebar_state):
                 )
             )
     
-    # Add zoom + halo on clciked feature
-    if sidebar_state and sidebar_state.get('open'):
-        lat = sidebar_state.get('lat')
-        lon = sidebar_state.get('lon')
+
+# ------ Priority Zoom System ------
+def apply_zoom_logic(fig, postcode, sidebar):
+    
+    # 1- SIDEBAR (strongest)
+    # Add zoom + halo on clicked feature
+    if sidebar.get('open'):
+        lat = sidebar.get('lat')
+        lon = sidebar.get('lon')
         
         if lat is not None and lon is not None:
             
@@ -317,77 +440,39 @@ def update_dashboard(slctd_layers, sidebar_state):
                     hoverinfo= 'skip',
                     )
                 )
-    
-    
-    return f"{len(filtered_points)+len(filtered_polygons)} sites displayed", fig
-
+            
+    # 2- POSTCODE (only if no sidebar)
+     
+    if postcode:
+        row= Leeds_postcodes[Leeds_postcodes['Postcode'] == str(postcode)]
+        if not row.empty:
+            geom= row.iloc[0].geometry
+            fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=12))
 
 #----------------------------------------------------------------------------------------------------------
-# ------ Feature Clicking and Sidebar ------
+# ------ Feature Clicking and Sidebar RENDER ------
     
 # Open sidebar with feature information when clicked
 # Zoom and create halo around feature when clicked
-
-#Sidebar controller (open + close)
-@app.callback(
-    Output('sidebar_state', 'data'),
-    Input('Existing_CGSs_MAP', 'clickData'),
-    Input('close-sidebar-btn', 'n_clicks'),
-    State('sidebar_state', 'data'),
-    prevent_initial_call= True
-    )
-    
-def update_sidebar_state(clickData, _close_clicks, state):
-        
-    ctx= dash.callback_context
-    trigger= ctx.triggered[0]['prop_id'].split('.')[0]
-    
-    # CLOSE Button
-    if trigger == 'close-sidebar-btn':
-        return {'open': False, 
-                'uid': None,
-                'lat': None,
-                'lon': None}
-    
-    # Map click
-    if trigger == 'Existing_CGSs_MAP' and clickData:
-        point = clickData['points'][0]
-        uid, lat, lon = point.get('customdata') #store the uid and coordinates of clicked feature
-        
-        return {'open': True, 
-                'uid': uid,
-                'lat': lat,
-                'lon': lon}
-    
-    return state
-
-
-#Define function to show text only if cell contains a value
-def info_show(label, value):
-    if pd.isna(value) or value== "":
-        return None
-    return html.P([
-        (f'{label}: '), str(value)
-        ])
-
 
 # Sidebar render callback
 @app.callback(
     Output('sidebar_content', 'children'),
     Output('info-sidebar', 'className'),
-    Input('sidebar_state', 'data')
+    Input('map_state', 'data')
 )
-
 
 def render_sidebar(state):
     
-    if not state or not state['open']:
+    sidebar= (state or {}).get('sidebar', {})
+    
+    if not sidebar.get('open'):
         return (
             'Click a feature to see details',
             'info-sidebar info-sidebar-collapsible'
         )
     
-    uid= state['uid']
+    uid= sidebar['uid']
     row= gdf[gdf['uid'] == uid]
     
     if row.empty:
@@ -433,7 +518,38 @@ def render_sidebar(state):
     
     return sidebar_content, 'info-sidebar info-sidebar-open'
 
+#Define function to display text in sidebar 
+# only if cell contains a value
+def info_show(label, value):
+    if pd.isna(value) or value== "":
+        return None
+    return html.P([
+        (f'{label}: '), str(value)
+        ])
+
+
+#----------------------------------------------------------------------------------------------------------
+# ------ Postcode Selection Dropdown ------
+
+#Postcode dropdown callback
+@app.callback(
+    Output('postcode_search', 'options'),
+    Input('postcode_search', 'search_value'),
+)
+
+def update_postcodes(search):
+    if not search:
+        return dash.no_update
+    
+    pc_filter= Leeds_postcodes[Leeds_postcodes['Postcode'].str.contains(search, case=False, na=False)]['Postcode'].unique()
+    
+    return [
+        {'label': pc, 'value': pc}
+    for pc in pc_filter[:20]
+    ]
+
+#----------------------------------------------------------------------------------------------------------
 
 # For local development, debug=True
 if __name__ == '__main__':
-    app.run(debug= False)
+    app.run(debug= True)
