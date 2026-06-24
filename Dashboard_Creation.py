@@ -12,6 +12,7 @@ from dash import Dash, html, dcc, Input, Output, State
 
 app = dash.Dash(__name__,
                 suppress_callback_exceptions= True)
+server= app.server
 
 print("VERSION 8")
 
@@ -552,4 +553,4 @@ def update_postcodes(search):
 
 # For local development, debug=True
 if __name__ == '__main__':
-    app.run(debug= True)
+    app.run_server(debug= True)
