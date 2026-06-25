@@ -553,4 +553,4 @@ def update_postcodes(search):
 
 # For local development, debug=True
 if __name__ == '__main__':
-    app.run_server(debug= True)
+    app.run_server(debug= False)
