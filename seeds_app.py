@@ -38,7 +38,8 @@ types_colors= {"Allotments": "#D55E00",
                "Community Growing Projects": "#009E73",
                "Community Growing Spaces": "#56B4E9",
                "Community Orchard": "#CC79A7",
-               "Urban Farms": "#F0E442" 
+               "Urban Farms": "#F0E442",
+               "Composting Collective": "#0072B2"
 }
 
 #-------------------------------------------------------------
@@ -137,6 +138,10 @@ app.layout= html.Div(
                                 html.Img(src='/assets/urban_farms.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
                                 "Urban Farms"
                                 ]), "value": "Urban Farms"},
+                            {"label": html.Span([
+                                html.Img(src='/assets/compost.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                "Composting Collective"
+                                ]), "value": "Composting Collective"},
                         ],
                         value=["Allotments"], #initial value
                         ),
@@ -335,20 +340,6 @@ def build_base_map():
         )
     
     return fig
-    
-    # # ------ No layers selected - display empty map ------
-    # #add invisble dummy marker to ensure map shows
-    # if not layers:
-    #     fig.add_trace(
-    #         go.Scattermap(
-    #             lat=[53.8],
-    #             lon=[-1.55],
-    #             mode="markers",
-    #             marker=dict(size=1, opacity=0),
-    #         )
-    #     )
-    #     return ("No layers selected", 
-    #             fig)
               
   
 #Function to get coloring
@@ -493,8 +484,8 @@ def render_sidebar(state):
             info_show("Type", row['Type']),
             html.Br(),
             info_show("Management", row['Management']),
-            info_show("Organisation", row['Organisation_(LGAP)']),
-            info_show("Activity Description", row['Activity_Description_(LGAP)']),
+            info_show("Organisation", row['Organisation']),
+            info_show("Activity Description", row['Activity Description']),
             html.Br(),
             html.H4('About the venue:'),
             info_show("Entry Conditions", row['Entry_Conditions']),
@@ -503,7 +494,7 @@ def render_sidebar(state):
             info_show("All year or seasonal?", row['All_year_or_seasonal?_(LGAP)']),
             info_show("Seasonal Details", row['Seasonal_details_(LGAP)']),
             info_show("One location?", row['one_location_(LGAP)']),
-            info_show("Location Description", row['Location_Description_(LGAP)']),
+            info_show("Location Description", row['Location Description']),
             info_show("Postcode", row['Postcode_(FWC)']),
             info_show("Site Accessibility", row['Site_Accessibility_(LGAP)']),
             info_show("Toilets", row['Toilets_(LGAP)']),
@@ -511,10 +502,10 @@ def render_sidebar(state):
             info_show("Indoor Type", row['Indoor_Type_(LGAP)']),
             info_show("Transport support available", row['Transport_Support_(LGAP)']),
             html.Br(),
-            info_show("Contact", row['Contact_name_(LGAP)']),
+            info_show("Contact", row['Contact Name']),
             info_show("Email", row['Email']),
             info_show("Phone number", row['Phone_Number_(LGAP)']),
-            info_show("Website", row['Website_Link_(LGAP)']),
+            info_show("Website", row['Website Link']),
             ])
     
     return sidebar_content, 'info-sidebar info-sidebar-open'
