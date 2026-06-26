@@ -12,7 +12,7 @@ from dash import Dash, html, dcc, Input, Output, State
 
 app = dash.Dash(__name__,
                 suppress_callback_exceptions= True)
-server= app.server
+# server= app.server
 
 print("VERSION 8")
 
@@ -485,7 +485,7 @@ def render_sidebar(state):
             html.Br(),
             info_show("Management", row['Management']),
             info_show("Organisation", row['Organisation']),
-            info_show("Activity Description", row['Activity Description']),
+            info_show("Activity Description", row['Activity_Description']),
             html.Br(),
             html.H4('About the venue:'),
             info_show("Entry Conditions", row['Entry_Conditions']),
@@ -494,7 +494,7 @@ def render_sidebar(state):
             info_show("All year or seasonal?", row['All_year_or_seasonal?_(LGAP)']),
             info_show("Seasonal Details", row['Seasonal_details_(LGAP)']),
             info_show("One location?", row['one_location_(LGAP)']),
-            info_show("Location Description", row['Location Description']),
+            info_show("Location Description", row['Location_Description']),
             info_show("Postcode", row['Postcode_(FWC)']),
             info_show("Site Accessibility", row['Site_Accessibility_(LGAP)']),
             info_show("Toilets", row['Toilets_(LGAP)']),
@@ -502,10 +502,10 @@ def render_sidebar(state):
             info_show("Indoor Type", row['Indoor_Type_(LGAP)']),
             info_show("Transport support available", row['Transport_Support_(LGAP)']),
             html.Br(),
-            info_show("Contact", row['Contact Name']),
+            info_show("Contact", row['Contact_Name']),
             info_show("Email", row['Email']),
             info_show("Phone number", row['Phone_Number_(LGAP)']),
-            info_show("Website", row['Website Link']),
+            info_show("Website", row['Website_Link']),
             ])
     
     return sidebar_content, 'info-sidebar info-sidebar-open'
@@ -544,4 +544,4 @@ def update_postcodes(search):
 
 # For local development, debug=True
 if __name__ == '__main__':
-    app.run_server(debug= False)
+    app.run(debug= False)
