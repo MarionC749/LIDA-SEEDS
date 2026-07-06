@@ -35,8 +35,7 @@ polygons = gdf[gdf.geometry.geom_type.isin(["Polygon", "MultiPolygon"])]
 #Define a color to map points/polygons of the same type
 #color are color-blindness friendly
 types_colors= {"Allotments": "#D55E00",
-               "Community Growing Projects": "#009E73",
-               "Community Growing Spaces": "#56B4E9",
+               "Community Growing Spaces": "#009E73",
                "Community Orchard": "#CC79A7",
                "Urban Farms": "#F0E442",
                "Composting Collective": "#0072B2"
@@ -122,10 +121,6 @@ app.layout= html.Div(
                                 html.Img(src='/assets/allotments.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
                                 "Allotments"
                                 ]), "value": "Allotments"},
-                            {"label": html.Span([
-                                html.Img(src='/assets/community_growing_projects.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Community Growing Projects"
-                                ]), "value": "Community Growing Projects"},
                             {"label": html.Span([
                                 html.Img(src='/assets/community_growing_spaces.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
                                 "Community Growing Spaces"
@@ -488,7 +483,7 @@ def render_sidebar(state):
             info_show("Organisation", row['Organisation']),
             html.Br(),
             html.Hr(),
-            html.H4('📝 Activity:'),
+            html.H4('🥕 Activity:'),
             info_show("Description", row['Activity_Description']),
             html.Br(),
             html.Hr(),
