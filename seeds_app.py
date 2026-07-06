@@ -12,7 +12,7 @@ from dash import Dash, html, dcc, Input, Output, State
 
 app = dash.Dash(__name__,
                 suppress_callback_exceptions= True)
-# server= app.server
+server= app.server
 
 print("VERSION 8")
 
@@ -481,13 +481,18 @@ def render_sidebar(state):
             #Build Sidebar Information Display
             html.Br(),
             html.H3(row['Name']),
+            html.Hr(),
+            html.H4('🌱 Quick Information:'),
             info_show("Type", row['Type']),
-            html.Br(),
             info_show("Management", row['Management']),
             info_show("Organisation", row['Organisation']),
-            info_show("Activity Description", row['Activity_Description']),
             html.Br(),
-            html.H4('About the venue:'),
+            html.Hr(),
+            html.H4('📝 Activity:'),
+            info_show("Description", row['Activity_Description']),
+            html.Br(),
+            html.Hr(),
+            html.H4('📍 About the Venue:'),
             info_show("Entry Conditions", row['Entry_Conditions']),
             info_show("Day and Time", row['Day_and_Time_(LGAP)']),
             info_show("Ongoing or set programs?", row['Ongoing_or_set_programs?_(LGAP)']),
@@ -502,6 +507,8 @@ def render_sidebar(state):
             info_show("Indoor Type", row['Indoor_Type_(LGAP)']),
             info_show("Transport support available", row['Transport_Support_(LGAP)']),
             html.Br(),
+            html.Hr(),
+            html.H4('📞 Contact:'),
             info_show("Contact", row['Contact_Name']),
             info_show("Email", row['Email']),
             info_show("Phone number", row['Phone_Number_(LGAP)']),
