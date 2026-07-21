@@ -5,6 +5,7 @@ import geopandas as gpd
 import plotly
 import plotly.express as px
 import plotly.graph_objects as go
+import dash_bootstrap_components as dbc
 
 
 import dash
@@ -22,8 +23,9 @@ print("VERSION 8")
 #Import data
 gdf = gpd.read_file("Data/Processed_Data/Existing_CGSs.gpkg")
 print(gdf.columns)
-#create unique identifier
-gdf= gdf.reset_index().rename(columns={'index':'uid'})
+#Set the 'id' column as unique identifier
+gdf= gdf.rename(columns={'id':'uid'})
+
 
 #Ensure CRS is correct
 gdf = gdf.to_crs(4326)
@@ -56,6 +58,11 @@ Leeds_postcodes['Postcode'] = Leeds_postcodes['Postcode'].astype(str)
 #Ensure CRS is correct
 Leeds_postcodes  = Leeds_postcodes.to_crs(4326)
 
+#-------------------------------------------------------------
+
+#Import soil health data per CGS
+soil_health_CGSs = gpd.read_file("Data/Processed_Data/soil_health_CGSs.csv")
+print(soil_health_CGSs.columns)
 
 #-------------------------------------------------------------
 # APP LAYOUT
@@ -182,9 +189,32 @@ app.layout= html.Div(
                                 'paddingTop': '10px'
                             }
                         ),
+                        dbc.ButtonGroup(
+                            [
+                                dbc.Button(
+                                    "Community",
+                                    id="community-tab-btn",
+                                    n_clicks= 0,
+                                    className= "community-btn",
+                                ),
+                                dbc.Button(
+                                    "Soil Health",
+                                    id="soil-tab-btn",
+                                    n_clicks= 0,
+                                    className= "soil-btn",
+                                ),
+                            ],
+                            className= "sidebar-buttons",
+                        ),
+                       
                         html.Div(id='sidebar_content', 
                                 children='Click a feature to see details')
                     ]
+                ),
+                
+                dcc.Store(
+                    id="sidebar_active_tab",
+                    data="community"
                 )
             ]
         ),
@@ -437,6 +467,49 @@ def apply_zoom_logic(fig, postcode, sidebar):
             fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=12))
 
 #----------------------------------------------------------------------------------------------------------
+# ------ Sidebar Tabs Callback ------
+@app.callback(
+    Output('sidebar_active_tab', 'data'),
+    Input('community-tab-btn', 'n_clicks'),
+    Input('soil-tab-btn', 'n_clicks'),
+    prevent_initial_call= True
+)
+
+def change_sidebar_tab(community_clicks, soil_clicks):
+    ctx = dash.callback_context #contains info about current callback execution
+    
+    #By default show the community tab
+    if not ctx.triggered:
+        return "community"
+    
+    button= ctx.triggered_id
+    
+    if button == "community-tab-btn":
+        return "community"
+    
+    elif button == "soil-tab-btn":
+        return "soil"
+
+# ------ Sidebar Tabs Button Style Callback ------
+@app.callback(
+    Output("community-tab-btn", "style"),
+    Output("soil-tab-btn", "style"),
+    Input('sidebar_active_tab', 'data'),
+)
+
+#Change opacity of sidebar buttons depending on selection
+def update_button_style(active_tab):
+    
+    community_style= {
+        "opacity": 1 if active_tab == "community" else "0.5",
+    }
+    soil_style= {
+        "opacity": 1 if active_tab == "soil" else "0.5",
+    }
+    return community_style, soil_style
+
+
+#----------------------------------------------------------------------------------------------------------
 # ------ Feature Clicking and Sidebar RENDER ------
     
 # Open sidebar with feature information when clicked
@@ -446,10 +519,12 @@ def apply_zoom_logic(fig, postcode, sidebar):
 @app.callback(
     Output('sidebar_content', 'children'),
     Output('info-sidebar', 'className'),
-    Input('map_state', 'data')
+    Input('map_state', 'data'),
+    Input('sidebar_active_tab', 'data')
 )
 
-def render_sidebar(state):
+#Create Opening/Closing logic
+def render_sidebar(state, active_tab):
     
     sidebar= (state or {}).get('sidebar', {})
     
@@ -470,11 +545,31 @@ def render_sidebar(state):
     
     row = row.iloc[0]
     
-    #Build Sidebar content
-    sidebar_content = html.Div([
+    #Build Sidebar content, depending on chosen tab
+    if active_tab== "community":
+        sidebar_content = build_community_tab(row)
+    elif active_tab == "soil":
+        sidebar_content= build_soil_tab(row)
+    else:
+        sidebar_content= html.Div("No information available")
+    
+    return sidebar_content, 'info-sidebar info-sidebar-open'
+
+
+#Define function to display text in sidebar 
+# only if cell contains a value
+def info_show(label, value):
+    if pd.isna(value) or value== "":
+        return None
+    return html.P([
+        (f'{label}: '), str(value)
+        ])
+
+#Build 'Community tab' layout function
+def build_community_tab(row):
+    return html.Div([
     
             #Build Sidebar Information Display
-            html.Br(),
             html.H3(row['Name']),
             html.Hr(),
             html.H4('🌱 Quick Information:'),
@@ -509,18 +604,74 @@ def render_sidebar(state):
             info_show("Phone number", row['Phone_Number_(LGAP)']),
             info_show("Website", row['Website_Link']),
             ])
+
+#Build Soil tab layout function
+def build_soil_tab(row):
+    uid = row['uid']
+    soil_rows = soil_health_CGSs[soil_health_CGSs['id'] == uid]
     
-    return sidebar_content, 'info-sidebar info-sidebar-open'
-
-#Define function to display text in sidebar 
-# only if cell contains a value
-def info_show(label, value):
-    if pd.isna(value) or value== "":
-        return None
-    return html.P([
-        (f'{label}: '), str(value)
+    if soil_rows.empty:
+        return html.Div([
+            html.H3('Soil Health'),
+            html.Br(),
+            html.P('No soil data available for this site.')
         ])
-
+        
+    land_cover= soil_rows[soil_rows['Soil_Metric'] == 'Land Cover']
+    soil_parent= soil_rows[soil_rows['Soil_Metric'] == 'Soil Parent']
+    soil_ph= soil_rows[soil_rows['Soil_Metric'] == 'Soil pH']
+    soil_som= soil_rows[soil_rows['Soil_Metric'] == 'Soil SOM']
+    metals = soil_rows[soil_rows['Soil_Metric'] == 'Heavy Metals']
+    
+    children= []
+    
+    if not land_cover.empty:
+        children.extend([
+            html.H4("Land Cover"),
+            info_show("Type", land_cover.iloc[0]['Land_Cover_Type']),
+            html.Hr(),
+        ])
+        
+    if not soil_parent.empty:
+            children.extend([
+                html.H4("Soil Parent"),
+                info_show("Soil Texture", soil_parent.iloc[0]['SOIL_GROUP']),
+                info_show("Grain Size Class", soil_parent.iloc[0]['GEN_GRAIN']),
+                html.Hr(),
+            ])
+    
+    if not soil_ph.empty:
+            children.extend([
+                html.H4("Soil pH"),
+                info_show("Value (2007)", soil_ph.iloc[0]['PH_07']),
+                html.Hr(),
+            ])
+    
+    if not soil_som.empty:
+            children.extend([
+                html.H4("Soil Organic Matter (SOM)"),
+                info_show("Soil Loss-in-Ignition (2007)", f"{soil_som.iloc[0]['LOI_07']} %"),
+                html.Hr(),
+            ])
+            
+    if not metals.empty:
+            children.extend([
+                html.H4("Heavy Metals"),
+                html.Ul([ #unordered list
+                    html.Li( #list items
+                        f"{row['HM_name']} ({row['metal']}):"
+                        f"{row['value']} {row['HM_unit']}"
+                    )
+                    for _, row in metals.iterrows()
+                ])
+            ])
+    
+    return html.Div([
+        html.H3(row['Name']),
+        html.Hr(),
+        *children
+    ])  
+    
 
 #----------------------------------------------------------------------------------------------------------
 # ------ Postcode Selection Dropdown ------
