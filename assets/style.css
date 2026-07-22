@@ -47,58 +47,6 @@ body {
     border-bottom: 1px solid #ddd; /* Optional: Add border for separation */
 }
 
-/* Footer section: fixed at the bottom */
-.footer-navbar{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    gap: 20px; /*add gap between 2 images*/
-    justify-content: center; /* horizontal centering */
-    align-items: center; /* vertical centering */
-    background-color: #9c7233;
-}
-
-/* Tabs (below header) */
-.main-tabs {
-    background-color: #92cf3c;
-    height: 40px;
-}
-
-.tab {
-    font-family: "Mr Dodo Medium", sans-serif;
-    font-size: 22px;
-    color: black;
-    border: None;
-    background-color: #92cf3c;
-    padding: 12px 20px;
-    justify-content: center; /* horizontal centering */
-    align-items: center; /* vertical centering */
-}
-
-/* ---------- TAB 1 STYLING ----------------------------------------------------------------------*/
-
-/*Main App (below navbar) */
-.app-shell {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.main-content{
-    display: flex;
-    flex: 1; /*takes remaining space*/
-    overflow: hidden;
-    padding-top: 80px;
-}
-
-/*Map Area */
-.map-container {
-    flex: 1; /* fills remaining space */
-    height: 100%;
-}
-
-
 /* Title Style */
 .brand-title{
     font-size: 30px;
@@ -112,9 +60,74 @@ body {
     font-family: "Mr Dodo Medium";
 }
 
+/* Footer section: fixed at the bottom */
+.footer-navbar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    gap: 20px; /*add gap between 2 images*/
+    justify-content: center; /* horizontal centering */
+    align-items: center; /* vertical centering */
+    background-color: #9c7233;
+}
+
+/* Tabs (below header) */
+.main-tabs {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background-color: #B7E88A;
+    height: 30px;
+    display: flex;
+}
+
+.tab {
+    font-family: "Mr Dodo Medium", sans-serif;
+    font-size: 16px;
+    color: black;
+    border: none;
+    /*box-shadow: 0 0 0 1px black; */
+    background-color: #B7E88A;
+    padding: 2px 15px;
+    display: flex;
+    justify-content: center; /* horizontal centering */
+    align-items: center; /* vertical centering */
+}
+
+/* Main App (below navbar)*/
+.app-shell {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-content{
+    position: absolute;
+    top: 120px;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    overflow: hidden;
+}
+
+/* ---------- TAB 1 STYLING ----------------------------------------------------------------------*/
+
+/*Map Area */
+.existing_map_container {
+    flex: 1; /* fills remaining space */
+    min-height: 0;
+}
 
 /* Customized Layer Selector Checklist */
-.custom-checklist {
+.existing_custom_checklist {
     background-color:  #e5e1ce;
     /*Add padding the checklist text*/
     padding-left: 20px;
@@ -131,12 +144,12 @@ body {
 }
 
 /* Customized Layer Selector Checklist */
-.custom-checklist label {
+.existing_custom_checklist label {
     white-space: nowrap; /*avoid checlist text breaking into two lines*/
 }
 
 /* Customized Collapsible Info Sidebar */
-.info-sidebar {
+.existing_info_sidebar {
     position: relative;
     padding: 20px;
     width: 0;
@@ -146,26 +159,26 @@ body {
     border-left: 1px solid #ddd;
 }
 
-.info-sidebar h3{
+.existing_info_sidebar h3{
     font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     font-weight: bold;
     color: black;
 }
-.info-sidebar h4{
+.existing_info_sidebar h4{
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: bold;
     color: black;
 }
-.info-sidebar p{
+.existing_info_sidebar p{
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: black;
 }
 
 /* Info Sidebar when OPEN*/
-.info-sidebar-open {
+.existing_info_sidebar_open {
     overflow-y: auto; /*enbales vertical scrolling*/
     width: 300px;
     padding: 5px;
@@ -174,13 +187,13 @@ body {
 }
 
 /* Info Sidebar when CLOSED*/
-.info-sidebar-collapsible {
+.existing_info_sidebar_collapsible {
     width: 0;
     padding: 0;
 }
 
 /* Sidebar Buttons */
-.sidebar-buttons {
+.existing_sidebar_buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -201,7 +214,7 @@ body {
     background-color: #78612c;
     color: white ;
     font-size: 20px;
-    padding: 10px 20px;
+    padding: 6px 20px;
     border-radius: 10px;
     border: none;
 }
