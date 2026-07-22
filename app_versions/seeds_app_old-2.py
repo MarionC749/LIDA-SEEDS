@@ -15,21 +15,79 @@ app = dash.Dash(__name__,
                 suppress_callback_exceptions= True)
 server= app.server
 
+print("VERSION 8")
+
+#------------------------------------------------------------------
+#Prepare Data
+
+#Import data
+gdf = gpd.read_file("Data/Processed_Data/Existing_CGSs.gpkg")
+print(gdf.columns)
+#Set the 'id' column as unique identifier
+gdf= gdf.rename(columns={'id':'uid'})
 
 
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 1- TAB 1 (Existing CGS) - LAYOUT
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
-def existing_map_layout():
-     return html.Div([
- 
- # ------ Map and SideBar State Store ------
+#Ensure CRS is correct
+gdf = gdf.to_crs(4326)
+
+#Separate points and polygons
+points = gdf[gdf.geometry.geom_type.isin(["Point", "MultiPoint"])]
+polygons = gdf[gdf.geometry.geom_type.isin(["Polygon", "MultiPolygon"])]
+
+#Define a color to map points/polygons of the same type
+#color are color-blindness friendly
+types_colors= {"Allotments": "#D55E00",
+               "Community Growing Spaces": "#009E73",
+               "Community Orchard": "#CC79A7",
+               "Urban Farms": "#F0E442",
+               "Composting Collective": "#0072B2"
+}
+
+#-------------------------------------------------------------
+
+#Import Leeds outline
+Leeds_outline = gpd.read_file("Data/Processed_Data/Leeds_boundaries.gpkg")
+#Ensure CRS is correct
+Leeds_outline = Leeds_outline.to_crs(4326)
+
+#-------------------------------------------------------------
+#Import Leeds postcode geometries
+Leeds_postcodes = gpd.read_file("Data/Processed_Data/leeds_postcodes.gpkg")
+#Ensure postcodes are strings
+Leeds_postcodes['Postcode'] = Leeds_postcodes['Postcode'].astype(str)
+#Ensure CRS is correct
+Leeds_postcodes  = Leeds_postcodes.to_crs(4326)
+
+#-------------------------------------------------------------
+
+#Import soil health data per CGS
+soil_health_CGSs = gpd.read_file("Data/Processed_Data/soil_health_CGSs.csv")
+print(soil_health_CGSs.columns)
+
+#-------------------------------------------------------------
+# APP LAYOUT
+
+app.layout= html.Div(
+    className= 'app-shell', 
+    children=[
+        
+        # ------ TOP NAVBAR ------
+        html.Header(
+            className="navbar",
+            children=[
+                html.Div([
+                    html.Div("SEEDS Dashboard", className="brand-title"),
+                    html.Div("Spatial & Ecological Evaluation of Developing Spaces", className="brand-subtitle")
+                ])
+            ]
+        ),
+        
+        # ------ Map and SideBar State Store ------
         dcc.Store(
-            id= 'existing_map_state',
-            data={'existing_layers': ['Allotments'], #initial state of map
-                'existing_postcode': None,
-                  'existing_sidebar': {
+            id= 'map_state',
+            data={'layers': ['Allotments'], #initial state of map
+                'postcode': None,
+                  'sidebar': {
                       'open': False, 
                       'uid': None, #store uid of clicked feature
                       'lat': None, #store coordinates of clicked feature
@@ -48,7 +106,7 @@ def existing_map_layout():
                     
                     # ------ Postcode DropDown ------
                     dcc.Dropdown(
-                        id='existing_postcode_search',
+                        id='postcode_search',
                         options= [],
                         placeholder= ('Search postcode...'),
                         searchable= True,
@@ -63,8 +121,8 @@ def existing_map_layout():
                     # ------ Layers Checklist ------
                     # Checklist component allows multiple layers selection simultaneously
                     dcc.Checklist(
-                        id="existing_layer_selector",
-                        className= "existing_custom_checklist",
+                        id="layer-selector",
+                        className= "custom-checklist",
                         options=[
                             {"label": html.Span([
                                 html.Img(src='/assets/allotments.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
@@ -90,7 +148,7 @@ def existing_map_layout():
                         value=["Allotments"], #initial value
                         ),
                     
-                    html.Div(id="existing_output_container", style={
+                    html.Div(id="output_container", style={
                         'textAlign': 'center',
                     }),
                     
@@ -99,7 +157,7 @@ def existing_map_layout():
 
                 # ------ Middle Map ------
                 html.Div(
-                    className= "existing_map_container",
+                    className= "map-container",
                     children=[
                         #Empty placeholder where Plotly will display map
                         dcc.Graph(id='Existing_CGSs_MAP',
@@ -112,12 +170,12 @@ def existing_map_layout():
                 
                 # ------ SideBar ------
                 html.Div(
-                    id= 'existing_info_sidebar',
-                    className= 'existing_info_sidebar existing_info_sidebar_collapsible',
+                    id= 'info-sidebar',
+                    className= 'info-sidebar info-sidebar-collapsible',
                     children= [
                         html.Button(
                             'X',
-                            id='existing_close_sidebar_btn',
+                            id='close-sidebar-btn',
                             n_clicks=0,
                             style={
                                 'position': 'absolute',
@@ -146,93 +204,57 @@ def existing_map_layout():
                                     className= "soil-btn",
                                 ),
                             ],
-                            className= "existing_sidebar_buttons",
+                            className= "sidebar-buttons",
                         ),
                        
-                        html.Div(id='existing_sidebar_content', 
+                        html.Div(id='sidebar_content', 
                                 children='Click a feature to see details')
                     ]
                 ),
                 
                 dcc.Store(
-                    id="existing_sidebar_active_tab",
+                    id="sidebar_active_tab",
                     data="community"
                 )
             ]
         ),
-    ])
+        
+        # ------ FOOTER BOTTOM NAVBAR ------
+        html.Footer(
+            className='footer-navbar',
+            children=[
+                html.Img(
+                    src='/assets/University-of-Leeds_logo.png',
+                    style={'height': '120px'}
+                    ),
+                html.Img(
+                    src='/assets/lida_logo.png',
+                    style={'height': '40px'}
+                )
+            ]
+        )
+    ]
+)
 
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 2- TAB 1 (Existing CGS) - IMPORTING THE DATA
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Prepare Data
-
-#Import data
-gdf = gpd.read_file("Data/Processed_Data/Existing_CGSs.gpkg")
-print(gdf.columns)
-#Set the 'id' column as unique identifier
-gdf= gdf.rename(columns={'id':'uid'})
-
-
-#Ensure CRS is correct
-gdf = gdf.to_crs(4326)
-
-#Separate points and polygons
-points = gdf[gdf.geometry.geom_type.isin(["Point", "MultiPoint"])]
-polygons = gdf[gdf.geometry.geom_type.isin(["Polygon", "MultiPolygon"])]
-
-#Define a color to map points/polygons of the same type
-#color are color-blindness friendly
-types_colors= {"Allotments": "#D55E00",
-               "Community Growing Spaces": "#009E73",
-               "Community Orchard": "#CC79A7",
-               "Urban Farms": "#F0E442",
-               "Composting Collective": "#0072B2"
-}
-
-#-------------------------------------------------------------
-#Import Leeds outline
-Leeds_outline = gpd.read_file("Data/Processed_Data/Leeds_boundaries.gpkg")
-#Ensure CRS is correct
-Leeds_outline = Leeds_outline.to_crs(4326)
-
-#-------------------------------------------------------------
-#Import Leeds postcode geometries
-Leeds_postcodes = gpd.read_file("Data/Processed_Data/leeds_postcodes.gpkg")
-#Ensure postcodes are strings
-Leeds_postcodes['Postcode'] = Leeds_postcodes['Postcode'].astype(str)
-#Ensure CRS is correct
-Leeds_postcodes  = Leeds_postcodes.to_crs(4326)
-
-#-------------------------------------------------------------
-#Import soil health data per CGS
-soil_health_CGSs = gpd.read_file("Data/Processed_Data/soil_health_CGSs.csv")
-print(soil_health_CGSs.columns)
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 3- TAB 1 (Existing CGS) - CALLBACKS
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+#-------------------------------------------------------------------------------------------------------------
 # ------ Map State Callbacks ------
 
 @app.callback(
-    Output('existing_map_state', 'data'),
-    Input('existing_layer_selector', 'value'),
-    Input('existing_postcode_search', 'value'),
+    Output('map_state', 'data'),
+    Input('layer-selector', 'value'),
+    Input('postcode_search', 'value'),
     Input('Existing_CGSs_MAP', 'clickData'),
-    Input('existing_close_sidebar_btn', 'n_clicks'),
-    State('existing_map_state', 'data'),
+    Input('close-sidebar-btn', 'n_clicks'),
+    State('map_state', 'data'),
     prevent_initial_call= True
 )
 
-def existing_update_map_state(existing_layers, existing_postcode, clickData, close_clicks, existing_state):
+def update_map_state(layers, postcode, clickData, close_clicks, state):
     
-    existing_state= existing_state or {
-        'existing_layers': [],
-        'existing_postcode': None,
-        'existing_sidebar': {
+    state= state or {
+        'layers': [],
+        'postcode': None,
+        'sidebar': {
             'open': False,
             'uid': None,
             'lat': None,
@@ -244,52 +266,52 @@ def existing_update_map_state(existing_layers, existing_postcode, clickData, clo
     trigger= ctx.triggered[0]['prop_id'].split('.')[0]
     
     # ------ LAYER SELECTION ------
-    if trigger == 'existing_layer_selector':
-        existing_state['existing_layers']= existing_layers or []
+    if trigger == 'layer-selector':
+        state['layers']= layers or []
         
     # ------ POSTCODE ------
-    elif trigger == 'existing_postcode_search':
-        existing_state['existing_postcode'] = existing_postcode
+    elif trigger == 'postcode_search':
+        state['postcode'] = postcode
         
     # ------ MAP CLICK ------
     elif trigger == 'Existing_CGSs_MAP' and clickData:
         point = clickData['points'][0]
         uid, lat, lon = point.get('customdata') #store the uid and coordinates of clicked feature
         
-        existing_state['existing_sidebar']= {
+        state['sidebar']= {
             'open': True, 
             'uid': uid,
             'lat': lat,
             'lon': lon}
         
     # ------ CLOSE SIDEBAR BUTTON ------
-    if trigger == 'existing_close_sidebar_btn':
-        existing_state['existing_sidebar'] = {
+    if trigger == 'close-sidebar-btn':
+        state['sidebar'] = {
             'open': False, 
             'uid': None,
             'lat': None,
             'lon': None}
     
-    return existing_state
+    return state
 
-#------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
 # ------ Map Creation ------
 
 # Connect the Plotly map with Dash Components
 # Only one callback builds the map
 @app.callback(
     Output('Existing_CGSs_MAP', 'figure'),
-    Output('existing_output_container', 'children'),
-    Input('existing_map_state', 'data'),
+    Output('output_container', 'children'),
+    Input('map_state', 'data'),
 )
 
-def existing_update_dashboard(existing_state):
+def update_dashboard(state):
     
     #Define what the state of the map should be
-    existing_state = existing_state or {}
-    layers = existing_state.get('existing_layers', [])
-    postcode= existing_state.get('existing_postcode')
-    sidebar= existing_state.get('existing_sidebar', {})
+    state = state or {}
+    layers = state.get('layers', [])
+    postcode= state.get('postcode')
+    sidebar= state.get('sidebar', {})
     
     #Apply base map creation function
     fig= build_base_map()
@@ -309,7 +331,7 @@ def existing_update_dashboard(existing_state):
     
     return fig, f"{count} sites displayed"
     
-#------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------------
 # Helper functions for map creation
     
 #------ CREATE BASE MAP FUNCTION ------
@@ -444,10 +466,10 @@ def apply_zoom_logic(fig, postcode, sidebar):
             geom= row.iloc[0].geometry
             fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=12))
 
-#------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------
 # ------ Sidebar Tabs Callback ------
 @app.callback(
-    Output('existing_sidebar_active_tab', 'data'),
+    Output('sidebar_active_tab', 'data'),
     Input('community-tab-btn', 'n_clicks'),
     Input('soil-tab-btn', 'n_clicks'),
     prevent_initial_call= True
@@ -472,11 +494,11 @@ def change_sidebar_tab(community_clicks, soil_clicks):
 @app.callback(
     Output("community-tab-btn", "style"),
     Output("soil-tab-btn", "style"),
-    Input('existing_sidebar_active_tab', 'data'),
+    Input('sidebar_active_tab', 'data'),
 )
 
 #Change opacity of sidebar buttons depending on selection
-def existing_update_button_style(active_tab):
+def update_button_style(active_tab):
     
     community_style= {
         "opacity": 1 if active_tab == "community" else "0.5",
@@ -487,7 +509,7 @@ def existing_update_button_style(active_tab):
     return community_style, soil_style
 
 
-#------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------
 # ------ Feature Clicking and Sidebar RENDER ------
     
 # Open sidebar with feature information when clicked
@@ -495,21 +517,21 @@ def existing_update_button_style(active_tab):
 
 # Sidebar render callback
 @app.callback(
-    Output('existing_sidebar_content', 'children'),
-    Output('existing_info_sidebar', 'className'),
-    Input('existing_map_state', 'data'),
-    Input('existing_sidebar_active_tab', 'data')
+    Output('sidebar_content', 'children'),
+    Output('info-sidebar', 'className'),
+    Input('map_state', 'data'),
+    Input('sidebar_active_tab', 'data')
 )
 
 #Create Opening/Closing logic
-def existing_render_sidebar(existing_state, active_tab):
+def render_sidebar(state, active_tab):
     
-    sidebar= (existing_state or {}).get('existing_sidebar', {})
+    sidebar= (state or {}).get('sidebar', {})
     
     if not sidebar.get('open'):
         return (
             'Click a feature to see details',
-            'existing_info_sidebar existing_info_sidebar_collapsible'
+            'info-sidebar info-sidebar-collapsible'
         )
     
     uid= sidebar['uid']
@@ -518,7 +540,7 @@ def existing_render_sidebar(existing_state, active_tab):
     if row.empty:
         return (
             'Feature not found',
-            'existing_info_sidebar existing_info_sidebar_collapsible'
+            'info-sidebar info-sidebar-collapsible'
         )
     
     row = row.iloc[0]
@@ -531,7 +553,7 @@ def existing_render_sidebar(existing_state, active_tab):
     else:
         sidebar_content= html.Div("No information available")
     
-    return sidebar_content, 'existing_info_sidebar existing_info_sidebar_open'
+    return sidebar_content, 'info-sidebar info-sidebar-open'
 
 
 #Define function to display text in sidebar 
@@ -550,17 +572,17 @@ def build_community_tab(row):
             #Build Sidebar Information Display
             html.H3(row['Name']),
             html.Hr(),
-            html.H4('🌱 Quick Information'),
+            html.H4('🌱 Quick Information:'),
             info_show("Type", row['Type']),
             info_show("Management", row['Management']),
             info_show("Organisation", row['Organisation']),
             html.Br(),
             html.Hr(),
-            html.H4('🥕 Activity'),
+            html.H4('🥕 Activity:'),
             info_show("Description", row['Activity_Description']),
             html.Br(),
             html.Hr(),
-            html.H4('📍 About the Venue'),
+            html.H4('📍 About the Venue:'),
             info_show("Entry Conditions", row['Entry_Conditions']),
             info_show("Day and Time", row['Day_and_Time_(LGAP)']),
             info_show("Ongoing or set programs?", row['Ongoing_or_set_programs?_(LGAP)']),
@@ -576,7 +598,7 @@ def build_community_tab(row):
             info_show("Transport support available", row['Transport_Support_(LGAP)']),
             html.Br(),
             html.Hr(),
-            html.H4('📞 Contact'),
+            html.H4('📞 Contact:'),
             info_show("Contact", row['Contact_Name']),
             info_show("Email", row['Email']),
             info_show("Phone number", row['Phone_Number_(LGAP)']),
@@ -651,16 +673,16 @@ def build_soil_tab(row):
     ])  
     
 
-#------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------
 # ------ Postcode Selection Dropdown ------
 
 #Postcode dropdown callback
 @app.callback(
-    Output('existing_postcode_search', 'options'),
-    Input('existing_postcode_search', 'search_value'),
+    Output('postcode_search', 'options'),
+    Input('postcode_search', 'search_value'),
 )
 
-def existing_update_postcodes(search):
+def update_postcodes(search):
     if not search:
         return dash.no_update
     
@@ -671,200 +693,8 @@ def existing_update_postcodes(search):
     for pc in pc_filter[:20]
     ]
 
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 4- TAB 2 (Development Opportunities) - LAYOUT
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def dvpt_map_layout():
-    return html.Div([
- 
- # ------ Map and SideBar State Store ------
-        dcc.Store(
-            id= 'dvpt_map_state',
-            data={'dvpt_layers': ['BLA'], #initial state of map
-                'dvpt_postcode': None,
-            }
-        ),
-    
-        # ------ Main Layout ------
-        html.Div(
-            className="main-content",
-            children= [
-                
-                # ------ Left Panel ------
-                
-                html.Div([
-                    
-                    # ------ Postcode DropDown ------
-                    dcc.Dropdown(
-                        id='dvlpt_postcode_search',
-                        options= [],
-                        placeholder= ('Search postcode...'),
-                        searchable= True,
-                        clearable= True,
-                        style= {
-                            'display': 'flex',
-                            'justifyContent': 'center',
-                            'width': '300px',
-                            'padding': '10px'},
-                    ),
-                    
-                    # ------ Layers Checklist ------
-                    # Checklist component allows multiple layers selection simultaneously
-                    dcc.Checklist(
-                        id="dvpt_layer_selector",
-                        className= "dvpt_custom_checklist",
-                        options=[
-                        ],
-                        value=["BLA"], #initial value
-                        ),
-                    
-                    html.Div(id="dvpt_output_container", style={
-                        'textAlign': 'center',
-                    }),
-                    
-                ]),
-                
-
-                # ------ Middle Map ------
-                html.Div(
-                    className= "dvpt_map_container",
-                    children=[
-                        #Empty placeholder where Plotly will display map
-                        dcc.Graph(id='Future_CGSs_MAP',
-                                  style= {"height": "100%",
-                                          "width": "100%"},
-                                  config={'responsive': True},
-                        )
-                    ]
-                ),
-                
-                # ------ SideBar ------
-                html.Div(
-                    id= 'dvpt_info_sidebar',
-                    className= 'dvpt_info_sidebar dvpt_info_sidebar_collapsible',
-                    children= [
-                        html.Button(
-                            'X',
-                            id='dvpt_close_sidebar_btn',
-                            n_clicks=0,
-                            style={
-                                'position': 'absolute',
-                                'top': '10px',
-                                'right': '10px',
-                                'border': 'none',
-                                'background': 'transparent',
-                                'fontSize': '20px',
-                                'cursor': 'pointer',
-                                'zIndex': '9999',
-                                'paddingTop': '10px'
-                            }
-                        ),
-                        html.Div(id='dvpt_sidebar_content', 
-                                children='Click a feature to see details')
-                    ]
-                ),
-                
-                dcc.Store(
-                    id="dvpt_sidebar_active_tab",
-                    data="community"
-                )
-            ]
-        ),
-    ])
-
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 5- TAB 2 (Development Opportunities) - IMPORT DATA
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Import Leeds outline
-Leeds_outline = gpd.read_file("Data/Processed_Data/Leeds_boundaries.gpkg")
-#Ensure CRS is correct
-Leeds_outline = Leeds_outline.to_crs(4326)
-
-#-------------------------------------------------------------
-#Import Leeds postcode geometries
-Leeds_postcodes = gpd.read_file("Data/Processed_Data/leeds_postcodes.gpkg")
-#Ensure postcodes are strings
-Leeds_postcodes['Postcode'] = Leeds_postcodes['Postcode'].astype(str)
-#Ensure CRS is correct
-Leeds_postcodes  = Leeds_postcodes.to_crs(4326)
-
-#-------------------------------------------------------------
-#Import overall soil health data
-soil_health = gpd.read_file("Data/Processed_Data/soil_health.gpkg")
-print(soil_health.columns)
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 6- TAB 2 (Development Opportunities) - CALLBACKS
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 7- OVERALL APP LAYOUT
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# APP LAYOUT
-
-app.layout= html.Div(
-    className= 'app-shell', 
-    children=[
-        
-        # ------ TOP NAVBAR ------
-        html.Header(
-            className="navbar",
-            children=[
-                html.Div([
-                    html.Div("SEEDS Dashboard", className="brand-title"),
-                    html.Div("Spatial & Ecological Evaluation of Developing Spaces", className="brand-subtitle")
-                ])
-            ]
-        ),
-        
-        # ------ TWO MAIN TABS ------
-        dcc.Tabs(
-            id= "main-tabs",
-            className= "main-tabs",
-            value="existing_CGS_map_tab",
-            children= [
-                dcc.Tab(
-                    label= "Existing Community Growing Schemes",
-                    value= "existing_CGS_map_tab",
-                    children= existing_map_layout(),
-                ),
-                dcc.Tab(
-                    label="Development Opportunities",
-                    value= "dvlp_map_tab",
-                    children= dvpt_map_layout(),
-                ),
-            ]
-        ),
-       
-        # ------ FOOTER BOTTOM NAVBAR ------
-        html.Footer(
-            className='footer-navbar',
-            children=[
-                html.Img(
-                    src='/assets/University-of-Leeds_logo.png',
-                    style={'height': '120px'}
-                    ),
-                html.Img(
-                    src='/assets/lida_logo.png',
-                    style={'height': '40px'}
-                )
-            ]
-        )
-    ]
-)
-
-
-
-#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------
 
 # For local development, debug=True
-# When deploying, debug=False
 if __name__ == '__main__':
     app.run(debug= False)
