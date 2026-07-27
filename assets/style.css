@@ -220,3 +220,161 @@ body {
 }
 
 /* ---------- TAB 2 STYLING ----------------------------------------------------------------------*/
+
+/*Map Area */
+.dvpt_map_container {
+    flex: 1; /* fills remaining space */
+    min-height: 0;
+}
+
+/* Customized Layer Selector Box */
+.dvpt_layer_box {
+    background-color:  #e5e1ce;
+    /*Add padding the checklist text*/
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 8px;
+    color: black;
+    /* Add padding around checklist box itself*/
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.dvpt_layer_box summary {
+    font-weight: bold;
+    cursor: pointer; /*show user it's clickable*/
+    padding: 5px;
+}
+
+/* Customized Layer Selector Checklist */
+.dvpt_custom_checklist label {
+    white-space: nowrap; /*avoid checlist text breaking into two lines*/
+}
+
+/* Customized Collapsible Info Sidebar */
+.dvpt_info_sidebar {
+    position: relative;
+    padding: 20px;
+    width: 0;
+    height: 100%;
+    overflow: hidden; /*closed state hides content*/
+    transition: 0.3s ease;
+    border-left: 1px solid #ddd;
+}
+
+.dvpt_info_sidebar h3{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.dvpt_info_sidebar h4{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+.dvpt_info_sidebar p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: black;
+}
+
+/* Info Sidebar when OPEN*/
+.dvpt_info_sidebar_open {
+    overflow-y: auto; /*enbales vertical scrolling*/
+    width: 300px;
+    padding: 5px;
+    background: white;
+    border-left: 1px solid #ddd;
+}
+
+/* Info Sidebar when CLOSED*/
+.dvpt_info_sidebar_collapsible {
+    width: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Customized Collapsible Info Sidebar */
+.dvpt_info_sidebar {
+    position: relative;
+    padding: 20px;
+    width: 0;
+    height: 100%;
+    overflow: hidden; /*closed state hides content*/
+    transition: 0.3s ease;
+    border-left: 1px solid #ddd;
+}
+
+.dvpt_info_sidebar h3{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.dvpt_info_sidebar h4{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+.dvpt_info_sidebar p{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: black;
+}
+
+/* Info Sidebar when OPEN*/
+.dvpt_info_sidebar_open {
+    overflow-y: auto; /*enbales vertical scrolling*/
+    width: 300px;
+    padding: 5px;
+    background: white;
+    border-left: 1px solid #ddd;
+}
+
+/* Info Sidebar when CLOSED*/
+.dvpt_info_sidebar_collapsible {
+    width: 0;
+    padding: 0;
+}
+
+/* Sidebar Buttons */
+.dvpt_sidebar_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
