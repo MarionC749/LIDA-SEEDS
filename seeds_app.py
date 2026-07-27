@@ -716,6 +716,7 @@ def dvpt_map_layout():
                         id="dvpt_layer_selector",
                         className= "dvpt_custom_checklist",
                         options=[
+                            {"label": "Soil Health", "value": "soil_health"}
                         ],
                         value=["BLA"], #initial value
                         ),
@@ -801,6 +802,389 @@ print(soil_health.columns)
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # 6- TAB 2 (Development Opportunities) - CALLBACKS
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# ------ Map State Callbacks ------
+@app.callback(
+    Output('dvpt_map_state', 'data'),
+    Input('dvpt_layer_selector', 'value'),
+    Input('dvpt_postcode_search', 'value'),
+    Input('Future_CGSs_MAP', 'clickData'),
+    Input('dvpt_close_sidebar_btn', 'n_clicks'),
+    State('dvpt_map_state', 'data'),
+    prevent_initial_call= True
+)
+
+# def dvpt_update_map_state(dvpt_layers, dvpt_postcode, clickData, close_clicks, dvpt_state):
+    
+#     dvpt_state= dvpt_state or {
+#         'dvpt_layers': [],
+#         'dvpt_postcode': None,
+#         'dvpt_sidebar': {
+#             'open': False,
+#             'lat': None,
+#             'lon': None
+#         }
+#     }
+
+#     ctx= dash.callback_context
+#     trigger= ctx.triggered[0]['prop_id'].split('.')[0]
+    
+#     # ------ LAYER SELECTION ------
+#     if trigger == 'dvpt_layer_selector':
+#         dvptexisting_state['dvpt_layers']= dvpt_layers or []
+        
+#     # ------ POSTCODE ------
+#     elif trigger == 'dvpt_postcode_search':
+#         dvpt_state['dvpt_postcode'] = dvpt_postcode
+        
+#     # ------ MAP CLICK ------
+#     elif trigger == 'Future_CGSs_MAP' and clickData:
+#         point = clickData['points'][0]
+#         lat, lon = point.get('customdata') #store the coordinates of clicked area
+        
+#         dvpt_state['dvpt_sidebar']= {
+#             'open': True, 
+#             'lat': lat,
+#             'lon': lon}
+        
+#     # ------ CLOSE SIDEBAR BUTTON ------
+#     if trigger == 'dvpt_close_sidebar_btn':
+#         dvpt_state['dvpt_sidebar'] = {
+#             'open': False, 
+#             'lat': None,
+#             'lon': None}
+    
+#     return dvpt_state
+
+# #------------------------------------------------------------------
+# # ------ Map Creation ------
+
+# # Connect the Plotly map with Dash Components
+# # Only one callback builds the map
+# @app.callback(
+#     Output('Future_CGSs_MAP', 'figure'),
+#     Output('dvpt_output_container', 'children'),
+#     Input('dvpt_map_state', 'data'),
+# )
+
+# def dvpt_update_dashboard(dvpt_state):
+    
+#     #Define what the state of the map should be
+#     dvpt_state = dvpt_state or {}
+#     layers = dvpt_state.get('dvpt_layers', [])
+#     postcode= dvpt_state.get('dvpt_postcode')
+#     sidebar= dvpt_state.get('dvpt_sidebar', {})
+    
+#     #Apply base map creation function
+#     fig= build_base_map()
+    
+#     #If layers are selected, show pixels on map
+#     #Filter data
+#     filtered_layers= pixels[pixels['Type'].isin(layers)].copy()
+    
+#     #Apply the different map creation functions
+#     add_layers(fig, filtered_layers)
+    
+#     apply_zoom_logic(fig, postcode, sidebar)
+    
+#     count= len(filtered_layers)
+    
+#     return fig, f"{count} layers displayed"
+    
+# #------------------------------------------------------------------
+# # Helper functions for map creation
+    
+#------ CREATE BASE MAP FUNCTION ------
+def build_base_map():
+    fig= go.Figure()
+    
+    fig.update_layout(
+        margin=dict(l=0, r=10, t=10, b=10),
+        map=dict(
+            style= "carto-positron",
+            center={"lat": 53.83, "lon": -1.55},
+            zoom= 9.8),
+        showlegend= False,
+        autosize= True,
+        clickmode= 'event',
+        uirevision= 'keep' #avoid zoom reset every callback
+    )
+    
+    #Add Leeds boundary
+    geom_Leeds = Leeds_outline.geometry.iloc[0]
+    x, y = geom_Leeds.exterior.xy
+    fig.add_trace(
+            go.Scattermap(
+            lat= list(y),
+            lon= list(x),
+            mode= "lines",
+            fill= None,
+            line= dict(color= 'black', width=3),
+            hoverinfo= 'skip',
+            )
+        )
+    
+    return fig
+              
+  
+#Function to get coloring
+def hex_to_rgba(hex_color, alpha):
+    hex_color= hex_color.lstrip('#')
+    r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return f'rgba({r},{g}, {b}, {alpha})'
+    
+# #------ PIXELS FUNCTION ------
+# #Add pixels (each category/layer having a different color on map)
+# def add_pixels(fig, filtered_layers):
+#     if not filtered_layers.empty:
+#         for category in filtered_points['Type'].unique():
+#             subset= filtered_points[filtered_points["Type"] == category]
+#             color= types_colors.get(category, 'gray')
+#             fig.add_trace(
+#                 go.Scattermap(
+#                 lat= subset.geometry.y,
+#                 lon= subset.geometry.x,
+#                 mode= "markers",
+#                 marker=dict(size= 10, color= color, opacity=0.8),
+#                 text= subset["Name"],
+#                 hoverinfo= "text",
+#                 customdata= list(zip(subset['uid'], subset.geometry.y, subset.geometry.x)), #used for sidebar infor + zoom + halo
+#                 )
+#             )
+
+# #------ POLYGONS FUNCTION ------
+# def add_polygons(fig, filtered_polygons):
+#     for _, row in filtered_polygons.iterrows():
+#         geom= row.geometry
+#         color= types_colors.get(row['Type'], "gray")
+        
+#         if geom.geom_type == "Polygon":
+#             polys= [geom]
+#         elif geom.geom_type== "MultiPolygon":
+#             polys= geom.geoms
+#         else:
+#             continue
+        
+#         for poly in polys:
+#             x, y= poly.exterior.xy
+            
+#             centroid= geom.centroid
+            
+#             fig.add_trace(
+#                 go.Scattermap(
+#                     lon= list(x),
+#                     lat= list(y),
+#                     mode="lines",
+#                     fill= "toself",
+#                     line= dict(color=color, width=2),
+#                     fillcolor= hex_to_rgba(color, 0.4),
+#                     text= row["Name"],
+#                     hoverinfo="text",
+#                     customdata= [(row['uid'], centroid.y, centroid.x)]* len(list(x)),
+#                 )
+#             )
+    
+
+# # ------ Priority Zoom System ------
+# def apply_zoom_logic(fig, postcode, sidebar):
+    
+#     # 1- SIDEBAR (strongest)
+#     # Add zoom + halo on clicked feature
+#     if sidebar.get('open'):
+#         lat = sidebar.get('lat')
+#         lon = sidebar.get('lon')
+        
+#         if lat is not None and lon is not None:
+            
+#             #Zoom on clicked feature
+#             fig.update_layout(
+#                 map=dict(
+#                 center={'lat': lat, 'lon': lon},
+#                 zoom= 12,
+#             ))
+    
+#             #Halo on clicked feature
+#             fig.add_trace(
+#                 go.Scattermap(
+#                     lat=[lat],
+#                     lon=[lon],
+#                     mode= 'markers',
+#                     marker= dict(size=40, 
+#                                  color='yellow', 
+#                                  opacity=0.5, 
+#                                  symbol='circle'),
+#                     showlegend= False,
+#                     hoverinfo= 'skip',
+#                     )
+#                 )
+            
+#     # 2- POSTCODE (only if no sidebar)
+     
+#     if postcode:
+#         row= Leeds_postcodes[Leeds_postcodes['Postcode'] == str(postcode)]
+#         if not row.empty:
+#             geom= row.iloc[0].geometry
+#             fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=12))
+
+# #------------------------------------------------------------------
+# # ------ Sidebar Tabs Callback ------
+# @app.callback(
+#     Output('existing_sidebar_active_tab', 'data'),
+#     Input('community-tab-btn', 'n_clicks'),
+#     Input('soil-tab-btn', 'n_clicks'),
+#     prevent_initial_call= True
+# )
+
+# def change_sidebar_tab(community_clicks, soil_clicks):
+#     ctx = dash.callback_context #contains info about current callback execution
+    
+#     #By default show the community tab
+#     if not ctx.triggered:
+#         return "community"
+    
+#     button= ctx.triggered_id
+    
+#     if button == "community-tab-btn":
+#         return "community"
+    
+#     elif button == "soil-tab-btn":
+#         return "soil"
+
+# # ------ Sidebar Tabs Button Style Callback ------
+# @app.callback(
+#     Output("community-tab-btn", "style"),
+#     Output("soil-tab-btn", "style"),
+#     Input('existing_sidebar_active_tab', 'data'),
+# )
+
+# #Change opacity of sidebar buttons depending on selection
+# def existing_update_button_style(active_tab):
+    
+#     community_style= {
+#         "opacity": 1 if active_tab == "community" else "0.5",
+#     }
+#     soil_style= {
+#         "opacity": 1 if active_tab == "soil" else "0.5",
+#     }
+#     return community_style, soil_style
+
+
+# #------------------------------------------------------------------
+# # ------ Feature Clicking and Sidebar RENDER ------
+    
+# # Open sidebar with feature information when clicked
+# # Zoom and create halo around feature when clicked
+
+# # Sidebar render callback
+# @app.callback(
+#     Output('existing_sidebar_content', 'children'),
+#     Output('existing_info_sidebar', 'className'),
+#     Input('existing_map_state', 'data'),
+#     Input('existing_sidebar_active_tab', 'data')
+# )
+
+# #Create Opening/Closing logic
+# def existing_render_sidebar(existing_state, active_tab):
+    
+#     sidebar= (existing_state or {}).get('existing_sidebar', {})
+    
+#     if not sidebar.get('open'):
+#         return (
+#             'Click a feature to see details',
+#             'existing_info_sidebar existing_info_sidebar_collapsible'
+#         )
+    
+#     uid= sidebar['uid']
+#     row= gdf[gdf['uid'] == uid]
+    
+#     if row.empty:
+#         return (
+#             'Feature not found',
+#             'existing_info_sidebar existing_info_sidebar_collapsible'
+#         )
+    
+#     row = row.iloc[0]
+    
+#     #Build Sidebar content, depending on chosen tab
+#     if active_tab== "community":
+#         sidebar_content = build_community_tab(row)
+#     elif active_tab == "soil":
+#         sidebar_content= build_soil_tab(row)
+#     else:
+#         sidebar_content= html.Div("No information available")
+    
+#     return sidebar_content, 'existing_info_sidebar existing_info_sidebar_open'
+
+
+#Define function to display text in sidebar 
+# only if cell contains a value
+def info_show(label, value):
+    if pd.isna(value) or value== "":
+        return None
+    return html.P([
+        (f'{label}: '), str(value)
+        ])
+
+# #Build 'Community tab' layout function
+# def build_community_tab(row):
+#     return html.Div([
+    
+#             #Build Sidebar Information Display
+#             html.H3(row['Name']),
+#             html.Hr(),
+#             html.H4('🌱 Quick Information'),
+#             info_show("Type", row['Type']),
+#             info_show("Management", row['Management']),
+#             info_show("Organisation", row['Organisation']),
+#             html.Br(),
+#             html.Hr(),
+#             html.H4('🥕 Activity'),
+#             info_show("Description", row['Activity_Description']),
+#             html.Br(),
+#             html.Hr(),
+#             html.H4('📍 About the Venue'),
+#             info_show("Entry Conditions", row['Entry_Conditions']),
+#             info_show("Day and Time", row['Day_and_Time_(LGAP)']),
+#             info_show("Ongoing or set programs?", row['Ongoing_or_set_programs?_(LGAP)']),
+#             info_show("All year or seasonal?", row['All_year_or_seasonal?_(LGAP)']),
+#             info_show("Seasonal Details", row['Seasonal_details_(LGAP)']),
+#             info_show("One location?", row['one_location_(LGAP)']),
+#             info_show("Location Description", row['Location_Description']),
+#             info_show("Postcode", row['Postcode_(FWC)']),
+#             info_show("Site Accessibility", row['Site_Accessibility_(LGAP)']),
+#             info_show("Toilets", row['Toilets_(LGAP)']),
+#             info_show("Indoor Space", row['Indoor_Space_(LGAP)']),
+#             info_show("Indoor Type", row['Indoor_Type_(LGAP)']),
+#             info_show("Transport support available", row['Transport_Support_(LGAP)']),
+#             html.Br(),
+#             html.Hr(),
+#             html.H4('📞 Contact'),
+#             info_show("Contact", row['Contact_Name']),
+#             info_show("Email", row['Email']),
+#             info_show("Phone number", row['Phone_Number_(LGAP)']),
+#             info_show("Website", row['Website_Link']),
+#             ])
+
+
+#------------------------------------------------------------------
+# ------ Postcode Selection Dropdown ------
+
+#Postcode dropdown callback
+@app.callback(
+    Output('dvpt_postcode_search', 'options'),
+    Input('dvpt_postcode_search', 'search_value'),
+)
+
+def dvpt_update_postcodes(search):
+    if not search:
+        return dash.no_update
+    
+    pc_filter= Leeds_postcodes[Leeds_postcodes['Postcode'].str.contains(search, case=False, na=False)]['Postcode'].unique()
+    
+    return [
+        {'label': pc, 'value': pc}
+    for pc in pc_filter[:20]
+    ]
 
 
 
