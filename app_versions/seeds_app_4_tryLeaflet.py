@@ -8,6 +8,8 @@ import plotly.graph_objects as go
 import plotly.colors as pc
 import dash_bootstrap_components as dbc
 import shapely
+import dash_leaflet as dl
+import json
 
 
 import dash
@@ -835,10 +837,14 @@ def dvpt_map_layout():
                     className= "dvpt_map_container",
                     children=[
                         #Empty placeholder where Plotly will display map
-                        dcc.Graph(id='Future_CGSs_MAP',
-                                  style= {"height": "100%",
+                        dl.Map(id='Future_CGSs_MAP',
+                               style= {"height": "100%",
                                           "width": "100%"},
-                                  config={'responsive': True},
+                               center= [53.83, "lon": -1.55],
+                               zoom= 9.8,
+                               children= [
+                                   dl.TileLayer()
+                                ]
                         )
                     ]
                 ),
@@ -1058,6 +1064,10 @@ LAYER_CONFIG= {
 # 8- TAB 2 (Development Opportunities) - HELPER FUNCTIONS
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+#------ CONVERT to GEOJSON  ------
+#Leaflet works with GeoJSON, not plotly traces
+def gdf_to_geojson(gdf):
+    return json.loads(gdf.to_json())
 
 #------ CREATE BASE MAP FUNCTION ------
 def dvpt_build_base_map():
@@ -1290,7 +1300,7 @@ def check_threshold(value, thresholds_row):
     Input('soil_health_selector', 'value'),
     Input('heavy_metals_selector', 'value'),
     Input('dvpt_postcode_search', 'value'),
-    Input('Future_CGSs_MAP', 'clickData'),
+    Input('Future_CGSs_MAP', 'click_lat_lng'),
     Input('dvpt_close_sidebar_btn', 'n_clicks'),
     State('dvpt_map_state', 'data'),
     prevent_initial_call= True
@@ -1336,13 +1346,12 @@ def dvpt_update_map_state(soil_layers,
     elif trigger == 'Future_CGSs_MAP' and clickData:
         
         #Clicking map stores coordinates of point clicked and opens sidebar
-        point_c = clickData['points'][0]
         
         dvpt_state['dvpt_sidebar']= {
             'open': True}
         dvpt_state['dvpt_clicked_point']= {
-            'lat':  point_c["lat"],
-            'lon':  point_c["lon"]
+            'lat':  clickData["lat"],
+            'lon':  clickData["lng"]
             }
         
     # ------ CLOSE SIDEBAR BUTTON ------
@@ -1363,7 +1372,7 @@ def dvpt_update_map_state(soil_layers,
 # Connect the Plotly map with Dash Components
 # Only one callback builds the map
 @app.callback(
-    Output('Future_CGSs_MAP', 'figure'),
+    Output('Future_CGSs_MAP', 'children'),
     Output('dvpt_output_container', 'children'),
     Input('dvpt_map_state', 'data'),
 )

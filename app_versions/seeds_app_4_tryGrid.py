@@ -8,6 +8,8 @@ import plotly.graph_objects as go
 import plotly.colors as pc
 import dash_bootstrap_components as dbc
 import shapely
+from shapely.ops import unary_union
+import numpy as np
 
 
 import dash
@@ -1071,7 +1073,7 @@ def dvpt_build_base_map():
             zoom= 9.8),
         showlegend= False,
         autosize= True,
-        clickmode= 'event+select',
+        clickmode= 'event',
         uirevision= 'keep' #avoid zoom reset every callback
     )
     
@@ -1255,6 +1257,54 @@ def add_numeric_layer(fig, #map
                 )
             )
             
+# #------ ADDING INVISIBLE GRID, for clicking------
+def add_click_grid(fig, geom_boundary):
+
+    #Convert geodataframe to one shapely geometry
+    geom_boundary= unary_union(geom_boundary.geometry)
+    #Get bounding box of local authority
+    minx, miny, maxx, maxy = geom_boundary.bounds
+    
+    #Create 100m spacing for latitude
+    lat_step= 100 /111132 # ~100m as 1 degree lat = ~111.132m
+    #Create 100m spacing for longitude
+    mid_lat= (miny + maxy) / 2
+    lon_step = 100 / (111132 * np.cos(np.radians(mid_lat)))
+    
+    #Generate grid coordinates
+    lats= np.arange(miny, maxy, lat_step)
+    lons= np.arange(minx, maxx, lon_step)
+    
+    grid_lat= []
+    grid_lon= []
+    
+    #Keep only points inside Leeds boundary
+    for lat in lats:
+        for lon in lons:
+            point = Point(lon, lat)
+            if geom_boundary.contains(point):
+                grid_lat.append(lat)
+                grid_lon.append(lon)
+    
+    print(f"Click grid points created: {len(grid_lat)}")
+    
+    # Add invisible click grid to the map 
+    # allowing clickData to click almost anywhere on the map
+    fig.add_trace(
+        go.Scattermap(
+            lat= grid_lat,
+            lon= grid_lon,
+            mode= "markers",
+            marker= dict(
+                size= 20,
+                opacity= 0,
+            ),
+            hoverinfo= "skip",
+            showlegend= False,
+            name= "click_grid"
+        )
+    )
+    
 
 #------ CHECK SOIL HEALTH THRESHOLD ------
 def check_threshold(value, thresholds_row):
@@ -1337,6 +1387,7 @@ def dvpt_update_map_state(soil_layers,
         
         #Clicking map stores coordinates of point clicked and opens sidebar
         point_c = clickData['points'][0]
+        print( clickData['points'][0])
         
         dvpt_state['dvpt_sidebar']= {
             'open': True}
@@ -1387,9 +1438,14 @@ def dvpt_update_dashboard(dvpt_state):
     for layer in layers:
         dvpt_add_layer(fig, layer)
     
+    add_click_grid(fig, Leeds_outline)
+    
     dvpt_apply_zoom_logic(fig, postcode, sidebar, clicked_point)
     
     print("Total traces:", len(fig.data))
+    
+    for i, trace in enumerate(fig.data):
+        print(i, trace.name, trace.type)
     
     return fig, f"{len(layers)} layers displayed"
     
