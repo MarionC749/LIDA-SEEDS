@@ -12,18 +12,6 @@ This project, in partnership with Hyde Park Source and FoodWise Leeds, aims to a
 
 By improving reproducible data integration and accessibility, this research will support evidence-based urban planning, reduce exposure to contaminated soils, and promote sustainable land management. Ultimately, the project aims to strengthen local food systems, inform policy and contribute to healthier and more resilient urban communities.
 
-## Run Instructions 💻
-
-Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
-1. Run the `1-SEEDS_existingCGS_search.ipynb`, to collect, integrate and process the existing CGSs data.
-2. Run the `2-SEEDS_soil_health.ipynb`, to collect, integrate and process the soil health data.
-3. 2. Run the `3-SEEDS_potentialCGS_search.ipynb`, to collect, integrate and process the data on CGSs development opportunities.
-
-4. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
-
-7. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
-
-
 ## Data 📊
 
 The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the collecting, integrating and cleaning steps. The processed datasets can be found in the `Processed_Data`.
@@ -91,68 +79,21 @@ The output files from this notebook are:
 * `soil_health_CGSs.csv`
 * `soil_health.gpkg`
 
-### <ins> 3. CGSs Development Opportunities - Processing </ins> ✨
+
+### <ins> 3. CGSs Development Opportunities - Processing </ins>
 
 This notebook `3-SEEDS_potentialCGS_search.ipynb` involves collecting,  integrating and cleaning various raw datasets to build the dashboard planning tool, enabling to identify future potential CGS sites.
 
 The output files from this notebook are:
 * `TO_BE_CONTINUED.csv`
 
-### <ins> 3. Data Scraping </ins> ⛏️
 
-This notebook involves adding more contextual variables by scraping data for weather (with API), UK bank holidays, school holidays and covid times. The notebook ends by separating data for the 2019-2024 period and the 2025 period, and removing outliers in the 2019-2024 data using the Median Average Distance technique.
+### <ins> 4. Dashboard Building </ins> 💻
 
-The ouput files from this are:
-* `footfall_cleaned.csv` (all years)
-* `footfall_cleaned_19_24.csv` (2019-2024)
-* `footfall_cleaned_2025.csv` (just 2025)
+1. Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
+2. Run the 3 Jupyter Notebooks in the `Data Processing` folder, to obtain the `Processed_Data` datasets required to build the SEEDS dashboard app.
+3. Install the requirements in the `requirements.txt` file.
+4. Run the `seeds_app.py` file which contains all of the dashbaord building structure.
+5. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
+6. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
 
-### <ins> 4. Data Modelling </ins> 🤖
-
-This notebook is the continuity of the data cleaning and scraping by modelling the footfall data. The model is selected, tuned and fitted using the footfall data between 2019 and 2024. The model is then used later on to predict the 2025 footfall, to allow Bradford City of Culture programem impact evaluation.
-
-The below steps are followed:
-
-#### 1) Model selection
-
-The performance of four different machine learning models is tested using 10-fold cross validation. The models include:
-
-* Linear regression
-* Random Forest
-* XGBoost
-* Extra Trees Regressor
-
-The outputs of the 10-fold cross validation with TimeSeriesSplit process are used to calculate the error metric scores associated with that model (averaged over all folds). The MAE, the MAPE, the R2 and the RMSE metrics are compared to find the model that will best fit the data.
-
-**Conclusion:** Random Forest Regression is the best performing model.
-
-#### 2) Model Evaluation
-
-The performance of the Random Forest Regression model is tested, using a 80-20 test split with the chronological order of the data preserved using TimeSeriesSplit. The model performance is evaluated using the error metrics of MAE, MAPE, R2 and RMSE.
-
-#### 3) Hyperparameter Tuning
-
-Hyperparameter tuning is performed as it allows to find the best set of hyperparameters to maximise the model's efficiency and accuracy. 
-
-#### 4) Fitting the Final Model
-
-Using the optimal hyperparameters found during the tuning, the model is fitted again, this time using the whole dataset (no training and test splits).
-
-#### 5) Feature Importance
-
-The feature importance of the model predictor variables is investigated.
-
-#### 6) Cross-Validated SHAP for Feature Importance
-
-The feature importance of the model predictor variables is investigated using SHAP.
-
-#### 7) Using Model Forecast to Evaluate Events
-
-The final model is used to quantify the change in footfall that would otherwise been predicted in 2025.
-
-
-## Other Work Included ℹ️
-
-The `Other Notebooks` folder includes other notebooks which were not part of the modelling analysis but contributed to the project work.
-* `Footfall Insights` folder contains 3 notebooks which were built to create various insights for different stakeholders (NCDO and Bradford 2025) on footfall but also demographics, dwell time and sales.
-* `SARIMAX Attempt` folder contains the notebooks used to try building a SARIMA model to predict footfall in 2025. The analysis was not used in the end as the performance of the Random Forest Regression was better and more appropriate to incorporate footfall from different locations.
