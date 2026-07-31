@@ -58,7 +58,7 @@ Selenium (Se) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | 
 Copper (Cu) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Cadmium (Cd) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Phosphorus (P2O5) | Topsoil (5-20 cm depth) concentration in w% | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
-Soil Health Thresholds | Author created data based on thresholds from AHDB, NBC and C4SL | UK | Excel | NA | NA |  |  | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Soil Health Thresholds | Author created data based on thresholds from Agriculture and Horticulture Development Board (AHDB), Normal Background Concentrations (NBC), and Category 4 Screening Levels (C4SL) | UK | Excel | NA | NA |  |  | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 
 
 ### Development Opportunities Data
