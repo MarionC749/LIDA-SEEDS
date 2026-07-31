@@ -15,11 +15,13 @@ By improving reproducible data integration and accessibility, this research will
 ## Run Instructions 💻
 
 Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
-1. Run the `1- Exploratory Data Analysis.ipynb`, to explore the data.
-2. Run `2- Footfall-Cleaning.ipynb`
-3. Run `3- Data Scraping.ipynb`
-4. Run `4- Modelling.ipynb`
-6. For more information, explore `Other Notebooks` folder.
+1. Run the `1-SEEDS_existingCGS_search.ipynb`, to collect, integrate and process the existing CGSs data.
+2. Run the `2-SEEDS_soil_health.ipynb`, to collect, integrate and process the soil health data.
+3. 2. Run the `3-SEEDS_potentialCGS_search.ipynb`, to collect, integrate and process the data on CGSs development opportunities.
+
+4. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
+
+7. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
 
 
 ## Data 📊
@@ -32,7 +34,7 @@ Different datasets were collected, cleaned and joined to have the following vari
 ### Existing Community Growing Schemes Data
 Variable | Description | Data Scale | File Type | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|------------------|------------------|-------
-Leeds LA Boundaries | Polygon of Leeds LA boundaries | UK | Shapefile | 2024 | 20/04/2026 | [ONS, Local Authority Districts (May 2024) Boundaries UK BFE](https://geoportal.statistics.gov.uk/datasets/ons::local-authority-districts-may-2024-boundaries-uk-bfe-2/explore?location=53.495068%2C-0.354857%2C7)
+Leeds Local Authority Boundaries | Polygon of Leeds LA boundaries | UK | Shapefile | 2024 | 20/04/2026 | [ONS, Local Authority Districts (May 2024) Boundaries UK BFE](https://geoportal.statistics.gov.uk/datasets/ons::local-authority-districts-may-2024-boundaries-uk-bfe-2/explore?location=53.495068%2C-0.354857%2C7)
 Urban Green Spaces | Polygons of green spaces in Leeds | UK| Shapefile | Updated every 6 months | Live | [Ordnance Survey](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Polygons of green spaces in Leeds | Chosen LA (Leeds) | Shapefile | Updated live | Live | OpenStreetMap API
 CGSs |  | Leeds | Webscraped - CSV | Updated live | Live | [ArcGIS Online - Leeds Green Activity Provider Hyde Park Source](https://www.arcgis.com/apps/mapviewer/index.html?layers=6afec02763ab4f87887939ed4d073c70)
