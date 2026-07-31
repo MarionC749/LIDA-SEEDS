@@ -40,7 +40,6 @@ Community Orchards |  | Leeds | Excel | 2026 | 23/07/2026 | Fruit Works Co-opera
 Allotments | Allotments managed by council or associations  | Leeds | Webscraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
 
 
-
 ### Soil Health Data
 Variable | Description | Data Scale | File Type | Data Type | Resolution | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|-----------|------------|------------------|------------------|--------
@@ -58,6 +57,10 @@ Copper (Cu) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026
 Cadmium (Cd) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Phosphorus (P2O5) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 
+
+### Development Opportunities Data
+Variable | Description | Data Scale | File Type | Publication Year | Acquisition Date | Source
+---------|-------------|------------|-----------|------------------|------------------|-------
 
 
 
