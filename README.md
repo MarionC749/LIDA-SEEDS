@@ -47,9 +47,16 @@ Variable | Description | Data Scale | File Type | Data Type | Resolution | Publi
 Land Cover |  | SE Tile | GeoPackage | Vector | | 2024 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
 Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
 Grain Size Class |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
-Soil pH |  | UK | Shapefile | Raster | 1km x 1km | 2007 | 20/04/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7)
-
-
+Soil pH |  | UK | Shapefile | Raster | 1km x 1km | 2007 | 05/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7)
+Soil SOM |  | UK | Shapefile | Raster | 1km x 1km | 2007 | 06/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/9e4451f8-23d3-40dc-9302-73e30ad3dd76)
+Nickel (Ni) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Arsenic (As) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Lead (Pb) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Zirconium (Zi) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Selenium (Se) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Copper (Cu) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Cadmium (Cd) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Phosphorus (P2O5) |  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 
 
 
