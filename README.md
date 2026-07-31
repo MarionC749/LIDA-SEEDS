@@ -26,7 +26,7 @@ Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
 
 ## Data 📊
 
-The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the cleaning and scraping steps. The cleaned datasets can be found in the `Processed_Data`.
+The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the collecting, integrating and cleaning steps. The processed datasets can be found in the `Processed_Data`.
 
 Different datasets were collected, cleaned and joined to have the following variables ready for modelling:
 
