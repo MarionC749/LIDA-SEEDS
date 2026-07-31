@@ -34,12 +34,16 @@ Different datasets were collected, cleaned and joined to have the following vari
 ### Existing Community Growing Schemes Data
 Variable | Description | Data Scale | File Type | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|------------------|------------------|-------
-Leeds Local Authority Boundaries | Polygon of Leeds LA boundaries | UK | Shapefile | 2024 | 20/04/2026 | [ONS, Local Authority Districts (May 2024) Boundaries UK BFE](https://geoportal.statistics.gov.uk/datasets/ons::local-authority-districts-may-2024-boundaries-uk-bfe-2/explore?location=53.495068%2C-0.354857%2C7)
-Urban Green Spaces | Polygons of green spaces in Leeds | UK| Shapefile | Updated every 6 months | Live | [Ordnance Survey](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
-Urban Green Spaces | Polygons of green spaces in Leeds | Chosen LA (Leeds) | Shapefile | Updated live | Live | OpenStreetMap API
-CGSs |  | Leeds | Webscraped - CSV | Updated live | Live | [ArcGIS Online - Leeds Green Activity Provider Hyde Park Source](https://www.arcgis.com/apps/mapviewer/index.html?layers=6afec02763ab4f87887939ed4d073c70)
-Community Orchards |  | Leeds | Excel | 2026 | 23/07/2026 | Fruit Works Co-operative
-Allotments | Allotments managed by council or associations  | Leeds | Webscraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
+Leeds Local Authority Boundaries | Polygon outlining Leeds LA boundaries | UK | Shapefile | 2024 | 20/04/2026 | [ONS, Local Authority Districts (May 2024) Boundaries UK BFE](https://geoportal.statistics.gov.uk/datasets/ons::local-authority-districts-may-2024-boundaries-uk-bfe-2/explore?location=53.495068%2C-0.354857%2C7)
+Leeds Wards Boundaries | Polygons of wards| Leeds | Web scraped - CSV | 2018 | Live | [Leeds City Council](https://www.leeds.gov.uk/councillors-and-democracy/ward-maps)
+Leeds Postcodes | Postcode centroids | UK | GeoPackage | 2026 | 07/05/2026 | [Ordnance Survey CodePointOpen](https://osdatahub.os.uk/data/downloads/open/CodePointOpen)
+Urban Green Spaces | Polygons of CGSs under the function 'Allotments Or Community Growing Spaces' | UK| Shapefile | Updated every 6 months | Live | [Ordnance Survey](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
+Urban Green Spaces | Polygons of CGSs, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
+CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Leeds | Web scraped - CSV | Updated live | Live | [Leeds Green Activity Provider (LGAP) Hyde Park Source](https://www.arcgis.com/apps/mapviewer/index.html?layers=6afec02763ab4f87887939ed4d073c70)
+Allotments | Allotments managed by council or associations  | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
+Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | Fruit Works Co-operative
+Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | [Fruit Works Co-operative](https://www.fruitworks.org.uk/)
+Composting Collectives | Composting sites, location is postcode centroid | Leeds | Excel | 2026 | 25/06/2026 | [FoodWiseLeeds](https://foodwiseleeds.org/project/ccl/)
 
 
 ### Soil Health Data
@@ -68,21 +72,26 @@ Variable | Description | Data Scale | File Type | Publication Year | Acquisition
 
 ## Project Worflow ⚙️
 
-### <ins> 1. Exploratory Data Analysis </ins> 📊
+### <ins> 1. Existing Community Growing Schemes - Processing </ins> 📊
 
-This notebook involves cleaning the raw footfall data and conducting exploratory data analysis, as well as creating visualizations which can be used for a dashboard.
+This notebook `1-SEEDS_existingCGS_search.ipynb` involves collecting,  integrating and cleaning the raw data on existing CGSs. As datasets may have overlapping CGSs, several cleaning pipelines are included (avoid duplicates with overlapping geometries, avoid duplicates with different names, etc).
+The notebook also collects and processes datasets related to Leeds such as the local authority boundaries, wards boundaries and postcode centroids.
 
-The ouput files from this are:
-* `footfall_map.html`
-* `footfall_plots.html`
+The output files from this notebook are:
+* `Existing_CGSs.gpkg`
+* `Leeds_boundaries.gpkg`
+* `leeds_postcodes.gpkg`
+* `Leeds_Wards.gpkg`
 
-### <ins> 2. Clean data </ins> ✨
+### <ins> 2. Soil Health - Processing </ins> ✨
 
-This notebook involves cleaning the raw footfall data and creating contextual temporal variables.
+This notebook `1-SEEDS_existingCGS_search.ipynb` involves collecting,  integrating and cleaning the raw data on existing CGSs. It also collects and processes datasets related to Leeds such as the local authority boundaries, wards boundaries and postcodes.
 
-The ouput files from this are:
-* `missing_days_counts.csv`
-* `footfall_Mix_Clean.csv`
+The output files from this notebook are:
+* `Existing_CGSs.gpkg`
+* `Leeds_boundaries.gpkg`
+* `leeds_postcodes.gpkg`
+* `Leeds_Wards.gpkg``
 
 ### <ins> 3. Data Scraping </ins> ⛏️
 
