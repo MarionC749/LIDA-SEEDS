@@ -477,7 +477,7 @@ def existing_apply_zoom_logic(fig, postcode, sidebar):
             fig.update_layout(
                 map=dict(
                 center={'lat': lat, 'lon': lon},
-                zoom= 12,
+                zoom= 14,
             ))
     
             #Halo on clicked feature
