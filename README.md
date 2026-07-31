@@ -12,6 +12,15 @@ This project, in partnership with Hyde Park Source and FoodWise Leeds, aims to a
 
 By improving reproducible data integration and accessibility, this research will support evidence-based urban planning, reduce exposure to contaminated soils, and promote sustainable land management. Ultimately, the project aims to strengthen local food systems, inform policy and contribute to healthier and more resilient urban communities.
 
+## Run Instructions 💻
+
+1. Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
+2. Run the 3 Jupyter Notebooks in the `Data Processing` folder, to obtain the `Processed_Data` datasets required to build the SEEDS dashboard app.
+3. Install the requirements in the `requirements.txt` file.
+4. Run the `seeds_app.py` file which contains all of the dashbaord building structure.
+5. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
+6. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
+
 ## Data 📊
 
 The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the collecting, integrating and cleaning steps. The processed datasets can be found in the `Processed_Data`.
@@ -90,10 +99,5 @@ The output files from this notebook are:
 
 ### <ins> 4. Dashboard Building </ins> 💻
 
-1. Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
-2. Run the 3 Jupyter Notebooks in the `Data Processing` folder, to obtain the `Processed_Data` datasets required to build the SEEDS dashboard app.
-3. Install the requirements in the `requirements.txt` file.
-4. Run the `seeds_app.py` file which contains all of the dashbaord building structure.
-5. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
-6. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
+The `seeds_app.py` file contains the main structure and layout of the dashboard. It is linked to the `assets` folder, which contains the `styles.css` stylesheet and the images required for the dashboard's styling and overall appearance.
 
