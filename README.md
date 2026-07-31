@@ -1,6 +1,6 @@
 # Spatial and Ecological Evaluation of Developing Spaces (SEEDS) 🌱
 
-## Abstract:
+## Abstract
 Global soil degradation poses a critical challenge to future food security, with the Food and Agriculture Organization of the United Nations (FAO) estimating that 33% of soils are already degraded and over 90% may be at risk by 2050. As pressure on agricultural systems intensifies, cities are increasingly recognised as sites for food production. Community Growing Schemes (CGSs), including community gardens, allotments and informal urban agriculture, represent a key strategy to diversify and localize food production and utilise underused urban land.
 
 Often led by grassroots groups, CGSs improve food security by increasing access to healthy, sustainable and affordable food, particularly for food insecure populations. They strengthen resilience to supply chain disruptions and support more democratic, local food systems. 
