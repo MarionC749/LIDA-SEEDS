@@ -107,7 +107,8 @@ body {
     overflow: hidden;
 }
 
-.main-content{
+
+.main-content {
     position: absolute;
     top: 120px;
     bottom: 40px;
@@ -301,31 +302,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Customized Collapsible Info Sidebar */
 .dvpt_info_sidebar {
     position: relative;
@@ -377,4 +353,37 @@ body {
     gap: 10px;
     width: 100%;
     margin-bottom: 10px;
+}
+
+
+/* ---------- TAB 3 STYLING ----------------------------------------------------------------------*/
+
+.user-guide-tab {
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.user-guide-tab .user_guide_container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    text-align: left;
+    overflow-y: auto;
+}
+
+.user_guide_container h1 {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #92cf3c;
+    font-family: "Mr Dodo Medium";
+}
+
+.user_guide_container h2 {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #92cf3c;
+    font-family: "Mr Dodo Medium";
 }
