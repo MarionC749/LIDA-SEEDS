@@ -23,10 +23,9 @@ By improving reproducible data integration and accessibility, this research will
 
 ## Data 📊
 
-The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the collecting, integrating and cleaning steps. The processed datasets can be found in the `Processed_Data`.
+The `Raw_Data` (in `Data`) folder contains all the raw datasets required for the collecting, integrating and cleaning steps. The processed datasets can be found in the `Processed_Data` folder.
 
-Different datasets were collected, cleaned and joined to have the following variables ready for modelling:
-
+The following datasets were collected:
 
 ### Existing Community Growing Schemes Data
 Variable | Description | Data Scale | File Type | Publication Year | Acquisition Date | Source
