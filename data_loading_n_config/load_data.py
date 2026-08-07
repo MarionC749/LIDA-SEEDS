@@ -56,7 +56,7 @@ print(soil_health_CGSs.columns)
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# TAB 2 (Development Opportunities) - IMPORT DATA
+# TAB 2 (Imagining Future Growing Spaces) - IMPORT DATA
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -64,6 +64,11 @@ print(soil_health_CGSs.columns)
 
 soil_health = gpd.read_file("Data/Processed_Data/soil_health.gpkg")
 soil_health = soil_health.to_crs(4326)
+
+#------ OVERALL HEAVY METALS DATA ------
+
+heavy_metals = gpd.read_file("Data/Processed_Data/heavy_metals.gpkg")
+heavy_metals = heavy_metals.to_crs(4326)
 
 #------ SOIL HEALTH THRESHOLDS DATA ------
 

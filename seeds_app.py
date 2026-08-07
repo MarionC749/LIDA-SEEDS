@@ -3,9 +3,10 @@
 import dash
 import dash_bootstrap_components as dbc
 
+
 from layouts.main_layout import create_main_layout
 from callbacks.existing_callbacks import create_existing_callbacks
-from callbacks.dvpt_callbacks import create_dvpt_callbacks
+from callbacks.dvpt_callbacks_Leaflet import create_dvpt_callbacks
 
 # ------ CREATE DASH APP ------
 app = dash.Dash(__name__,

@@ -1,0 +1,272 @@
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# TAB 2 (Imaginging Future Growing) - CALLBACKS
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import dash
+from dash import html, Input, Output, State
+from shapely.geometry import Point
+from dash import ALL
+
+
+from functions.dvpt_helpers_Leaflet import(
+    dvpt_add_layer,
+    get_dvpt_sidebar_info,
+)
+
+from data_loading_n_config.load_data import(
+    Leeds_postcodes,
+)
+
+
+#Function to create all the callbacks of the tab 2 (Imaginging Future Growing Spaces)
+def create_dvpt_callbacks(app):
+
+#----------------------------------------------------------------------------------------------------------------------------------------------        
+    # ------ Map State Callbacks ------
+    @app.callback(
+        Output("dvpt_map_state", "data"),
+        
+        Input({"type": "layer-selector",
+               "dataset": ALL },
+              "value"),
+        
+        Input("dvpt_postcode_search", "value"),
+        
+        Input("Future_CGSs_MAP", "clickData"),
+        
+        Input("dvpt_close_sidebar_btn", "n_clicks"),
+        
+        State("dvpt_map_state", "data"),
+        prevent_initial_call= True
+    )
+
+    def dvpt_update_map_state(active_layers, #from layer checlist
+                              postcode, #from postcode dropdown
+                              click_data, #from map click
+                              close_clicks, #from sidebar close button
+                              dvpt_state): #stored state
+        
+        #Define default state
+        dvpt_state= dvpt_state or {
+            "active_layers": {},
+            "dvpt_postcode": None,
+            "dvpt_sidebar": {"open": False},
+            "dvpt_clicked_point": {"lat": None, "lon": None}
+        }
+            
+        trigger= dash.ctx.triggered_id    
+        
+        # ------ LAYER SELECTION ------
+        #Check if checklist dict was triggered
+        if isinstance(trigger, dict):
+            active= {} #stores selected layers
+            
+            layer_inputs= dash.ctx.inputs_list[0]
+        
+            for item, selected in zip(layer_inputs, active_layers):
+                dataset= item["id"]["dataset"]
+                active[dataset]= selected or []
+                
+            #Update the stored state
+            dvpt_state["active_layers"]= active
+            
+        # ------ POSTCODE ------
+        #If postcode dropdown is selected, store postocde
+        elif trigger == 'dvpt_postcode_search':
+            dvpt_state['dvpt_postcode'] = postcode
+            
+        # ------ MAP CLICK ------
+        elif trigger == 'Future_CGSs_MAP':
+            
+            #Clicking map stores coordinates of location clicked and opens sidebar
+            lat= click_data["latlng"]["lat"]
+            lon= click_data["latlng"]["lng"]
+            
+            dvpt_state["dvpt_clicked_point"]= {
+                "lat": lat,
+                "lon": lon
+            }
+            
+            dvpt_state['dvpt_sidebar']= {'open': True}
+            
+        # ------ CLOSE SIDEBAR BUTTON ------
+        #Clicking button closes the sidebar and clears the clicked map location
+        if trigger == 'dvpt_close_sidebar_btn':
+            dvpt_state['dvpt_sidebar'] = {'open': False}
+            dvpt_state['dvpt_clicked_point']= {
+                        'lat':  None,
+                        'lon':  None
+                        }
+        
+        #Return updated state
+        return dvpt_state
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+    # ------ UPDATE MAP WITH SELECTED/ACTIVE LAYERS ------
+
+    @app.callback(
+        Output('dvpt-active-map-layers', 'children'), #map displays checklist selected layers
+        Output('dvpt_output_container', 'children'), #shows how many layers are selected
+        Input('dvpt_map_state', 'data'),
+    )
+
+    def dvpt_update_layers(dvpt_state):
+
+        print("ACTIVE STATE:", dvpt_state)
+        
+        #Store geojson layers
+        components= []
+        
+        active_layers= dvpt_state.get("active_layers", {})
+        
+        #Loop through each selected dataset
+        for dataset, layers in active_layers.items():
+            
+            for layer in layers:
+                #Create map layer
+                geojson = dvpt_add_layer(dataset= dataset, layer= layer)
+                
+                print("CREATED LAYER:", dataset, layer, type(geojson))
+                
+                if geojson is not None:
+                    components.append(geojson) #add layer to list
+        
+        return(components, f"{len(components)} layers displayed")
+             
+        
+#----------------------------------------------------------------------------------------------------------------------------------------------
+    # ------ Updating map view with postcode and clicked point Callback ------
+    
+    @app.callback(
+        Output('Future_CGSs_MAP', 'center'), #update center position of map
+        Output('Future_CGSs_MAP', 'zoom'), #update zoom level of map
+        Output('dvpt-click-marker', 'center'), #update click marker position
+        Input('dvpt_map_state', 'data'),
+        )
+
+    # ------ Priority Zoom System ------
+    def dvpt_apply_zoom_logic(dvpt_state):
+        
+        #If no change in state state
+        if not dvpt_state:
+            return (dash.no_update, dash.no_update, dash.no_update) #no change in map
+        
+        # First priority: clicked location
+        
+        #Retrieve clicked location coords
+        clicked= dvpt_state["dvpt_clicked_point"]
+        
+        #Check sidebar is open and if coords is valid
+        if (dvpt_state['dvpt_sidebar']['open'] 
+            and clicked["lat"] is not None):
+            
+            #Create click marker
+            marker_position= [
+                clicked["lat"],
+                clicked["lon"],
+            ]
+            
+            #Move map to clicked point and zoom
+            return(
+                marker_position, #map centre
+                14, # zoom
+                marker_position #move marker here
+            )
+        
+        # Second priority: postcode
+        
+        #Retrieve selected postcode
+        postcode= dvpt_state["dvpt_postcode"]
+        
+        if postcode:
+            row= Leeds_postcodes[Leeds_postcodes['Postcode'] == str(postcode)] #find postcode in GeoDataFrame
+            if not row.empty:
+                centroid= row.iloc[0].geometry.centroid #get postcode center
+                #Move to postcode center and zoom
+                return ([centroid.y,
+                         centroid.x], 
+                        14,
+                        dash.no_update)
+        
+        #If no map click and no postcode, no map change
+        return (dash.no_update, dash.no_update, dash.no_update)
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+    # # ------ Sidebar Tabs Callback ------
+
+    #Check whether side should be open
+    #Find the clicked map location
+    #Ask helper function what information exists there
+    #Build HTML content
+    #Control whether sidebar is visible or hidden
+
+    # Sidebar render callback
+    @app.callback(
+        Output('dvpt_sidebar_content', 'children'), #update sidebar content
+        Output('dvpt_info_sidebar', 'className'), #change CSS class of sidebar container, open and close
+        Input('dvpt_map_state', 'data'),
+    )
+
+    #Function creates sidebar
+    def dvpt_render_sidebar(dvpt_state):
+        sidebar= dvpt_state.get('dvpt_sidebar', {})
+
+        #Check whether sidebar is open
+        if not sidebar.get('open'):
+            return (
+                'Click a location to see details',
+                'dvpt_info_sidebar dvpt_info_sidebar_collapsible' #keep sidebar collapsed
+            )
+
+        #Sidebar retrieves coords stored from map click
+        clicked= dvpt_state.get('dvpt_clicked_point')
+        
+        #Check user has actually clicked map
+        if clicked["lat"] is None:
+            return ("Click a location to see details",
+                    "dvpt_info_sidebar dvpt_info_sidebar_collapsible") #keep sidebar collapsed
+        
+        #Create Shapely Point (convert lat & lon to geometry)
+        point= Point(clicked["lon"], clicked["lat"])
+        
+        #Call helper function
+        # loops through checklist selected datasets
+        # applies filter
+        # finds polygons containing point
+        # creates HTML components (sidebar content)
+        sidebar_info= get_dvpt_sidebar_info(dvpt_state.get("active_layers", {}), point)
+        
+        #Start of sidebar content
+        content= [html.H2("Location Information"),
+                  html.Br()]
+        
+        if sidebar_info:
+            content.extend(sidebar_info)
+        
+        else:
+            content.append(
+                html.P("No information available for this location"))
+        
+        return (content, "dvpt_info_sidebar dvpt_info_sidebar_open")
+
+#----------------------------------------------------------------------------------------------------------------------------------------------
+    # ------ Postcode Selection Dropdown Callback ------
+
+    #Postcode dropdown callback
+    @app.callback(
+        Output('dvpt_postcode_search', 'options'),
+        Input('dvpt_postcode_search', 'search_value'),
+    )
+
+    def dvpt_update_postcodes(search):
+        if not search:
+            return dash.no_update
+        
+        pc_filter= Leeds_postcodes[Leeds_postcodes['Postcode'].str.contains(search, case=False, na=False)]['Postcode'].unique()
+        
+        return [
+            {'label': pc, 'value': pc}
+        for pc in pc_filter[:20]
+        ]
+
+

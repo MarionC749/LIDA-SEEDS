@@ -4,7 +4,7 @@
 from dash import html, dcc
 
 from layouts.existing_layout import existing_map_layout
-from layouts.dvpt_layout import dvpt_map_layout
+from layouts.dvpt_layout_Leaflet import dvpt_map_layout
 from layouts.user_guide_layout import create_user_guide_layout
 
 def create_main_layout():
