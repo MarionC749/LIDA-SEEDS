@@ -1,5 +1,5 @@
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# TAB 1 (Existing Community Growing Schemes)) - COLOUR DICTIONARIES
+# TAB 1 (Existing Community Growing Schemes) - COLOUR DICTIONARIES
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #Define a color to map points/polygons of the same type
@@ -12,7 +12,35 @@ types_colors= {"Allotments": "#D55E00",
 }
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# TAB 2 (Development Opportunities) - COLOUR DICTIONARIES
+# TAB 2 (Imagining Future Growing Spaces) - DATASETS
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+from data_loading_n_config.load_data import(
+    soil_health,
+    heavy_metals,
+    thresholds
+)
+
+
+DVPT_DATASETS= {
+    "soil_health":{
+        "data": soil_health,
+        "display_name": "🪱 Soil Health",
+    },
+    
+    "heavy_metals":{
+        "data": heavy_metals,
+        "display_name": "🧪 Heavy Metals",
+    },
+    
+    "thresholds":{
+        "data": thresholds,
+        "display_name": "⚠️ Soil Health Thresholds Assessment"
+    }
+}
+#Other Datasets TBC
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# TAB 2 (Imagining Future Growing Spaces) - COLOUR DICTIONARIES
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 land_cover_colours= {
@@ -55,13 +83,16 @@ grain_size_colours= {
 }
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# TAB 2 (Development Opportunities) - LAYER CONFIGURATION
+# TAB 2 (Imagining Future Growing Spaces) - LAYER CONFIGURATION
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 LAYER_CONFIG= {
     
+    #Soil Health Dataset
+    "soil_health":{
+    
     "Land Cover": {
-        "filters": {"Soil_Metric": "Land Cover"},
+        "filter": {"Soil_Metric": "Land Cover"},
         "column": "Land_Cover_Type",
         "type": "categorical",
         "palette": land_cover_colours,
@@ -69,7 +100,7 @@ LAYER_CONFIG= {
     },
     
     "Soil Texture": {
-            "filters": {"Soil_Metric": "Soil Parent"},
+            "filter": {"Soil_Metric": "Soil Parent"},
             "column": "SOIL_GROUP",
             "type": "categorical",
             "palette": soil_texture_colours,
@@ -77,7 +108,7 @@ LAYER_CONFIG= {
         },
     
     "Grain Size Class": {
-            "filters": {"Soil_Metric": "Soil Parent"},
+            "filter": {"Soil_Metric": "Soil Parent"},
             "column": "GEN_GRAIN",
             "type": "categorical",
             "palette": grain_size_colours,
@@ -85,7 +116,7 @@ LAYER_CONFIG= {
         },
     
     "Soil pH": {
-                "filters": {"Soil_Metric": "Soil pH"},
+                "filter": {"Soil_Metric": "Soil pH"},
                 "column": "PH_07",
                 "type": "continuous",
                 "colourscale": "inferno_r",
@@ -93,76 +124,174 @@ LAYER_CONFIG= {
             },
     
     "Soil SOM": {
-                "filters": {"Soil_Metric": "Soil SOM"},
+                "filter": {"Soil_Metric": "Soil SOM"},
                 "column": "LOI_07",
                 "type": "continuous",
                 "colourscale": "inferno_r",
                 "legend": "Soil Organic Matter (SOM)",
             },
+    },
+    
+    #Heavy Metals Dataset
+    "heavy_metals":{
 
     "Nickel": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Ni"},
+            "filter": {"HM_name": "Nickel"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Nickel (mg/kg)",
         },
     "Arsenic": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "As"},
+            "filter": {"HM_name": "Arsenic"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Arsenic (mg/kg)",
         },
     "Lead": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Pb"},
+            "filter": {"HM_name": "Lead"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Lead (mg/kg)",
         },
     "Zirconium": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Zr"},
+            "filter": {"HM_name": "Zirconium"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Zirconium (mg/kg)",
         },
     "Selenium": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Se"},
+            "filter": {"HM_name": "Selenium"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Selenium (mg/kg)",
         },
     "Copper": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Cu"},
+            "filter": {"HM_name": "Copper"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Copper (mg/kg)",
         },
     "Cadmium": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "Cd"},
+            "filter": {"HM_name": "Cadmium"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Cadmium (mg/kg)",
         },
     "Phosphorus": {
-            "filters": {"Soil_Metric": "Heavy Metals",
-                        "metal": "P2O5"},
+            "filter": {"HM_name": "Phosphorus"},
             "column": "value",
             "type": "continuous",
             "colourscale": "inferno_r",
             "legend": "Phosphorus (w%)",
             },
+    }
+}
+#Other Datasets TBC
 
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# TAB 2 (Imagining Future Growing Spaces) - SIDEBAR CONFIGURATION
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DVPT_SIDEBAR_CONFIG = {
+    
+    #Soil Health Dataset
+    "soil_health":{
+        
+    "Land Cover": {
+            "filter":{"Soil_Metric": "Land Cover"},
+            "value_column": "Land_Cover_Type",
+            "title": "Land Cover"
+        },
+    
+    "Soil Texture": {
+            "filter":{"Soil_Metric": "Soil Parent"},
+            "value_column": "SOIL_GROUP",
+            "title": "Soil Texture"
+        },
+    
+    "Grain Size Class": {
+            "filter":{"Soil_Metric": "Soil Parent"},
+            "value_column": "GEN_GRAIN",
+            "title": "Grain Size Class"
+        },
+        
+        
+    "Soil pH": {
+        "filter":{"Soil_Metric": "Soil pH"},
+        "value_column": "PH_07",
+        "title": "Soil pH"
+    },
+    
+    "Soil SOM": {
+                "filter":{"Soil_Metric": "Soil SOM"},
+                "value_column": "LOI_07",
+                "title": "Soil Organic Matter (SOM)"
+            },
+    
+    },
+    
+    #Heavy Metals Dataset
+    "heavy_metals":{
+
+    "Nickel": {
+            "filter": {"HM_name": "Nickel"},
+            "value_column": "value",
+            "title": "Nickel (Ni)",
+            "unit_column": "HM_unit",
+        },
+    "Arsenic": {
+            "filter": {"HM_name": "Arsenic"},
+            "value_column": "value",
+            "title": "Arsenic (As)",
+            "unit_column": "HM_unit",
+        },
+    "Lead": {
+            "filter": {"HM_name": "Lead"},
+            "value_column": "value",
+            "title": "Lead (Pb)",
+            "unit_column": "HM_unit",
+        },
+    "Zirconium": {
+            "filter": {"HM_name": "Zirconium"},
+            "value_column": "value",
+            "title": "Zirconium (Zr)",
+            "unit_column": "HM_unit",
+        },
+    "Selenium": {
+            "filter": {"HM_name": "Selenium"},
+            "value_column": "value",
+            "title": "Selenium (Se)",
+            "unit_column": "HM_unit",
+        },
+    "Copper": {
+            "filter": {"HM_name": "Copper"},
+            "value_column": "value",
+            "title": "Copper (Cu)",
+            "unit_column": "HM_unit",
+        },
+    "Cadmium": {
+            "filter": {"HM_name": "Cadmium"},
+            "value_column": "value",
+            "title": "Cadmium (Cd)",
+            "unit_column": "HM_unit",
+        },
+    "Phosphorus": {
+            "filter": {"HM_name": "Phosphorus"},
+            "value_column": "value",
+            "title": "Phosphorus (P2O5)",
+            "unit_column": "HM_unit",
+            },
+    }
+    
+    
+#Other Datasets TBC
+    
 }
