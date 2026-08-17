@@ -61,8 +61,8 @@ function(feature){
 def dvpt_build_base_map():
     return dl.Map(
         id= "Future_CGSs_MAP",
-        center= [53.83, -1.55],
-        zoom= 10.5,
+        center= [53.83, -1.52],
+        zoom= 11,
         style= {"width": "100%", "height": "100%"},
         children= [
             dl.TileLayer( #adds background map tiles from OpenStreetMap
@@ -272,21 +272,44 @@ def check_threshold(metric_name, value, thresholds_row):
     #Store warning messages
     warnings= []
     
+    unit= thresholds_row["threshold_unit"]
+    if pd.isna(unit):
+        unit= ""
+    
+    threshold_names= {
+        "RHS": "RHS (Royal Horticultural Society)",
+        "NBC": " NBC (Normal Background Concentrations)",
+        "C4SL": "C4SL (Category 4 Screening Levels)",
+        "SGV": "SGV (Soil Guideline Values)",
+    }
+    
+    #Upper thresholds
     for threshold_type in [
-        "AHDB_threshold",
+        "RHS_upper",
         "NBC_threshold",
         "C4SL_threshold",
-        "SVG_threshold",
+        "SGV_threshold",
     ]:
         limit= thresholds_row[threshold_type]
-        unit= thresholds_row["threshold_unit"]
-        
-        if pd.isna(unit):
-            unit= ""
         
         if pd.notna(limit) and value > limit:
+            name= threshold_type.replace("_threshold", "").replace("_upper", "")
+            display_name= threshold_names[name]
+            
             warnings.append(
-                f"{metric_name} is above threshold {threshold_type.replace('_threshold', '')} ({limit} {unit})")
+                f"{metric_name} is above threshold {display_name} ({limit} {unit})")
+    
+    #Lower thresholds
+    for threshold_type in [
+            "RHS_lower",
+        ]:
+            limit= thresholds_row[threshold_type]
+            
+            if pd.notna(limit) and value < limit:
+                name= threshold_type.replace("_lower", "")
+                display_name= threshold_names[name]
+                warnings.append(
+                    f"{metric_name} is below threshold {display_name} ({limit} {unit})")
     
     return warnings
 

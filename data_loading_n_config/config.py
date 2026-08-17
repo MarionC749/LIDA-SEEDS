@@ -128,7 +128,7 @@ LAYER_CONFIG= {
                 "column": "LOI_07",
                 "type": "continuous",
                 "colourscale": "inferno_r",
-                "legend": "Soil Organic Matter (SOM)",
+                "legend": "Soil Organic Matter (SOM) in %",
             },
     },
     
@@ -233,7 +233,7 @@ DVPT_SIDEBAR_CONFIG = {
     "Soil SOM": {
                 "filter":{"Soil_Metric": "Soil SOM"},
                 "value_column": "LOI_07",
-                "title": "Soil Organic Matter (SOM)"
+                "title": "Soil Organic Matter (SOM) in %"
             },
     
     },
