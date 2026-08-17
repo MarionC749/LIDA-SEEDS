@@ -24,8 +24,8 @@ def existing_build_base_map():
         margin=dict(l=0, r=10, t=10, b=10),
         map=dict(
             style= "carto-positron",
-            center={"lat": 53.83, "lon": -1.55},
-            zoom= 9.8),
+            center={"lat": 53.83, "lon": -1.52},
+            zoom= 10),
         showlegend= False,
         autosize= True,
         clickmode= 'event',

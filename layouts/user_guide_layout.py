@@ -292,7 +292,14 @@ def create_user_guide_layout():
                                                     
                             #### Where is the data from?
                             
-                            The soil pH data comes from [UK Soil Observatory]( https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7) datasets.                  
+                            The soil pH data comes from [UK Soil Observatory]( https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7) datasets.  
+                            
+                            #### How were the pH assessment thresholds determined ?
+                            
+                            The pH thresholds were sourced from the [Royal Horticultural Society](https://www.rhs.org.uk/soil-composts-mulches/ph-and-testing-soil).
+                            
+                            The measured soil pH is compared with these reference thresholds to see whether it falls within, above or below the healthy range.
+                                            
                         """
                     ),
                         
@@ -314,6 +321,14 @@ def create_user_guide_layout():
                             #### Where is the data from?
                             
                             The soil SOM data comes from [UK Soil Observatory]( https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7) datasets.               
+                        
+                        
+                            #### How were the Soil Organic Matter assessment thresholds determined ?
+                                                    
+                            The soil organic matter thresholds were sourced from the [Royal Horticultural Society](https://www.rhs.org.uk/soil-composts-mulches/organic-matter-how-to-use-in-garden).
+                                                    
+                            The measured soil organic matter is compared with these reference thresholds to see whether it falls within, above or below the healthy range.
+                        
                         """
                     ),
                         
@@ -337,6 +352,22 @@ def create_user_guide_layout():
                             #### Where is the data from?
                             
                             The heavy metals data comes from [UK Soil Observatory](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html) datasets.              
+
+                            #### How were the heavy metals assessment thresholds determined ?
+                            
+                            The heavy metals threshold assessment uses three types of reference thresholds:
+                            * **SVG (Soil Guideline Values)** - represent concentrations of chemicals in soil below which the long-term human health risks are likely to be minimal.
+                            * **C4SL (Category 4 Screening Levels)** - represent soil screening values for assessing potential risks to human health.
+                            * **NBC (Normal Background Concentrations)** - represent the upper limit of 'normal' levels of contaminants in soils, as described by the Part 2A contaminated land statutory guidance (SG7).
+
+                            The SVG for allotment land use values were sourced from reports published by [CL:AIRE](https://claire.co.uk/information-centre/water-and-land-library-wall.html?view=article&id=178:soil-guideline-values&catid=417&start=1).
+
+                            The C4SLs values for allotments land use were sourced from the following [peer-reviewed research paper](https://www.sciencedirect.com/science/article/pii/S0269749121015426#bib137).
+
+                            The NBC values (principal) were sourced from the [British Geological Survey (BGS)](https://www.bgs.ac.uk/geology-projects/applied-geochemistry/g-base-environmental-geochemistry/nbc-defra-project/#table).
+
+                            These reference thresholds are used to compare the measured heavy metal concentrations with the relevant soil assessment criteria and determine whether concentrations fall above the threshold values.   
+                        
                         """
                     ),
                         

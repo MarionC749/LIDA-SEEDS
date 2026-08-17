@@ -71,7 +71,7 @@ def dvpt_map_layout():
                                     {"label": "Soil Texture", "value": "Soil Texture"},
                                     {"label": "Grain Size Class", "value": "Grain Size Class"},
                                     {"label": "Soil pH", "value": "Soil pH"},
-                                    {"label": "Soil SOM", "value": "Soil SOM"},
+                                    {"label": "Soil Organic Matter (SOM)", "value": "Soil SOM"},
                                 ],
                                 value= []
                             ),
