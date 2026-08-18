@@ -231,7 +231,10 @@ body {
 .dvpt_map_container {
     flex: 1; /* fills remaining space */
     min-height: 0;
+    position: relative; /*makes map container the positioning reference point for absolute children e.g. legend*/
 }
+
+/* ------ RadioItems Styling ------ */
 
 /* Customized Layer Selector Box */
 .dvpt_layer_box {
@@ -269,6 +272,8 @@ body {
 .dvpt_custom_checklist label {
     white-space: nowrap; /*avoid checlist text breaking into two lines*/
 }
+
+/* ------ Sidebar styling ------ */
 
 /* Customized Collapsible Info Sidebar */
 .dvpt_info_sidebar {
@@ -313,8 +318,6 @@ body {
     width: 0;
     padding: 0;
 }
-
-
 
 /* Customized Collapsible Info Sidebar */
 .dvpt_info_sidebar {
@@ -368,6 +371,88 @@ body {
     width: 100%;
     margin-bottom: 10px;
 }
+
+/* ------ Categorical legend styling ------ */
+
+/* Outer container of legend */
+.dvpt-cat-legend {
+    position: absolute; /*sits on top of map*/
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /*legend appears on top of map*/
+
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Heading of legend */
+.dvpt-cat-legend-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Container of all individual legend entries */
+.dvpt-cat-legend-items {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual legend entry */
+.dvpt-cat-legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+/* Little coloured square */
+.dvpt-cat-legend-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid black;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+/* Text next to colour box */
+.dvpt-cat-legend-label {
+    font-size: 10px;
+}
+
+/* ------ Numerical legend styling ------ */
+
+/* Outer container of entire legend */
+.dvpt-num-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Title at top of legend */
+.dvpt-num-legend-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Actual colour bar */
+.dvpt-num-legend-gradient {
+    width: 200px;
+    height: 15px;
+    border: 1px solid black;
+}
+/* Container holding min and max values */
+.dvpt-num-legend-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    font-size: 12px;
+}
+
 
 
 /* ---------- TAB 3 STYLING ----------------------------------------------------------------------*/

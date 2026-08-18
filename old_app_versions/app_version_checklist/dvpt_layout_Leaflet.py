@@ -13,9 +13,9 @@ def dvpt_map_layout():
         dcc.Store(
             id= 'dvpt_map_state',
             #Initial state of map
-            data={'active_layer': {
-                    "soil_health": None,
-                    "heavy_metals": None
+            data={'active_layers': {
+                    "soil_health": [],
+                    "heavy_metals": []
                 },  
                 'dvpt_postcode': None,
                 'dvpt_sidebar': {
@@ -52,7 +52,8 @@ def dvpt_map_layout():
                             'width': '300px',
                             'padding': '10px'},
                     ),
-                    
+
+
                     # ------ Layers Checklist ------
                     
                     html.Details(
@@ -60,7 +61,7 @@ def dvpt_map_layout():
                         children=[
                             html.Summary("Soil Health"),
                         
-                            dcc.RadioItems(
+                            dcc.Checklist(
                                 id= {
                                     "type": "layer-selector",
                                     "dataset": "soil_health",
@@ -73,36 +74,41 @@ def dvpt_map_layout():
                                     {"label": "Soil pH", "value": "Soil pH"},
                                     {"label": "Soil Organic Matter (SOM)", "value": "Soil SOM"},
                                 ],
-                                value= None
+                                value= []
                             ),
-                        ]
-                    ),
                     
-                    html.Details(
-                        className= "dvpt_layer_box",
-                        children=[
-                            html.Summary("Heavy Metals"),
+                            html.Details(
+                                className= "dvpt_layer_box",
+                                children=[
+                                    html.Summary("Heavy Metals"),
 
-                            dcc.RadioItems(
-                                id= {
-                                    "type": "layer-selector",
-                                    "dataset": "heavy_metals",
-                                },
-                                className= "dvpt_custom_checklist",
-                                options=[
-                                    {"label": "Nickel", "value": "Nickel"},
-                                    {"label": "Arsenic", "value": "Arsenic"},
-                                    {"label": "Lead", "value": "Lead"},
-                                    {"label": "Zirconium", "value": "Zirconium"},
-                                    {"label": "Selenium", "value": "Selenium"},
-                                    {"label": "Copper", "value": "Copper"},
-                                    {"label": "Cadmium", "value": "Cadmium"},
-                                    {"label": "Phosphorus", "value": "Phosphorus"},
-                                ],
-                                value= None
+                                    dcc.Checklist(
+                                        id= {
+                                            "type": "layer-selector",
+                                            "dataset": "heavy_metals",
+                                        },
+                                        className= "dvpt_custom_checklist",
+                                        options=[
+                                            {"label": "Nickel", "value": "Nickel"},
+                                            {"label": "Arsenic", "value": "Arsenic"},
+                                            {"label": "Lead", "value": "Lead"},
+                                            {"label": "Zirconium", "value": "Zirconium"},
+                                            {"label": "Selenium", "value": "Selenium"},
+                                            {"label": "Copper", "value": "Copper"},
+                                            {"label": "Cadmium", "value": "Cadmium"},
+                                            {"label": "Phosphorus", "value": "Phosphorus"},
+                                        ],
+                                        value= [] #initial value
+                                    )
+                                ]
                             )
                         ]
                     ),
+                    
+                    html.Div(id="dvpt_output_container", 
+                             style={'textAlign': 'center',
+                    }),
+                    
                 ]),
                 
 
@@ -110,12 +116,7 @@ def dvpt_map_layout():
                 html.Div(
                     className= "dvpt_map_container",
                     children=[
-                        dvpt_build_base_map(),
-                        #Map Legend
-                        html.Div(
-                            id="dvpt-map-legend",
-                            className="dvpt_map_legend"
-                        )
+                        dvpt_build_base_map()
                     ]
                 ),
                 

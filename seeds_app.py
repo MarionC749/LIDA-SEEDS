@@ -27,4 +27,4 @@ create_dvpt_callbacks(app)
 # When deploying, debug=False
 
 if __name__ == '__main__':
-    app.run(debug= False)
+    app.run(debug= True)

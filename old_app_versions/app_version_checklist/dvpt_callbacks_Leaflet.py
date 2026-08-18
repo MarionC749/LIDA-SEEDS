@@ -25,14 +25,6 @@ def create_dvpt_callbacks(app):
     @app.callback(
         Output("dvpt_map_state", "data"),
         
-        Output({"type": "layer-selector",
-                "dataset": "soil_health"},
-               "value"),
-        
-        Output({"type": "layer-selector",
-                "dataset": "heavy_metals"},
-                "value"),
-        
         Input({"type": "layer-selector",
                "dataset": ALL },
               "value"),
@@ -47,7 +39,7 @@ def create_dvpt_callbacks(app):
         prevent_initial_call= True
     )
 
-    def dvpt_update_map_state(active_layer, #from layer RadioItems
+    def dvpt_update_map_state(active_layers, #from layer checlist
                               postcode, #from postcode dropdown
                               click_data, #from map click
                               close_clicks, #from sidebar close button
@@ -55,10 +47,7 @@ def create_dvpt_callbacks(app):
         
         #Define default state
         dvpt_state= dvpt_state or {
-            "active_layer": {
-                "soil_health": None,
-                "heavy_metals": None
-                },
+            "active_layers": {},
             "dvpt_postcode": None,
             "dvpt_sidebar": {"open": False},
             "dvpt_clicked_point": {"lat": None, "lon": None}
@@ -67,37 +56,18 @@ def create_dvpt_callbacks(app):
         trigger= dash.ctx.triggered_id    
         
         # ------ LAYER SELECTION ------
-        #Check if a layer selector was triggered
+        #Check if checklist dict was triggered
         if isinstance(trigger, dict):
-            triggered_dataset= trigger["dataset"]
+            active= {} #stores selected layers
             
-            #RadioItems values
-            soil_layer= active_layer[0]
-            heavy_metal_layer= active_layer[1]
-            
-            #If a soil health layer is selected
-            if triggered_dataset == "soil_health":
-                #Store layer
-                dvpt_state["active_layer"]= {
-                    "soil_health": soil_layer,
-                    "heavy_metals": None
-                }
+            layer_inputs= dash.ctx.inputs_list[0]
+        
+            for item, selected in zip(layer_inputs, active_layers):
+                dataset= item["id"]["dataset"]
+                active[dataset]= selected or []
                 
-                return(dvpt_state,
-                       soil_layer,
-                       None)
-            
-            #If heavy metal layer is selected
-            elif triggered_dataset == "heavy_metals":
-                #Store layer
-                dvpt_state["active_layer"]= {
-                    "soil_health": None,
-                    "heavy_metals": heavy_metal_layer
-                }
-                                
-                return(dvpt_state,
-                        None,
-                        heavy_metal_layer)
+            #Update the stored state
+            dvpt_state["active_layers"]= active
             
         # ------ POSTCODE ------
         #If postcode dropdown is selected, store postocde
@@ -128,19 +98,15 @@ def create_dvpt_callbacks(app):
                         }
         
         #Return updated state
-        return (
-            dvpt_state,
-            active_layer[0],
-            active_layer[1]
-        )
+        return dvpt_state
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
-    # ------ UPDATE MAP WITH SELECTED/ACTIVE LAYER AND ITS LEGEND ------
+    # ------ UPDATE MAP WITH SELECTED/ACTIVE LAYERS ------
 
     @app.callback(
-        Output('dvpt-active-map-layers', 'children'), #map displays selected layer
-        Output('dvpt-map-legend', 'children'), #map displays corresponding legend to layer selected
+        Output('dvpt-active-map-layers', 'children'), #map displays checklist selected layers
+        Output('dvpt_output_container', 'children'), #shows how many layers are selected
         Input('dvpt_map_state', 'data'),
     )
 
@@ -148,36 +114,24 @@ def create_dvpt_callbacks(app):
 
         print("ACTIVE STATE:", dvpt_state)
         
-        #Empty map and legend if no state
-        if not dvpt_state:
-            return [], None
-        
         #Store geojson layers
         components= []
-        #Default is no legend
-        legend= None
         
-        active_layer= dvpt_state.get("active_layer", {})
+        active_layers= dvpt_state.get("active_layers", {})
         
         #Loop through each selected dataset
-        for dataset, layer in active_layer.items():
+        for dataset, layers in active_layers.items():
             
-            #Skip if no layer selected
-            if layer is None:
-                continue
-            
-            #Create map layer and corresponding legend
-            geojson, layer_legend = dvpt_add_layer(dataset= dataset, layer= layer)
+            for layer in layers:
+                #Create map layer
+                geojson = dvpt_add_layer(dataset= dataset, layer= layer)
                 
-            print("CREATED LAYER:", dataset, layer, type(geojson))
-            
-            if geojson is not None:
-                components.append(geojson) #add layer to list
-            
-            #Store corresponding legend
-            legend= layer_legend
+                print("CREATED LAYER:", dataset, layer, type(geojson))
+                
+                if geojson is not None:
+                    components.append(geojson) #add layer to list
         
-        return components, legend
+        return(components, f"{len(components)} layers displayed")
              
         
 #----------------------------------------------------------------------------------------------------------------------------------------------
@@ -280,7 +234,7 @@ def create_dvpt_callbacks(app):
         # applies filter
         # finds polygons containing point
         # creates HTML components (sidebar content)
-        sidebar_info= get_dvpt_sidebar_info(dvpt_state.get("active_layer", {}), point)
+        sidebar_info= get_dvpt_sidebar_info(dvpt_state.get("active_layers", {}), point)
         
         #Start of sidebar content
         content= [html.H2("Location Information"),
