@@ -57,7 +57,7 @@ Selenium (Se) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | 
 Copper (Cu) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Cadmium (Cd) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Phosphorus (P2O5) | Topsoil (5-20 cm depth) concentration in w% | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
-Soil Health Thresholds | Author created data based on thresholds from Agriculture and Horticulture Development Board (AHDB), Normal Background Concentrations (NBC), and Category 4 Screening Levels (C4SL) | UK | Excel | NA | NA |  |  | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Soil Health Thresholds | Author created dataset by combining thresholds from various sources. | UK | Excel | NA | NA |  |  | [Royal Horticultural Society pH](https://www.rhs.org.uk/soil-composts-mulches/ph-and-testing-soil), [Royal Horticultural Society SOM](https://www.rhs.org.uk/soil-composts-mulches/organic-matter-how-to-use-in-garden), [CL:AIRE](https://claire.co.uk/information-centre/water-and-land-library-wall.html?view=article&id=178:soil-guideline-values&catid=417&start=1), [Research Paper](https://www.sciencedirect.com/science/article/pii/S0269749121015426#bib137), [British Geological Survey (BGS)](https://www.bgs.ac.uk/geology-projects/applied-geochemistry/g-base-environmental-geochemistry/nbc-defra-project/#table)
 
 
 ### Development Opportunities Data
