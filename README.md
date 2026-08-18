@@ -35,7 +35,7 @@ Leeds Wards Boundaries | Polygons of wards| Leeds | Web scraped - CSV | 2018 | L
 Leeds Postcodes | Postcode centroids | UK | GeoPackage | 2026 | 07/05/2026 | [Ordnance Survey CodePointOpen](https://osdatahub.os.uk/data/downloads/open/CodePointOpen)
 Urban Green Spaces | CGSs under the function 'Allotments Or Community Growing Spaces' | UK| GeoPackage | Updated every 6 months | 20/04/26 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | CGSs, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
-CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Leeds | Web scraped - CSV | Updated live | Live | [Leeds Green Activity Provider (LGAP) Hyde Park Source](https://lgap.maps.arcgis.com/apps/instant/nearby/index.html?appid=81abbea112924588a86182d65072184b)
+CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Leeds | Web scraped - CSV | Updated live | Live | [Leeds Green Activity Provider (LGAP) Hyde Park Source](https://lgap.co.uk/)
 Allotments | Allotments managed by council or associations  | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
 Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | [Fruit Works Co-operative](https://www.fruitworks.org.uk/)
 Composting Collectives | Composting sites, location is postcode centroid | Leeds | Excel | 2026 | 25/06/2026 | [FoodWiseLeeds](https://foodwiseleeds.org/project/ccl/)
