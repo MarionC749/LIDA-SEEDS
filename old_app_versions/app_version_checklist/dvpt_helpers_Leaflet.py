@@ -96,7 +96,7 @@ def dvpt_build_base_map():
                 interactive= False
             ),
             
-            #Create empty container for layer selected
+            #Create empty container for layers selected
             dl.LayerGroup(id= "dvpt-active-map-layers"),
             
             #Add point when user clicks location
@@ -115,9 +115,8 @@ def dvpt_build_base_map():
     )
               
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# ------ ADDING LAYER AND LEGEND FUNCTIONS ------
-#Function to add a map layer to the basemap when selected from checklist, 
-# with its corresponsing legend
+# ------ ADDING LAYERS FUNCTIONS ------
+#Function to add a map layer to the basemap when selected from checklist
 def dvpt_add_layer(dataset, #name of dataset
                    layer # name of layer within that dataset to add
                    ):
@@ -157,7 +156,7 @@ def dvpt_add_layer(dataset, #name of dataset
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ MAP CATEGORICAL LAYERS FUNCTION ------
-#Function to map one categorical layer (creates 1 GeoJSON + legend)
+#Function to map one categorical layer (creates 1 GeoJSON)
 
 def add_categorical_layer(gdf, #geodataframe in EPSG:4326
                           column, #column containing categories
@@ -165,67 +164,30 @@ def add_categorical_layer(gdf, #geodataframe in EPSG:4326
                           legend_title, #text used in tooltip label
                           layer_id): 
     
-    # ----- Create Map Layer -----
-    
     gdf= gdf.copy()
     #Create colour column based on dict value
     gdf["colour"]= gdf[column].map(palette)
     #Create text for hover information
     gdf["tooltip"]= (legend_title + ": " + gdf[column].astype(str))
     
-    geojson = dl.GeoJSON(
-        id= layer_id,
-        data= gdf.__geo_interface__,
-        options= {
-            "style": categorical_style_function,
-            "onEachFeature": tooltip_function,
-            "interactive": False
-        },
-    )
-    
-    # ----- Create Categorical Legend -----
-    
-    legend_items= []
-    
-    for label, colour in palette.items():
-        legend_items.append(
-            html.Div(
-                children=[
-                    html.Span(
-                        className= "dvpt-cat-legend-box",
-                        style={"backgroundColor": colour}
-                    ),
-                    html.Span(
-                        label,
-                        className= "dvpt-cat-legend-label"
-                    )
-                ],
-                className="dvpt-cat-legend-item"
-            )
+    tooltip= tooltip_function
+    style= categorical_style_function
+            
+    return dl.GeoJSON(
+                id= layer_id,
+                data= gdf.__geo_interface__,
+                options= {
+                    "style": style,
+                    "onEachFeature": tooltip,
+                    "interactive": False
+                },
         )
-    
-    legend = html.Div(
-        children=[
-            html.H4(
-                legend_title,
-                className="dvpt-cat-legend-title"
-            ),
-            html.Div(
-                children=legend_items,
-                className="dvpt-cat-legend-items"
-            )
-        ],
-        className="dvpt-cat-legend"
-    )
-    
-    #Return map layer + legend 
-    return geojson, legend
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ MAP NUMERICAL LAYERS FUNCTION ------
 
-#Function to map one numerical layer (creates 1 GeoJSON + legend)
+#Function to map one numerical layer (creates 1 GeoJSON)
 
 def add_numeric_layer(gdf, #geodataframe in EPSG:4326
                       column, #numerical column
@@ -233,14 +195,12 @@ def add_numeric_layer(gdf, #geodataframe in EPSG:4326
                       legend_title,
                       layer_id):
     
-    # ----- Preparation -----
-    
     #Avoid crash when NaN values
     #Remove NaNs only in the column/layer being mapped
     gdf= gdf.dropna(subset=[column]).copy()
     
     if gdf.empty:
-        return None, None
+        return None
     
     #Get min and max values for the column
     vmin= gdf[column].min()
@@ -269,56 +229,19 @@ def add_numeric_layer(gdf, #geodataframe in EPSG:4326
         + ": "
         + gdf[column].round(2).astype(str)
     )
-    
-    # ----- Create Map Layer -----
+        
+    style= numeric_style_function
+    tooltip= tooltip_function
 
-    geojson= dl.GeoJSON(
+    return dl.GeoJSON(
         id= layer_id,
         data= gdf.__geo_interface__,
         options= {
-            "style": numeric_style_function,
-            "onEachFeature": tooltip_function,
+            "style": style,
+            "onEachFeature": tooltip,
             "interactive": False,
             },
     )
-    
-    # ----- Create Numerical Legend -----
-    
-    #Get colours from named plotly colourscale
-    colour_list= pc.get_colorscale(colourscale)
-    
-    #Convert Plotly colourscale into CSS gradient
-    gradient= ", ".join(
-        f"{colour} {position * 100}%"
-        for position, colour in colour_list
-    )
-    
-    legend = html.Div(
-        children=[
-            html.H4(
-                legend_title,
-                className= "dvpt-num-legend-title"
-            ),
-            
-            #Colour gradient
-            html.Div(
-                className= "dvpt-num-legend-gradient",
-                style={"background": f"linear-gradient(to right, {gradient})"}
-            ),
-            #Min / max labels
-            html.Div(
-                children=[
-                    html.Span(str(round(vmin, 2)), className="dvpt-num-legend-min"),
-                    html.Span(str(round(vmax, 2)), className="dvpt-num-legend-max"),
-                ],
-                className="dvpt-num-legend-scale-labels"
-            ),
-        ],
-        className="dvpt-num-legend"
-    )
-    
-    # ----- Return Layer + Legend -----
-    return geojson, legend
         
  
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -374,7 +297,7 @@ def check_threshold(metric_name, value, thresholds_row):
             display_name= threshold_names[name]
             
             warnings.append(
-                f"{metric_name} is above the {limit}{unit} threshold established by the {display_name}")
+                f"{metric_name} is above threshold {display_name} ({limit} {unit})")
     
     #Lower thresholds
     for threshold_type in [
@@ -386,7 +309,7 @@ def check_threshold(metric_name, value, thresholds_row):
                 name= threshold_type.replace("_lower", "")
                 display_name= threshold_names[name]
                 warnings.append(
-                    f"{metric_name} is below the {limit}{unit} threshold established by the {display_name}")
+                    f"{metric_name} is below threshold {display_name} ({limit} {unit})")
     
     return warnings
 
@@ -404,76 +327,76 @@ def info_show(label, value):
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ CREATE SIDEBAR CONTENT FUNCTION ------
 
-def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
+def get_dvpt_sidebar_info(active_layers, #dict of checklist selected datasets and layers
                           clicked_point): #map location the user clicked
     
     content= []
     
     #Loop through every dataset currently has selected layers
-    for dataset, layer in active_layers.items():
-        #Skip dataset if no layer is selected
-        if layer is None:
-            continue
+    for dataset, layers in active_layers.items():
         
-        #Retrieve GeoDataFrame for current dataset
+        #Retreive GeoDataFrame for current dataset
         gdf= DVPT_DATASETS[dataset]["data"]
         #Get display name
         dataset_heading= DVPT_DATASETS[dataset]["display_name"]
         #Get sidebar config for this dataset
         config= DVPT_SIDEBAR_CONFIG.get(dataset, {})
         
-        dataset_items= [] #store bullet point for this dataset
+        dataset_items= [] #store bullet points for this dataset
         threshold_warnings= [] #store all warnings for dataset
-            
-        #Skip if selected layer has no sidebar info in config
-        if layer not in config:
-            continue
-            
-        layer_config= config[layer]
-            
-        #Start with full dataset
-        subset= gdf
-            
-        #Apply layer filter (layer only represents a subset of dataset)
-        for col, value in layer_config.get("filter", {}).items():
-            subset= subset[subset[col] == value]
         
-        #Find polygon that contains/intersects with clicked point
-        match= subset[subset.geometry.intersects(clicked_point)]
-
-        #If clicked point isnt inside any polygons of this layer, skip it
-        if match.empty:
-            continue
+        #Loop through every selected layers within current dataset
+        for layer in layers:
             
-        for _, row in match.iterrows():
-            value = row[layer_config["value_column"]]
+            #Skip if no sidebar info in config
+            if layer not in config:
+                continue
+            
+            layer_config= config[layer]
+            
+            #Start with full dataset
+            subset= gdf
+            
+            #Apply layer filter (layer only represents a subset of dataset)
+            for col, value in layer_config.get("filter", {}).items():
+                subset= subset[subset[col] == value]
+        
+            #Find polygons that contains/intersects with clicked point
+            match= subset[subset.geometry.intersects(clicked_point)]
+
+            #If clicked point isnt inside any polygons of this layer, skip it
+            if match.empty:
+                continue
+            
+            for _, row in match.iterrows():
+                value = row[layer_config["value_column"]]
                 
-            #Round numerical values
-            if isinstance(value, (int, float)):
-                value= round(value, 2)
+                #Round numerical values
+                if isinstance(value, (int, float)):
+                    value= round(value, 2)
                     
-            #Add unit if available
-            unit= ""
+                #Add unit if available
+                unit= ""
                 
-            if "unit_column" in layer_config:
-                unit= row[layer_config["unit_column"]]
+                if "unit_column" in layer_config:
+                    unit= row[layer_config["unit_column"]]
                     
-                if pd.isna(unit):
-                    unit= ""
+                    if pd.isna(unit):
+                        unit= ""
                 
-            #Create bullet point
-            text= f"{layer_config['title']}: {value}"
-            if unit:
-                text += f" {unit}"
+                #Create bullet point
+                text= f"{layer_config['title']}: {value}"
+                if unit:
+                    text += f" {unit}"
                 
-            dataset_items.append(html.Li(text))
+                dataset_items.append(html.Li(text))
                 
-            #Threshold checking
-            threshold_row= get_threshold_row(dataset, layer, row)
+                #Threshold checking
+                threshold_row= get_threshold_row(dataset, layer, row)
                 
-            if threshold_row is not None:
-                warnings= check_threshold(layer_config["title"], value, threshold_row)
-                threshold_warnings.extend(warnings)
+                if threshold_row is not None:
+                    warnings= check_threshold(layer_config["title"], value, threshold_row)
+                    threshold_warnings.extend(warnings)
                     
         #Add dataset information to sidebar
         if dataset_items:
