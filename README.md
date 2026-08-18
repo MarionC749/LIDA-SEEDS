@@ -35,7 +35,7 @@ Leeds Wards Boundaries | Polygons of wards| Leeds | Web scraped - CSV | 2018 | L
 Leeds Postcodes | Postcode centroids | UK | GeoPackage | 2026 | 07/05/2026 | [Ordnance Survey CodePointOpen](https://osdatahub.os.uk/data/downloads/open/CodePointOpen)
 Urban Green Spaces | CGSs under the function 'Allotments Or Community Growing Spaces' | UK| GeoPackage | Updated every 6 months | 20/04/26 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | CGSs, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
-CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Leeds | Web scraped - CSV | Updated live | Live | [Leeds Green Activity Provider (LGAP) Hyde Park Source](https://www.arcgis.com/apps/mapviewer/index.html?layers=6afec02763ab4f87887939ed4d073c70)
+CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Leeds | Web scraped - CSV | Updated live | Live | [Leeds Green Activity Provider (LGAP) Hyde Park Source](https://lgap.co.uk/)
 Allotments | Allotments managed by council or associations  | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
 Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | [Fruit Works Co-operative](https://www.fruitworks.org.uk/)
 Composting Collectives | Composting sites, location is postcode centroid | Leeds | Excel | 2026 | 25/06/2026 | [FoodWiseLeeds](https://foodwiseleeds.org/project/ccl/)
@@ -57,7 +57,7 @@ Selenium (Se) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | 
 Copper (Cu) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Cadmium (Cd) | Topsoil (5-20 cm depth) concentration in mg/kg | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
 Phosphorus (P2O5) | Topsoil (5-20 cm depth) concentration in w% | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
-Soil Health Thresholds | Author created data based on thresholds from Agriculture and Horticulture Development Board (AHDB), Normal Background Concentrations (NBC), and Category 4 Screening Levels (C4SL) | UK | Excel | NA | NA |  |  | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
+Soil Health Thresholds | Author created dataset by combining thresholds from various sources. | UK | Excel | NA | NA |  |  | [Royal Horticultural Society pH](https://www.rhs.org.uk/soil-composts-mulches/ph-and-testing-soil), [Royal Horticultural Society SOM](https://www.rhs.org.uk/soil-composts-mulches/organic-matter-how-to-use-in-garden), [CL:AIRE](https://claire.co.uk/information-centre/water-and-land-library-wall.html?view=article&id=178:soil-guideline-values&catid=417&start=1), [Research Paper](https://www.sciencedirect.com/science/article/pii/S0269749121015426#bib137), [British Geological Survey (BGS)](https://www.bgs.ac.uk/geology-projects/applied-geochemistry/g-base-environmental-geochemistry/nbc-defra-project/#table)
 
 
 ### Development Opportunities Data
