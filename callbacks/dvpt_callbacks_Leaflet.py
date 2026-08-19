@@ -206,17 +206,22 @@ def create_dvpt_callbacks(app):
         if (dvpt_state['dvpt_sidebar']['open'] 
             and clicked["lat"] is not None):
             
+            lat= clicked["lat"]
+            lon= clicked["lon"]
+            
+            #Shift marker away from sidebar
+            # so it looks centred to the reamining map view
+            shifted_lon= lon + 0.01
+            
             #Create click marker
-            marker_position= [
-                clicked["lat"],
-                clicked["lon"],
-            ]
+            marker_position= [lat, lon]
+            map_center= [lat, shifted_lon]
             
             #Move map to clicked point and zoom
             return(
-                marker_position, #map centre
+                map_center, #map centre
                 14, # zoom
-                marker_position #move marker here
+                marker_position #move marker to clicked position
             )
         
         # Second priority: postcode

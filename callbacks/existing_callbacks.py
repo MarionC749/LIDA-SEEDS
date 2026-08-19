@@ -2,7 +2,8 @@
 # TAB 1 (Existing CGS) - CALLBACKS
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 import dash
-from dash import html, Input, Output, State
+from dash import html, dcc
+from dash import Input, Output, State
 
 
 from functions.existing_helpers import(
@@ -229,3 +230,19 @@ def create_existing_callbacks(app):
             {'label': pc, 'value': pc}
         for pc in pc_filter[:20]
         ]
+    
+    #------------------------------------------------------------------
+    # ------ Data Download Button ------
+    @app.callback(
+        Output("existing-download-data", "data"),
+        Input("existing-CGSs-download-button", "n_clicks"),
+        prevent_initial_call= True
+    )
+    
+    def existing_download_data(n_clicks):
+        return dcc.send_data_frame(
+            gdf.to_csv,
+            "Existing_CGSs.csv",
+            index=False
+        )
+        
