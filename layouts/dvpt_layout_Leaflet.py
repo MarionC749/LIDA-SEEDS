@@ -106,15 +106,31 @@ def dvpt_map_layout():
                 ]),
                 
 
-                # ------ Middle Map ------
+                # ------ Middle Map with Loading Indicator ------
                 html.Div(
                     className= "dvpt_map_container",
                     children=[
-                        dvpt_build_base_map(),
-                        #Map Legend
-                        html.Div(
-                            id="dvpt-map-legend",
-                            className="dvpt_map_legend"
+                        #Loading indicator
+                        dcc.Loading(
+                            id="dvpt-map-loading",
+                            className= "dvpt-map-loading",
+                            type="circle",
+                            overlay_style={"visibility": "visible", "opacity": 0.5},
+                            parent_style={"width": "100%", "height": "100%"},
+                            children=[
+                            
+                                html.Div(
+                                    className= "dvpt_map_content",
+                                    children=[
+                                        dvpt_build_base_map(),
+                                        #Map Legend
+                                        html.Div(
+                                            id="dvpt-map-legend",
+                                            className="dvpt_map_legend"
+                                        )
+                                    ]
+                                ),
+                            ]
                         )
                     ]
                 ),

@@ -68,7 +68,7 @@ body {
     right: 0;
     width: 100%;
     height: 50px;
-    padding: 5px;
+
     display: flex;
     gap: 20px; /*add gap between 2 images*/
     justify-content: center; /* horizontal centering */
@@ -108,20 +108,16 @@ body {
     overflow: hidden;
 }
 
-
 .main-content {
     position: absolute;
-    top: 130px;
-    bottom: 55px;
+    top: 120px;
+    bottom: 50px;
     left: 0;
     right: 0;
 
     display: flex;
     overflow: hidden;
-}
-
-.main-content > div {
-    min-height: 0;
+    padding: 10px;
 }
 
 /* ---------- TAB 1 STYLING ----------------------------------------------------------------------*/
@@ -129,8 +125,23 @@ body {
 /*Map Area */
 .existing_map_container {
     flex: 1; /* fills remaining space */
-    min-height: 0;
+    position: relative;
 }
+
+/*position: relative;*/
+
+/* Map Loading Indicator*/
+.existing-map-loading {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ------ Checklist Styling ------ */
 
 /* Customized Layer Selector Checklist */
 .existing_custom_checklist {
@@ -153,6 +164,27 @@ body {
 .existing_custom_checklist label {
     white-space: nowrap; /*avoid checlist text breaking into two lines*/
 }
+
+/* ------ Data Download Button Styling ------ */
+
+.existing-CGSs-download-button {
+    display: block;
+    padding: 10px 16px;
+    margin: 10px auto;
+    border-radius: 5px;
+    background-color: #92cf3c;
+    color: black;
+    font-family: "Mr Dodo Medium", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.existing-CGSs-download-button:hover {
+    background-color: #B7E88A;
+}
+
+
+/* ------ Sidebar Styling ------ */
 
 /* Customized Collapsible Info Sidebar */
 .existing_info_sidebar {
@@ -227,12 +259,28 @@ body {
 
 /* ---------- TAB 2 STYLING ----------------------------------------------------------------------*/
 
-/*Map Area */
+/*Overall Map Area */
 .dvpt_map_container {
     flex: 1; /* fills remaining space */
-    min-height: 0;
     position: relative; /*makes map container the positioning reference point for absolute children e.g. legend*/
 }
+
+/*Loading component*/
+.dvpt_map_content {
+    width: 100%;
+    height: 100%;
+}
+
+/* Map Loading Indicator*/
+.dvpt-map-loading {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* ------ RadioItems Styling ------ */
 

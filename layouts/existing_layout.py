@@ -13,12 +13,12 @@ def existing_map_layout():
             id= 'existing_map_state',
             data={'existing_layers': ['Allotments'], #initial state of map
                 'existing_postcode': None,
-                  'existing_sidebar': {
-                      'open': False, 
-                      'uid': None, #store uid of clicked feature
-                      'lat': None, #store coordinates of clicked feature
-                      'lon': None}
-                  }
+                'existing_sidebar': {
+                    'open': False, 
+                    'uid': None, #store uid of clicked feature
+                    'lat': None, #store coordinates of clicked feature
+                    'lon': None}
+            }
         ),
     
         # ------ Main Layout ------
@@ -78,18 +78,38 @@ def existing_map_layout():
                         'textAlign': 'center',
                     }),
                     
+                    # ------ Download Data Button ------
+                    dcc.Download(id="existing-download-data"),
+                    html.Button(
+                        "Download the data",
+                        id= "existing-CGSs-download-button",
+                        className="existing-CGSs-download-button"
+                    ),
                 ]),
                 
 
                 # ------ Middle Map ------
+                
                 html.Div(
                     className= "existing_map_container",
                     children=[
-                        #Empty placeholder where Plotly will display map
-                        dcc.Graph(id='Existing_CGSs_MAP',
-                                  style= {"height": "100%",
-                                          "width": "100%"},
-                                  config={'responsive': True},
+                        #Loading indicator
+                        dcc.Loading(
+                            id="existing-map-loading",
+                            className= "existing-map-loading",
+                            type="circle",
+                            overlay_style={"visibility": "visible", "opacity": 0.5},
+                            parent_style={"width": "100%", "height": "100%"},
+                            children=[
+                            
+                                #Empty placeholder where Plotly will display map
+                                dcc.Graph(
+                                    id='Existing_CGSs_MAP',
+                                    className= "existing-map-graph",
+                                    style= {"height": "100%", "width": "100%"},
+                                    config={'responsive': True},
+                                )
+                            ]
                         )
                     ]
                 ),
