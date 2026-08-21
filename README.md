@@ -45,8 +45,8 @@ Composting Collectives | Composting sites, location is postcode centroid | Leeds
 Variable | Description | Data Scale | File Type | Data Type | Resolution | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|-----------|------------|------------------|------------------|--------
 Land Cover |  | SE Tile | GeoPackage | Vector | | 2024 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
-Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
-Grain Size Class |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
+Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
+Grain Size Class |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
 Soil pH | Topsoil (0-15cm) pH, based on 'Mean value for total soil nitrogen concentration in 2007 modelled by LCM_CLASS and CACO3_RANK' | UK | Shapefile | Raster | 1km x 1km | 2007 | 05/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7)
 Soil SOM | Topsoil (0-15 cm depth) organic matter content , estimated using the loss-on-ignition method (in %), based on 'Mean value for soil loss-on-ignition in 2007 modelled by LCM_CLASS and DOM_GRAIN' | UK | Shapefile | Raster | 1km x 1km | 2007 | 06/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/9e4451f8-23d3-40dc-9302-73e30ad3dd76)
 Nickel (Ni) | Topsoil (5-20 cm depth) concentration in mg/kg,  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
@@ -66,6 +66,7 @@ Variable | Description | Data Scale | File Type | Publication Year | Acquisition
 Urban Green Spaces | CGSs under the OS Function 'Public Park Or Garden' | UK| GeoPackage | Updated every 6 months | 20/04/2026 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Greenspaces, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
 Brownfields |   | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
+Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | [Digimap](https://digimap.edina.ac.uk/geology)
 
 ## Project Worflow ⚙️
 
