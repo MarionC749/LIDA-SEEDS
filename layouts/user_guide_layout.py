@@ -310,7 +310,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             
-                            html.P("The land cover layer displays the different types of surfaces covering the land, such as woodland, grassland or urban areas. It includes 14 land cover classes in Leeds, based on the UKCEH Aggregate Class system."
+                            html.P("This layer displays the different types of surfaces covering the land, such as woodland, grassland or urban areas. It includes 14 land cover classes in Leeds, based on the UKCEH Aggregate Class system."
                             ),
                             
                             html.H4("How to use this information ?"),
@@ -320,7 +320,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The land cover data comes from ",
+                                "The data comes from ",
                                 html.A(
                                     "Digimap",
                                     href="https://digimap.edina.ac.uk/roam/map/environment",
@@ -343,7 +343,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             
-                            html.P("The soil texture layer displays the general texture of soils based on their mix of sand, silt and clay. Soils are grouped as light (sand/silt rich), medium (loams) or heavy (clay-rich). These groups are indicative and may vary locally."
+                            html.P("This layer displays the general texture of soils based on their mix of sand, silt and clay. Soils are grouped as light (sand/silt rich), medium (loams) or heavy (clay-rich). These groups are indicative and may vary locally."
                             ),
                             
                             html.H4("How to use this information ?"),
@@ -353,10 +353,10 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The soil texture data comes from ",
+                                "The data comes from ",
                                 html.A(
                                     "Digimap",
-                                    href="https://digimap.edina.ac.uk/roam/map/environment",
+                                    href="https://digimap.edina.ac.uk/geology",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
@@ -376,7 +376,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             
-                            html.P("The grain size class layer displays the classes describing the particle size and composition of the underlying material parent material. The classes describe whether the material is mainly sand, clay and silt, gravel, pear or a mixture of these materials."
+                            html.P("This layer displays the classes describing the particle size and composition of the underlying material parent material. The classes describe whether the material is mainly sand, clay and silt, gravel, pear or a mixture of these materials."
                             ),
                             
                             html.H4("How to use this information ?"),
@@ -386,10 +386,10 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The grain size class data comes from ",
+                                "The data comes from ",
                                 html.A(
                                     "Digimap",
-                                    href="https://digimap.edina.ac.uk/roam/map/environment",
+                                    href="https://digimap.edina.ac.uk/geology",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
@@ -409,7 +409,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             
-                            html.P("The soil pH layer displays the topsoil pH (0-15cm) which shows how acidic or alkaline the top layer of soil is. The values are estimated from a 2007 model using information about soil type and calcium carbonate content."
+                            html.P("This layer displays the topsoil pH (0-15cm) which shows how acidic or alkaline the top layer of soil is. The values are estimated from a 2007 model using information about soil type and calcium carbonate content."
                             ),
                             
                             html.H4("How to use this information ?"),
@@ -419,7 +419,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The soil pH data comes from the ",
+                                "The data comes from the ",
                                 html.A(
                                     "UK Soil Observatory",
                                     href="https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7",
@@ -458,7 +458,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P("The soil SOM layer displays the topsoil organic matter (0-15 cm) which shows the amount of organic material in the top layer of the soil. High organic matter can improve soil health by helping it hold water and nutrients, supporting plant growth. The values are estimated from a 2007 model using information about soil type and texture."
+                            html.P("This layer displays the topsoil organic matter (0-15 cm) which shows the amount of organic material in the top layer of the soil. High organic matter can improve soil health by helping it hold water and nutrients, supporting plant growth. The values are estimated from a 2007 model using information about soil type and texture."
                             ),
                             
                             html.H4("How to use this information?"),
@@ -466,7 +466,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from?"),
                             
                             html.P([
-                                "The soil SOM data comes from the ",
+                                "The data comes from the ",
                                 html.A(
                                     "UK Soil Observatory",
                                     href="https://catalogue.ceh.ac.uk/documents/9e4451f8-23d3-40dc-9302-73e30ad3dd76",
@@ -497,6 +497,9 @@ def create_user_guide_layout():
                 start_collapsed= True
             ),
             
+            html.Br(),
+            html.H5("Heavy Metals"),
+            
             dbc.Accordion(
                 [
                     create_accordion_item(
@@ -515,7 +518,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from?"),
                             
                             html.P([
-                                "The heavy metals data comes from ",
+                                "The data comes from ",
                                 html.A(
                                     "UK Soil Observatory",
                                     href="https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html",
@@ -575,6 +578,271 @@ def create_user_guide_layout():
                 ],
                 start_collapsed= True
             ),
+
+            html.Br(),
+            html.H5("Flood Risk"),
+            
+            
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Flood Risk",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays the likely susceptibility to flooding, either from coastal inundation or fluvial (inland) water flow."
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P("This information helps to understand where safer locations for community growing are and inform measures to protect crops, soil and infrastructures from flooding."
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The data comes from the ",
+                                html.A(
+                                    "Digimap",
+                                    href="https://digimap.edina.ac.uk/geology",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            html.Br(),
+            html.H5("Socio-Demographics"),
+
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Index of Multiple Deprivation (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays the Index of Multiple Deprivation "
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "ArcGIS",
+                                    href="https://www.arcgis.com/home/item.html?id=e76dc3803050416e88d18c4fd35bba6c&sublayer=0#overview",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+            
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Priority Places for Food Index (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays the Priority Places for Food Index, which is a composite index formed of data compiled across seven domains. Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food—making them a Priority Place for Food."
+                            ),
+                            html.H5("Domain definitions"),
+                            html.Li("Proximity to supermarket retail facilities (12.5% of composite index)"),
+                            html.Li("Accessibility to supermarket retail facilities (12.5% of composite index)"),
+                            html.Li("Access to online deliveries (12.5% of composite index)"),
+                            html.Li("Proximity to non-supermarket food provision (12.5% of composite index)"),
+                            html.Li("Socio-economic barriers (16.7% of composite index)"),
+                            html.Li("Need for family food support (16.7% of composite index)"),
+                            html.Li("Fuel Poverty (16.7% of composite index)"),
+                            html.Br(),
+                            html.P([
+                                "To learn more about the Priority Places for Food Index refer to ",
+                                html.A(
+                                    "this page",
+                                    href="https://priorityplaces.cdrc.ac.uk/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                "."
+                            ]),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "Healthy and Sustainable Places (HASP)",
+                                    href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Proximity to supermarket retail facilities (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P(""
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "Healthy and Sustainable Places (HASP)",
+                                    href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Accessibility to supermarket retail facilities (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P(""
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "Healthy and Sustainable Places (HASP)",
+                                    href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Socio-economic barriers (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P(""
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "Healthy and Sustainable Places (HASP)",
+                                    href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Proximity to non-supermarket food provision (decile)",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P(""
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P(""
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The  data comes from the ",
+                                html.A(
+                                    "Healthy and Sustainable Places (HASP)",
+                                    href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+            
             
             html.Br(),
             html.Br(),

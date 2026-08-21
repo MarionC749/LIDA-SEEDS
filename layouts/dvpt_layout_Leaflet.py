@@ -15,7 +15,8 @@ def dvpt_map_layout():
             #Initial state of map
             data={'active_layer': {
                     "soil_health": None,
-                    "heavy_metals": None
+                    "heavy_metals": None,
+                    "flood": None,
                 },  
                 'dvpt_postcode': None,
                 'dvpt_sidebar': {
@@ -58,7 +59,7 @@ def dvpt_map_layout():
                     html.Details(
                         className= "dvpt_layer_box",
                         children=[
-                            html.Summary("Soil Health"),
+                            html.Summary("🪱 Soil Health"),
                         
                             dcc.RadioItems(
                                 id= {
@@ -81,7 +82,7 @@ def dvpt_map_layout():
                     html.Details(
                         className= "dvpt_layer_box",
                         children=[
-                            html.Summary("Heavy Metals"),
+                            html.Summary("🧪 Heavy Metals"),
 
                             dcc.RadioItems(
                                 id= {
@@ -103,6 +104,50 @@ def dvpt_map_layout():
                             )
                         ]
                     ),
+                    
+                    html.Details(
+                        className= "dvpt_layer_box",
+                        children=[
+                            html.Summary("💧 Flood Risk"),
+
+                            dcc.RadioItems(
+                                id= {
+                                    "type": "layer-selector",
+                                    "dataset": "flood",
+                                },
+                                className= "dvpt_custom_checklist",
+                                options=[
+                                    {"label": "Flood Risk", "value": "Flood Risk"},
+                                ],
+                                value= None
+                            )
+                        ]
+                    ),
+                    
+                    html.Details(
+                        className= "dvpt_layer_box",
+                        children=[
+                            html.Summary("🏠 Socio-demographics"),
+
+                            dcc.RadioItems(
+                                id= {
+                                    "type": "layer-selector",
+                                    "dataset": "demographics",
+                                },
+                                className= "dvpt_custom_checklist",
+                                options=[
+                                    {"label": "Index of Multiple Deprivation (decile)", "value": "IMD_Decile"},
+                                    {"label": "Priority Places for Food Index (decile)", "value": "pp_dec_combined"},
+                                    {"label": "Proximity to supermarket retail facilities (decile)", "value": "pp_dec_domain_supermarket_proximity"},
+                                    {"label": "Accessibility to supermarket retail facilities (decile)", "value": "pp_dec_domain_supermarket_accessibility"},
+                                    {"label": "Socio-economic barriers (decile)", "value": "pp_dec_domain_socio_demographic"},
+                                    {"label": "Proximity to non-supermarket food provision (decile)", "value": "pp_dec_domain_nonsupermarket_proximity"},
+                                ],
+                                value= None
+                            )
+                        ]
+                    ),
+        
                 ]),
                 
 

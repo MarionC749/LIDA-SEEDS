@@ -33,6 +33,14 @@ def create_dvpt_callbacks(app):
                 "dataset": "heavy_metals"},
                 "value"),
         
+        Output({"type": "layer-selector",
+                        "dataset": "flood"},
+                        "value"),
+        
+        Output({"type": "layer-selector",
+                        "dataset": "demographics"},
+                        "value"),
+        
         Input({"type": "layer-selector",
                "dataset": ALL },
               "value"),
@@ -57,7 +65,9 @@ def create_dvpt_callbacks(app):
         dvpt_state= dvpt_state or {
             "active_layer": {
                 "soil_health": None,
-                "heavy_metals": None
+                "heavy_metals": None,
+                "flood": None,
+                "demographics": None,
                 },
             "dvpt_postcode": None,
             "dvpt_sidebar": {"open": False},
@@ -74,17 +84,23 @@ def create_dvpt_callbacks(app):
             #RadioItems values
             soil_layer= active_layer[0]
             heavy_metal_layer= active_layer[1]
+            flood_layer= active_layer[2]
+            demo_layer= active_layer[3]
             
             #If a soil health layer is selected
             if triggered_dataset == "soil_health":
                 #Store layer
                 dvpt_state["active_layer"]= {
                     "soil_health": soil_layer,
-                    "heavy_metals": None
+                    "heavy_metals": None,
+                    "flood": None,
+                    "demographics": None,
                 }
                 
                 return(dvpt_state,
                        soil_layer,
+                       None,
+                       None,
                        None)
             
             #If heavy metal layer is selected
@@ -92,12 +108,49 @@ def create_dvpt_callbacks(app):
                 #Store layer
                 dvpt_state["active_layer"]= {
                     "soil_health": None,
-                    "heavy_metals": heavy_metal_layer
+                    "heavy_metals": heavy_metal_layer,
+                    "flood": None,
+                    "demographics": None,
                 }
-                                
+                
                 return(dvpt_state,
                         None,
-                        heavy_metal_layer)
+                        heavy_metal_layer,
+                        None,
+                        None)
+
+            #If flood layer is selected
+            elif triggered_dataset == "flood":
+                #Store layer
+                dvpt_state["active_layer"]= {
+                    "soil_health": None,
+                    "heavy_metals": None,
+                    "flood": flood_layer,
+                    "demographics": None,
+                }
+                
+                return(dvpt_state,
+                        None,
+                        None,
+                        flood_layer,
+                        None)
+                
+            #If socio-demo layer is selected
+            elif triggered_dataset == "demographics":
+                #Store layer
+                dvpt_state["active_layer"]= {
+                    "soil_health": None,
+                    "heavy_metals": None,
+                    "flood": None,
+                    "demographics": demo_layer,
+                }
+                
+                return(dvpt_state,
+                        None,
+                        None,
+                        None,
+                        demo_layer)
+
             
         # ------ POSTCODE ------
         #If postcode dropdown is selected, store postocde
@@ -131,7 +184,9 @@ def create_dvpt_callbacks(app):
         return (
             dvpt_state,
             active_layer[0],
-            active_layer[1]
+            active_layer[1],
+            active_layer[2],
+            active_layer[3],
         )
 
 

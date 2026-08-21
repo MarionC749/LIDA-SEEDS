@@ -12,7 +12,7 @@ window.dashExtensions = Object.assign({}, window.dashExtensions, {
                     color: "black",
                     weight: 1,
                     fillColor: feature.properties.colour,
-                    fillOpacity: 0.3
+                    fillOpacity: 0.4
                 };
             }
 
@@ -22,7 +22,7 @@ window.dashExtensions = Object.assign({}, window.dashExtensions, {
                 color: "black",
                 weight: 1,
                 fillColor: feature.properties.fillColor,
-                fillOpacity: 0.3
+                fillOpacity: 0.4
             };
         }
 
