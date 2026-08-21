@@ -17,7 +17,9 @@ types_colors= {"Allotments": "#D55E00",
 from data_loading_n_config.load_data import(
     soil_health,
     heavy_metals,
-    thresholds
+    thresholds,
+    flood,
+    demographics
 )
 
 
@@ -35,9 +37,19 @@ DVPT_DATASETS= {
     "thresholds":{
         "data": thresholds,
         "display_name": "⚠️ Soil Health Thresholds Assessment"
-    }
+    },
+    
+    "flood":{
+            "data": flood,
+            "display_name": "💧 Flood Risk",
+        },
+    
+    "demographics":{
+            "data": demographics,
+            "display_name": "🏠 Socio-demographics",
+        },
 }
-#Other Datasets TBC
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # TAB 2 (Imagining Future Growing Spaces) - COLOUR DICTIONARIES
@@ -52,7 +64,7 @@ land_cover_colours= {
     "Fen": "yellowgreen",
     "Freshwater": "dodgerblue",
     "Heather": "yellow",
-    "Heather grassland": "gold",
+    "Heather grassland": "saddlebrown",
     "Improve grassland": "darkgoldenrod",
     "Inland rock": "tan",
     "Neutral grassland": "palegreen",
@@ -81,6 +93,93 @@ grain_size_colours= {
     "ARGILLACEOUS": '#a65628',
     "PEAT": '#984ea3',
 }
+
+flood_colours= {
+    "Coastal - High Flood Potential": 'indigo',
+    "Coastal - Secondary Flood Potential": 'blueviolet',
+    "Fluvial - High Flood Potential": 'mediumblue',
+    "Fluvial - Secondary Flood Potential": 'royalblue',
+}
+
+IMD_Decile_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+pp_dec_combined_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+pp_dec_domain_supermarket_proximity_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+pp_dec_domain_supermarket_accessibility_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+pp_dec_domain_socio_demographic_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+pp_dec_domain_nonsupermarket_proximity_colours= {
+    1: '#40039C',
+    2: '#6A00A7',
+    3: '#8F0DA3',
+    4: '#B02A8F',
+    5: '#CA4678',
+    6: '#E06461',
+    7: '#F1824C',
+    8: '#FCA635',
+    9: '#FCCC25',
+    10: '#EFF821',
+}
+
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # TAB 2 (Imagining Future Growing Spaces) - LAYER CONFIGURATION
@@ -191,9 +290,66 @@ LAYER_CONFIG= {
             "colourscale": "inferno_r",
             "legend": "Phosphorus (w%)",
             },
+    },
+    
+    #Flood Risk Dataset
+        "flood":{
+        
+        "Flood Risk": {
+            "column": "Class",
+            "type": "categorical",
+            "palette": flood_colours,
+            "legend": "Flood Risk"
+        },
+    },
+
+    #Socio-Demographics Dataset
+    "demographics":{
+
+    "IMD_Decile": {
+            "column": "IMD_Decile",
+            "type": "categorical",
+            "palette": IMD_Decile_colours,
+            "legend": "Index of Multiple Deprivation (decile)",
+        },
+
+    "pp_dec_combined": {
+            "column": "pp_dec_combined",
+            "type": "categorical",
+            "palette": pp_dec_combined_colours,
+            "legend": "Priority Places for Food Index (decile)",
+        },
+    
+    "pp_dec_domain_supermarket_proximity": {
+            "column": "pp_dec_domain_supermarket_proximity",
+            "type": "categorical",
+            "palette": pp_dec_domain_supermarket_proximity_colours,
+            "legend": "Proximity to supermarket retail facilities (decile)",
+        },
+    
+    "pp_dec_domain_supermarket_accessibility": {
+            "column": "pp_dec_domain_supermarket_accessibility",
+            "type": "categorical",
+            "palette": pp_dec_domain_supermarket_accessibility_colours,
+            "legend": "Accessibility to supermarket retail facilities (decile)",
+        },
+    
+    "pp_dec_domain_socio_demographic": {
+            "column": "pp_dec_domain_socio_demographic",
+            "type": "categorical",
+            "palette": pp_dec_domain_socio_demographic_colours,
+            "legend": "Socio-economic barriers (decile)",
+        },
+    
+    "pp_dec_domain_nonsupermarket_proximity": {
+            "column": "pp_dec_domain_nonsupermarket_proximity",
+            "type": "categorical",
+            "palette": pp_dec_domain_nonsupermarket_proximity_colours,
+            "legend": "Proximity to non-supermarket food provision (decile)",
+        },
     }
+
 }
-#Other Datasets TBC
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -289,9 +445,59 @@ DVPT_SIDEBAR_CONFIG = {
             "title": "Phosphorus (P2O5)",
             "unit_column": "HM_unit",
             },
+    },
+    
+    #Flood Risk Dataset
+    "flood":{
+
+    "Flood Risk": {
+            "value_column": "Class",
+            "title": "Type",
+            "description_column": "Legend"
+        },
+    },
+
+    #Socio-demographics Dataset
+    "demographics":{
+
+    "IMD_Decile": {
+            "value_column": "IMD_Decile",
+            "title": "Index of Multiple Deprivation (decile)",
+            "description_column": "IMDText",
+            "LSOA": "LSOADesc"
+        },
+
+    "pp_dec_combined": {
+            "value_column": "pp_dec_combined",
+            "title": "Priority Places for Food Index (decile)",
+            "LSOA": "LSOADesc",
+        },
+    
+    "pp_dec_domain_supermarket_proximity": {
+            "value_column": "pp_dec_domain_supermarket_proximity",
+            "title": "Proximity to supermarket retail facilities (decile)",
+            "LSOA": "LSOADesc",
+        },
+    
+    "pp_dec_domain_supermarket_accessibility": {
+            "value_column": "pp_dec_domain_supermarket_accessibility",
+            "title": "Accessibility to supermarket retail facilities (decile)",
+            "LSOA": "LSOADesc",
+        },
+    
+    "pp_dec_domain_socio_demographic": {
+            "value_column": "pp_dec_domain_socio_demographic",
+            "title": "Socio-economic barriers (decile)",
+            "LSOA": "LSOADesc",
+        },
+    
+    "pp_dec_domain_nonsupermarket_proximity": {
+            "value_column": "pp_dec_domain_nonsupermarket_proximity",
+            "title": "Proximity to non-supermarket food provision (decile)",
+            "LSOA": "LSOADesc",
+        }
+    
     }
-    
-    
-#Other Datasets TBC
-    
+
 }
+

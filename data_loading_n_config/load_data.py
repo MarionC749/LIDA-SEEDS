@@ -73,3 +73,13 @@ heavy_metals = heavy_metals.to_crs(4326)
 #------ SOIL HEALTH THRESHOLDS DATA ------
 
 thresholds= pd.read_excel("Data/Raw_Data/Soil_health_Thresholds.xlsx")
+
+#------ FLOODING RISK DATA ------
+
+flood = gpd.read_file("Data/Processed_Data/flooding.gpkg")
+flood = flood.to_crs(4326)
+
+#------ SOCIO-DEMOGRAPHICS DATA ------
+
+demographics = gpd.read_file("Data/Processed_Data/Leeds_Demo.gpkg")
+demographics = demographics.to_crs(4326)

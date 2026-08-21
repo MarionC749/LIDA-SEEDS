@@ -37,7 +37,7 @@ function(feature){
         color: "black",
         weight: 1,
         fillColor: feature.properties.colour,
-        fillOpacity: 0.3
+        fillOpacity: 0.4
     };
 }
 """)
@@ -49,7 +49,7 @@ function(feature){
         color: "black",
         weight: 1,
         fillColor: feature.properties.fillColor,
-        fillOpacity: 0.3
+        fillOpacity: 0.4
     };
 }
 """)
@@ -129,8 +129,8 @@ def dvpt_add_layer(dataset, #name of dataset
     #Retrieve configuration settings for selected layer
     config = LAYER_CONFIG[dataset][layer]
 
-    #Loop through the filter defined for that layer
-    for col, value in config["filter"].items():
+    #Loop through the filter for that layer if one is defined
+    for col, value in config.get("filter", {}).items():
         
         #Subset rows that match the filter (finding layer in dataset basically)
         subset= subset[subset[col] == value]
@@ -194,7 +194,8 @@ def add_categorical_layer(gdf, #geodataframe in EPSG:4326
                 children=[
                     html.Span(
                         className= "dvpt-cat-legend-box",
-                        style={"backgroundColor": colour}
+                        style={"backgroundColor": colour,
+                               "opacity": 0.4}
                     ),
                     html.Span(
                         label,
@@ -435,7 +436,7 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
         #Start with full dataset
         subset= gdf
             
-        #Apply layer filter (layer only represents a subset of dataset)
+        #Apply layer filter (layer only represents a subset of dataset) if one is defined
         for col, value in layer_config.get("filter", {}).items():
             subset= subset[subset[col] == value]
         
@@ -468,6 +469,22 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                 text += f" {unit}"
                 
             dataset_items.append(html.Li(text))
+            
+            #Add description if provided
+            description_column= layer_config.get("description_column")
+            if description_column:
+                description= row[description_column]
+                
+                if pd.notna(description):
+                    dataset_items.append(html.Li(f"Description: {description}"))
+            
+            #Add LSOA name if provided
+            lsoa_column= layer_config.get("LSOA")
+            if lsoa_column:
+                lsoa= row[lsoa_column]
+                            
+                if pd.notna(lsoa):
+                    dataset_items.append(html.Li(f"LSOA (Lower layer Super Output Area): {lsoa}"))
                 
             #Threshold checking
             threshold_row= get_threshold_row(dataset, layer, row)
