@@ -628,8 +628,28 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P("This layer displays the Index of Multiple Deprivation "
+                            html.P(
+                            "This layer displays the Index of Multiple Deprivation, also referred to as IMD (2025), which is a composite index formed of data compiled across 7 domains, to produce an overall relative measure of deprivation. Deciles are calculated by ranking the 33,755 small areas in England, from most deprived to least deprived, and dividing them into 10 equal groups. These range from the most deprived 10% of small areas nationally to the least deprived 10% of small areas nationally, where 1 represents the 10% most deprived areas and 10 represents the 10% least deprived areas."
                             ),
+                            html.H5("Domain definitions"),
+                            html.Li("Income Deprivation (22.5% of composite index)"),
+                            html.Li("Employment Deprivation  (22.5% of composite index)"),
+                            html.Li("Education, Skills and Training Deprivation (13.5% of composite index)"),
+                            html.Li("Health Deprivation and Disability (13.5% of composite index)"),
+                            html.Li("Crime (9.3% of composite index)"),
+                            html.Li("Barriers to Housing and Services (9.3% of composite index)"),
+                            html.Li("Living Environment Deprivation (9.3% of composite index)"),
+                            html.Br(),
+                            html.P([
+                                "To learn more about the Index of Multiple Deprivation (IMD) refer to ",
+                                html.A(
+                                    "this page",
+                                    href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                "."
+                            ]),
                             
                             html.H4("How to use this information?"),
                             
@@ -641,8 +661,8 @@ def create_user_guide_layout():
                             html.P([
                                 "The  data comes from the ",
                                 html.A(
-                                    "ArcGIS",
-                                    href="https://www.arcgis.com/home/item.html?id=e76dc3803050416e88d18c4fd35bba6c&sublayer=0#overview",
+                                    "UK Government",
+                                    href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
@@ -662,7 +682,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P("This layer displays the Priority Places for Food Index, which is a composite index formed of data compiled across seven domains. Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food—making them a Priority Place for Food."
+                            html.P("This layer displays the Priority Places for Food Index, which is a composite index formed of data compiled across seven domains. Its goal is to identify neighbourhoods that are most vulnerable to increases in the cost of living and which have a lack of accessibility to cheap, healthy, and sustainable sources of food—making them a Priority Place for Food. Deciles are calculated by ranking the 33,755 small areas in England, from most deprived to least deprived, and dividing them into 10 equal groups. These range from the most deprived 10% of small areas nationally to the least deprived 10% of small areas nationally, where 1 represents the 10% most deprived areas and 10 represents the 10% least deprived areas."
                             ),
                             html.H5("Domain definitions"),
                             html.Li("Proximity to supermarket retail facilities (12.5% of composite index)"),
@@ -715,8 +735,11 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P(""
+                            html.P("This layer displays the Proximity to supermarket retail facilities (decile). The indicator was based on:"
                             ),
+                            html.Li("Average distance to nearest large grocery store (Geolytix Retail Points v28)."),
+                            html.Li("Average count of stores within 1km (Geolytix Retail Points v28)."),
+                            
                             
                             html.H4("How to use this information?"),
                             
@@ -749,8 +772,10 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P(""
+                            html.P("This layer displays the Accessibility to supermarket retail facilities (decile). The indicator was based on:"
                             ),
+                            html.Li("Average travel distance (based on a custom built spatial interaction model)."),
+                            html.Li("Accessibility via public transport (Govt Journey Time Statistics 2019)."),
                             
                             html.H4("How to use this information?"),
                             
@@ -783,8 +808,10 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P(""
+                            html.P("This layer displays the Socio-economic barriers (decile). The indicator was based on:"
                             ),
+                            html.Li("Proportion of population experiencing income deprivation (UK Govt Index of Multiple Deprivation 2017-2020). "),
+                            html.Li("Proportion of population with no car access (UK Census 2021)."),
                             
                             html.H4("How to use this information?"),
                             
@@ -817,8 +844,12 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P(""
+                            html.P("This layer displays the Proximity to non-supermarket food provision (decile). The indicator was based on:"
                             ),
+                            html.Li("Distance to nearest non-supermarket retail food store (Food Standards Agency, accessed 2022-08-23 and Geolytix Retail Points v28)."),
+                            html.Li("Count of non-supermarket retail food stores within 1km (Food Standards Agency, accessed 2023-11-02)."),
+                            html.Li("Average distance to nearest market (CDRC data from National Market Traders Federation 2016-2019)."),
+                            html.Li("Average count of markets within 1km (CDRC data from National Market Traders Federation 2016-2019)."),
                             
                             html.H4("How to use this information?"),
                             

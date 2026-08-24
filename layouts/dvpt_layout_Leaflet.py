@@ -54,6 +54,9 @@ def dvpt_map_layout():
                             'padding': '10px'},
                     ),
                     
+                    # ------ Loading Message ------
+                    html.P("Please note: Loading times may vary. Please allow a few moments for the map to update.", className="dvpt-loading-time-message"),
+                    
                     # ------ Layers Checklist ------
                     
                     html.Details(

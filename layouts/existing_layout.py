@@ -28,64 +28,70 @@ def existing_map_layout():
                 
                 # ------ Left Panel ------
                 
-                html.Div([
+                html.Div(
+                    className= "existing_left_panel",
+                    children= [
                     
-                    # ------ Postcode DropDown ------
-                    dcc.Dropdown(
-                        id='existing_postcode_search',
-                        options= [],
-                        placeholder= ('Search postcode...'),
-                        searchable= True,
-                        clearable= True,
-                        style= {
-                            'display': 'flex',
-                            'justifyContent': 'center',
-                            'width': '300px',
-                            'padding': '10px'},
-                    ),
-                    
-                    # ------ Layers Checklist ------
-                    # Checklist component allows multiple layers selection simultaneously
-                    dcc.Checklist(
-                        id="existing_layer_selector",
-                        className= "existing_custom_checklist",
-                        options=[
-                            {"label": html.Span([
-                                html.Img(src='/assets/allotments.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Allotments"
-                                ]), "value": "Allotments"},
-                            {"label": html.Span([
-                                html.Img(src='/assets/community_growing_spaces.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Community Growing Spaces"
-                                ]), "value": "Community Growing Spaces"},
-                            {"label": html.Span([
-                                html.Img(src='/assets/orchard.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Community Orchards"
-                                ]), "value": "Community Orchard"},
-                            {"label": html.Span([
-                                html.Img(src='/assets/urban_farms.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Urban Farms"
-                                ]), "value": "Urban Farms"},
-                            {"label": html.Span([
-                                html.Img(src='/assets/compost.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
-                                "Composting Collectives"
-                                ]), "value": "Composting Collective"},
-                        ],
-                        value=["Allotments"], #initial value
+                        # ------ Postcode DropDown ------
+                        dcc.Dropdown(
+                            id='existing_postcode_search',
+                            options= [],
+                            placeholder= ('Search postcode...'),
+                            searchable= True,
+                            clearable= True,
+                            style= {
+                                'display': 'flex',
+                                'justifyContent': 'center',
+                                'width': '300px',
+                                'padding': '10px'},
                         ),
-                    
-                    html.Div(id="existing_output_container", style={
-                        'textAlign': 'center',
-                    }),
-                    
-                    # ------ Download Data Button ------
-                    dcc.Download(id="existing-download-data"),
-                    html.Button(
-                        "Download the data",
-                        id= "existing-CGSs-download-button",
-                        className="existing-CGSs-download-button"
-                    ),
-                ]),
+                        
+                        # ------ Loading Message ------
+                        html.P("Please note: Loading times may vary. Please allow a few moments for the map to update.", className="existing-loading-time-message"),
+                        
+                        # ------ Layers Checklist ------
+                        # Checklist component allows multiple layers selection simultaneously
+                        dcc.Checklist(
+                            id="existing_layer_selector",
+                            className= "existing_custom_checklist",
+                            options=[
+                                {"label": html.Span([
+                                    html.Img(src='/assets/allotments.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                    "Allotments"
+                                    ]), "value": "Allotments"},
+                                {"label": html.Span([
+                                    html.Img(src='/assets/community_growing_spaces.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                    "Community Growing Spaces"
+                                    ]), "value": "Community Growing Spaces"},
+                                {"label": html.Span([
+                                    html.Img(src='/assets/orchard.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                    "Community Orchards"
+                                    ]), "value": "Community Orchard"},
+                                {"label": html.Span([
+                                    html.Img(src='/assets/urban_farms.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                    "Urban Farms"
+                                    ]), "value": "Urban Farms"},
+                                {"label": html.Span([
+                                    html.Img(src='/assets/compost.png', style={'height': '40px', 'margin': '5px', 'verticalAlign': 'middle'}),
+                                    "Composting Collectives"
+                                    ]), "value": "Composting Collective"},
+                            ],
+                            value=["Allotments"], #initial value
+                            ),
+                        
+                        html.Div(id="existing_output_container", style={
+                            'textAlign': 'center',
+                        }),
+                        
+                        # ------ Download Data Button ------
+                        dcc.Download(id="existing-download-data"),
+                        html.Button(
+                            "Download the data",
+                            id= "existing-CGSs-download-button",
+                            className="existing-CGSs-download-button"
+                        ),
+                    ]
+                ),
                 
 
                 # ------ Middle Map ------
