@@ -63,10 +63,13 @@ Soil Health Thresholds | Author created dataset by combining thresholds from var
 ### Development Opportunities Data
 Variable | Description | Data Scale | File Type | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|------------------|------------------|-------
+Leeds LSOA boundaries | Polygons outlining Leeds LSOA boundaries | UK | GeoJSON | 2021 | 24/08/26 | [ONS](https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/about)
 Urban Green Spaces | CGSs under the OS Function 'Public Park Or Garden' | UK| GeoPackage | Updated every 6 months | 20/04/2026 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Greenspaces, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
 Brownfields |   | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
 Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | [Digimap](https://digimap.edina.ac.uk/geology)
+PPFI and subdomains | Priority Places for Food Index and subdomains | UK | CSV | 2024 | 24/08/26 | [HASP](https://data.hasp.ac.uk/browser/dataset/5276/0)
+IMD | Index of Multiple Deprivation | UK | Excel | 2025 | 24/08/26 | [UK Government](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025)
 
 ## Project Worflow ⚙️
 
