@@ -128,7 +128,6 @@ body {
     position: relative;
 }
 
-/*position: relative;*/
 
 /* Map Loading Indicator*/
 .existing-map-loading {
@@ -140,6 +139,22 @@ body {
     justify-content: center;
 }
 
+.existing-loading-time-message {
+    font-size: 10px;
+    padding-left: 20px;
+    width: 300px;
+    white-space: normal;
+    overflow-wrap: break-word; /*break into 2 lines if text is too long*/
+}
+
+/* Left control panel*/
+.existing_left_panel {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    flex-shrink: 0;
+}
 
 /* ------ Checklist Styling ------ */
 
@@ -281,6 +296,13 @@ body {
     justify-content: center;
 }
 
+.dvpt-loading-time-message {
+    font-size: 10px;
+    padding-left: 20px;
+    width: 300px;
+    white-space: normal;
+    overflow-wrap: break-word; /*break into 2 lines if text is too long*/
+}
 
 /* ------ RadioItems Styling ------ */
 
@@ -318,8 +340,16 @@ body {
 
 /* Customized Layer Selector Checklist */
 .dvpt_custom_checklist label {
-    white-space: nowrap; /*avoid checlist text breaking into two lines*/
+    width: 200px;
+    white-space: normal;
+    overflow-wrap: break-word; /*break into 2 lines if layer name is too long*/
 }
+
+/*Indent PPFI sub-options*/
+.dvpt_custom_checklist label:nth-child(n+3) {
+    margin-left: 20px;
+}
+
 
 /* ------ Sidebar styling ------ */
 
@@ -398,7 +428,7 @@ body {
 
 /* Info Sidebar when OPEN*/
 .dvpt_info_sidebar_open {
-    overflow-y: auto; /*enbales vertical scrolling*/
+    overflow-y: auto; /*enales vertical scrolling*/
     width: 300px;
     padding: 5px;
     background: white;
@@ -438,6 +468,9 @@ body {
 .dvpt-cat-legend-title {
     font-size: 14px;
     font-weight: bold;
+    width: 150px;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 /* Container of all individual legend entries */
@@ -451,6 +484,9 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 2px;
+    width: 150px;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 /* Little coloured square */

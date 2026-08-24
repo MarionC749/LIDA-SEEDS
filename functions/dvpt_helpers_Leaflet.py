@@ -500,6 +500,10 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                 html.H3(dataset_heading),
                 html.Ul(dataset_items)
             ])
+        
+        #Add decile info only of demographic layer is selected
+        if dataset == "demographics":
+            content.append(html.P("Here 1 represents the 10% most deprived areas and 10 represents the 10% least deprived areas."))
                     
         #Add threshold warnings
         if threshold_warnings:
