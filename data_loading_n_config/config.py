@@ -463,38 +463,37 @@ DVPT_SIDEBAR_CONFIG = {
     "IMD_Decile": {
             "value_column": "IMD_Decile",
             "title": "Index of Multiple Deprivation (decile)",
-            "description_column": "IMDText",
-            "LSOA": "LSOADesc"
+            "LSOA": "LSOA11Desc"
         },
 
     "pp_dec_combined": {
             "value_column": "pp_dec_combined",
             "title": "Priority Places for Food Index (decile)",
-            "LSOA": "LSOADesc",
+            "LSOA": "LSOA11Desc",
         },
     
     "pp_dec_domain_supermarket_proximity": {
             "value_column": "pp_dec_domain_supermarket_proximity",
             "title": "Proximity to supermarket retail facilities (decile)",
-            "LSOA": "LSOADesc",
+            "LSOA": "LSOA11Desc",
         },
     
     "pp_dec_domain_supermarket_accessibility": {
             "value_column": "pp_dec_domain_supermarket_accessibility",
             "title": "Accessibility to supermarket retail facilities (decile)",
-            "LSOA": "LSOADesc",
+            "LSOA": "LSOA11Desc",
         },
     
     "pp_dec_domain_socio_demographic": {
             "value_column": "pp_dec_domain_socio_demographic",
             "title": "Socio-economic barriers (decile)",
-            "LSOA": "LSOADesc",
+            "LSOA": "LSOA11Desc",
         },
     
     "pp_dec_domain_nonsupermarket_proximity": {
             "value_column": "pp_dec_domain_nonsupermarket_proximity",
             "title": "Proximity to non-supermarket food provision (decile)",
-            "LSOA": "LSOADesc",
+            "LSOA": "LSOA11Desc",
         }
     
     }
