@@ -31,7 +31,7 @@ DVPT_DATASETS= {
     
     "heavy_metals":{
         "data": heavy_metals,
-        "display_name": "🧪 Heavy Metals",
+        "display_name": "🧪 Potential Toxic Elements",
     },
     
     "thresholds":{
@@ -206,12 +206,12 @@ LAYER_CONFIG= {
             "legend": "Soil Texture",
         },
     
-    "Grain Size Class": {
+    "Soil Descriptor": {
             "filter": {"Soil_Metric": "Soil Parent"},
             "column": "GEN_GRAIN",
             "type": "categorical",
             "palette": grain_size_colours,
-            "legend": "Grain Size Class",
+            "legend": "Soil Descriptor",
         },
     
     "Soil pH": {
@@ -219,7 +219,7 @@ LAYER_CONFIG= {
                 "column": "PH_07",
                 "type": "continuous",
                 "colourscale": "inferno_r",
-                "legend": "Soil pH (2007)",
+                "legend": "Soil pH",
             },
     
     "Soil SOM": {
@@ -373,10 +373,11 @@ DVPT_SIDEBAR_CONFIG = {
             "title": "Soil Texture"
         },
     
-    "Grain Size Class": {
+    "Soil Descriptor": {
             "filter":{"Soil_Metric": "Soil Parent"},
             "value_column": "GEN_GRAIN",
-            "title": "Grain Size Class"
+            "title": "Soil Descriptor",
+            "description_column": "GEN_GRAIN_Desc",
         },
         
         

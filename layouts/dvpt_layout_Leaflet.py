@@ -73,7 +73,7 @@ def dvpt_map_layout():
                                 options=[
                                     {"label": "Land Cover", "value": "Land Cover"},
                                     {"label": "Soil Texture", "value": "Soil Texture"},
-                                    {"label": "Grain Size Class", "value": "Grain Size Class"},
+                                    {"label": "Soil Descriptor", "value": "Soil Descriptor"},
                                     {"label": "Soil pH", "value": "Soil pH"},
                                     {"label": "Soil Organic Matter (SOM)", "value": "Soil SOM"},
                                 ],
@@ -85,7 +85,7 @@ def dvpt_map_layout():
                     html.Details(
                         className= "dvpt_layer_box",
                         children=[
-                            html.Summary("🧪 Heavy Metals"),
+                            html.Summary("🧪 Potential Toxic Elements"),
 
                             dcc.RadioItems(
                                 id= {
@@ -137,7 +137,7 @@ def dvpt_map_layout():
                                     "type": "layer-selector",
                                     "dataset": "demographics",
                                 },
-                                className= "dvpt_custom_checklist",
+                                className= "dvpt_custom_checklist dvpt_demographics_checklist",
                                 options=[
                                     {"label": "Index of Multiple Deprivation (decile)", "value": "IMD_Decile"},
                                     {"label": "Priority Places for Food Index (decile)", "value": "pp_dec_combined"},
