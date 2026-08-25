@@ -41,13 +41,47 @@ def create_user_guide_layout():
          className= "user_guide_container",
          children=[
              
-             html.H1("How to use"),
+            html.Br(),
+            html.H1("What is the SEEDS Dashboard ?"),
+            html.Br(),
+            html.P("The SEEDS (Spatial & Ecological Evaluation of Developing Spaces) Dashboard is an interactive mapping tool that brings together environmental, soil and community data to support community food growing across Leeds. It enables users to explore local community growing schemes, assess soil health, and identify opportunities for future growing schemes. The dashboard aims to improve access to data, support community engagement and local food resilience, inform evidence-based urban planning , reduce exposure to contaminated soils, and help communities and decision-makers support the right to grow."
+            ),
              
-             html.Br(),
              
-             html.H2("Existing Community Growing Schemes"),
+            html.Br(),
+            html.Hr(),
+            html.Br(),
+            html.H1("Meet the team behind SEEDS"),
              
-             dcc.Markdown("""
+            html.Div([
+                 
+                #Team member 1
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Carneiro.jpeg",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Marion Carneiro - Data Scientist"),
+                        html.P("Marion is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges. "
+                        ),
+                    ],className="team-member-info"),
+                
+                ], className="team-member"),
+             
+            ], className= "team-container"),
+            
+            
+            html.Br(),
+            html.Hr(),
+            html.Br(),
+            html.H1("How to use"),
+             
+            html.Br(),
+             
+            html.H2("Existing Community Growing Schemes"),
+             
+            dcc.Markdown("""
                 #### What is this page ?
             
                 This page provides an overview of existing Community Growing Schemes (CGSs) across Leeds, making it easier to discover and explore local schemes. Users can view five different types of CGSs (allotments, community growing spaces, community orchards, urban farms and composting collectives) and select individual schemes to access more detailed information. Data on the map were last updated in September 2026.
@@ -61,7 +95,7 @@ def create_user_guide_layout():
 
                 """),
              
-             html.H4("Data Layer Guidance"),
+            html.H4("Data Layer Guidance"),
              
             dbc.Accordion(
                 [
@@ -113,7 +147,7 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
             
             dbc.Accordion(
                 [
@@ -156,7 +190,7 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
 
             dbc.Accordion(
                 [
@@ -192,7 +226,7 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
 
             dbc.Accordion(
                 [
@@ -221,7 +255,7 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
 
             dbc.Accordion(
                 [
@@ -250,7 +284,7 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
 
             dbc.Accordion(
                 [
@@ -284,17 +318,17 @@ def create_user_guide_layout():
                     )
                 ],
                 start_collapsed= True
-             ),
+            ),
              
-             html.Br(),
-             html.Br(),
-             html.Hr(),  
-             html.H2("Imagining Future Growing Spaces"),
+            html.Br(),
+            html.Br(),
+            html.Hr(),  
+            html.H2("Imagining Future Growing Spaces"),
                           
             dcc.Markdown("""
                         #### What is this page ?
                         
-                        This page provides a planning tool, allowing to imagine where growing spaces could be created in the future across Leeds. Users can select layers from a variety of categories (soil health, heavy metals, TBC) to get a general view of these over Leeds, and select specific locations to access more detailed information. Data on the map were last updated in September 2026.
+                        This page provides a planning tool, allowing to imagine where growing spaces could be created in the future across Leeds. Users can select layers from a variety of categories (soil health, potential toxic elements, flood risk, socio-demographics) to get a general view of these over Leeds, and select specific locations to access more detailed information. Data on the map were last updated in September 2026.
 
             """),
                         
@@ -371,13 +405,19 @@ def create_user_guide_layout():
             dbc.Accordion(
                 [
                     create_accordion_item(
-                        title= "Grain Size Class",
+                        title= "Soil Descriptor",
                         image= None,
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             
-                            html.P("This layer displays the classes describing the particle size and composition of the underlying material parent material. The classes describe whether the material is mainly sand, clay and silt, gravel, pear or a mixture of these materials."
+                            html.P("This layer displays the generalised textural description of the underlying parent material. The classes describe whether the material is mainly sand, clay and silt, gravel, peat or a mixture of these materials."
                             ),
+                            html.Li("ARGILLIC - ARENACEOUS: A layered subsoil of clay, silt and sand."),
+                            html.Li("ARENACEOUS: A sand-rich subsoil."),
+                            html.Li("MIXED (ARGILLIC-RUDACEOUS): A variable clay, silt, and sand subsoil."),
+                            html.Li("ARENACEOUS - RUDACEOUS: A layered subsoil of sand and gravel."),
+                            html.Li("ARGILLACEOUS: A layered subsoil of clay."),
+                            html.Li("PEAT: Organic peaty subsoil."),
                             
                             html.H4("How to use this information ?"),
                             
@@ -498,22 +538,22 @@ def create_user_guide_layout():
             ),
             
             html.Br(),
-            html.H5("Heavy Metals"),
+            html.H5("Potential Toxic Elements"),
             
             dbc.Accordion(
                 [
                     create_accordion_item(
-                        title= "Heavy Metals",
+                        title= "Potential Toxic Elements",
                         image= None,
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P("The Heavy Metals layers display the concentrations of different metals found in the topsoil (5-20 cm). The layers include eight metals: nickel, arsenic, lead, zirconium, selenium, copper, cadmium and phosphorus."
+                            html.P("The Potential Toxic Elements layers display the concentrations of different elements found in the topsoil (5-20 cm). The layers include eight elements: nickel, arsenic, lead, zirconium, selenium, copper, cadmium and phosphorus."
                             ),
                             
                             html.H4("How to use this information?"),
                             
-                            html.P("This information helps understand soil conditions and identify areas where metal concentrations may affect land use and growing suitability."),
+                            html.P("This information helps understand soil conditions and identify areas where toxic element concentrations may affect land use and growing suitability."),
                             
                             html.H4("Where is the data from?"),
                             
@@ -528,8 +568,8 @@ def create_user_guide_layout():
                                 " datasets."
                             ]),
                             
-                            html.H4("How were the heavy metals assessment thresholds determined ?"),
-                            html.P("The heavy metals threshold assessment uses three types of reference thresholds:"),
+                            html.H4("How were the potential toxic elements assessment thresholds determined ?"),
+                            html.P("The toxic element threshold assessment uses three types of reference thresholds:"),
                             html.Li([
                                 html.Strong("SVG (Soil Guideline Values)"),
                                 " - represent concentrations of chemicals in soil below which the long-term human health risks are likely to be minimal."]),
@@ -571,7 +611,7 @@ def create_user_guide_layout():
                                 "."
                             ]),
                             
-                            html.P("These reference thresholds are used to compare the measured heavy metal concentrations with the relevant soil assessment criteria and determine whether concentrations fall above the threshold values."
+                            html.P("These reference thresholds are used to compare the measured element concentrations with the relevant soil assessment criteria and determine whether concentrations fall above the threshold values."
                             )
                         ])
                     ),   
@@ -644,7 +684,7 @@ def create_user_guide_layout():
                                 "To learn more about the Index of Multiple Deprivation (IMD) refer to ",
                                 html.A(
                                     "this page",
-                                    href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025",
+                                    href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025/english-indices-of-deprivation-2025-frequently-asked-questions",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
@@ -891,6 +931,15 @@ def create_user_guide_layout():
                 ),
                 "."
             ]),
+            html.Br(),
+            html.P([
+                "For any questions or concerns, please contact our SEEDS team ",
+                html.A(
+                    "here",
+                    href="mailto: R.Oldroyd@leeds.ac.uk",
+                    ),
+                "."
+            ])
          ]
      )
 

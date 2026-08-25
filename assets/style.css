@@ -346,7 +346,7 @@ body {
 }
 
 /*Indent PPFI sub-options*/
-.dvpt_custom_checklist label:nth-child(n+3) {
+.dvpt_demographics_checklist label:nth-child(n+3) {
     margin-left: 20px;
 }
 
@@ -578,4 +578,24 @@ body {
 .user_guide_container .accordion-button {
     width: 100%;
     height: 30px;
+}
+
+.team-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.team-member {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.team-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
 }

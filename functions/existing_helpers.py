@@ -254,7 +254,16 @@ def build_community_tab(row):
             info_show("Phone number", row['Phone_Number_(LGAP)']),
             info_show("Website", row['Website_Link']),
             info_show("Facebook", row['Facebook_(FWC)']),
-            ])
+            html.Hr(),
+            html.P([
+                "For any questions or concerns, please contact our SEEDS team ",
+                html.A(
+                    "here",
+                    href="mailto: R.Oldroyd@leeds.ac.uk",
+                    ),
+                "."
+            ]),
+    ])
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ SOIL HEALTH TAB FUNCTION ------
@@ -289,7 +298,8 @@ def build_soil_tab(row):
             children.extend([
                 html.H4("Soil Parent"),
                 info_show("Soil Texture", soil_parent.iloc[0]['SOIL_GROUP']),
-                info_show("Grain Size Class", soil_parent.iloc[0]['GEN_GRAIN']),
+                info_show("Soil Descriptor", soil_parent.iloc[0]['GEN_GRAIN']),
+                info_show("Description", soil_parent.iloc[0]['GEN_GRAIN_Desc']),
                 html.Hr(),
             ])
     
@@ -309,7 +319,7 @@ def build_soil_tab(row):
             
     if not metals.empty:
             children.extend([
-                html.H4("Heavy Metals"),
+                html.H4("Potential Toxic Elements"),
                 html.Ul([ #unordered list
                     html.Li( #list items
                         f"{row['HM_name']} ({row['metal']}):"

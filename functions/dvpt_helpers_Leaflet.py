@@ -376,7 +376,7 @@ def check_threshold(metric_name, value, thresholds_row):
             display_name= threshold_names[name]
             
             warnings.append(
-                f"{metric_name} is above the {limit}{unit} threshold established by the {display_name}")
+                f"{metric_name} is above the {limit} {unit} threshold established by the {display_name}")
     
     #Lower thresholds
     for threshold_type in [
@@ -388,9 +388,61 @@ def check_threshold(metric_name, value, thresholds_row):
                 name= threshold_type.replace("_lower", "")
                 display_name= threshold_names[name]
                 warnings.append(
-                    f"{metric_name} is below the {limit}{unit} threshold established by the {display_name}")
+                    f"{metric_name} is below the {limit} {unit} threshold established by the {display_name}")
     
     return warnings
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#------ FLAG SOIL HEALTH and HEAVY METALS THRESHOLD ------
+def get_threshold_values(dataset, layer, row):
+    
+    thresholds_row= get_threshold_row(dataset, layer, row)
+    
+    if thresholds_row is None:
+        return []
+    
+    threshold_values= []
+    
+    unit= thresholds_row["threshold_unit"]
+    if pd.isna(unit):
+        unit= ""
+    
+    threshold_names= {
+        "RHS": "RHS (Royal Horticultural Society)",
+        "NBC": " NBC (Normal Background Concentrations)",
+        "C4SL": "C4SL (Category 4 Screening Levels)",
+        "SGV": "SGV (Soil Guideline Values)",
+    }
+    
+    #Upper thresholds
+    for threshold_type in [
+        "RHS_upper",
+        "NBC_threshold",
+        "C4SL_threshold",
+        "SGV_threshold",
+    ]:
+        limit= thresholds_row[threshold_type]
+        
+        if pd.notna(limit):
+            name= threshold_type.replace("_threshold", "").replace("_upper", "")
+            display_name= threshold_names[name]
+            
+            threshold_values.append(
+                f"{display_name} (upper): {limit} {unit}")
+    
+    #Lower thresholds
+    for threshold_type in [
+            "RHS_lower",
+        ]:
+            limit= thresholds_row[threshold_type]
+            
+            if pd.notna(limit):
+                name= threshold_type.replace("_lower", "")
+                display_name= threshold_names[name]
+                threshold_values.append(
+                    f"{display_name} (lower): {limit} {unit}")
+    
+    return threshold_values
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ DISPLAY SIDEBAR TEXT FUNCTION ------
@@ -426,6 +478,7 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
         
         dataset_items= [] #store bullet point for this dataset
         threshold_warnings= [] #store all warnings for dataset
+        threshold_values= [] #store thresholds for dataset
             
         #Skip if selected layer has no sidebar info in config
         if layer not in config:
@@ -490,8 +543,13 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
             threshold_row= get_threshold_row(dataset, layer, row)
                 
             if threshold_row is not None:
+                
+                #Check whether measured value is above/below threshold
                 warnings= check_threshold(layer_config["title"], value, threshold_row)
                 threshold_warnings.extend(warnings)
+                
+                #Get threshold values regarless of warnings
+                threshold_values.extend(get_threshold_values(dataset, layer, row))
                     
         #Add dataset information to sidebar
         if dataset_items:
@@ -514,7 +572,72 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                     for warning in threshold_warnings
                 ])
             ])
-                
+        
+        #Add threshold values, regardless of whether flagged
+        if threshold_values:
+            content.extend([
+                html.H3("📏 Threshold Values"),
+                html.P(f"The following threshold values apply to {layer}:"),
+                html.Ul([
+                    html.Li(threshold)
+                    for threshold in threshold_values
+                ]),
+            ])
+
+        #Add soil improvements resources if soil health layer is selected
+        if dataset == "soil_health":
+                    content.extend([
+                        html.Br(),
+                        html.H3("🌱 Soil Health: Learn & Improve"),
+                        html.P([
+                                "To learn more about caring and improving your soil refer to ",
+                                html.A(
+                                    "How to care for your soil (RHS)",
+                                    href="https://www.rhs.org.uk/gardening-for-the-environment/soil",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " and ",
+                                html.A(
+                                "How to improve for your soil (BBC Gardeners' World Magazine)",
+                                href="https://www.gardenersworld.com/how-to/maintain-the-garden/how-to-improve-your-soil/",
+                                target="_blank",
+                                rel="noopener noreferrer"
+                                ),
+                                " webpages. "
+                        ]),
+                        html.Br(),
+                        html.P([
+                                "For resources explaining soil structure, biology, organic matter, and sustainable management refer to the ",
+                                html.A(
+                                "British Society of Soil Science",
+                                href="https://soils.org.uk/",
+                                target="_blank",
+                                rel="noopener noreferrer"
+                                ),
+                                "."
+                        ]),
+                    ]),
+        
+    content.extend([
+        html.Hr(),
+        html.P([
+            "For any questions or concerns, please contact our SEEDS team ",
+            html.A(
+                "here",
+                href="mailto: R.Oldroyd@leeds.ac.uk",
+                ),
+            " or get in touch with ",
+            html.A(
+            "Leeds City Council",
+            href="https://www.leeds.gov.uk/contact-us",
+            target="_blank",
+            rel="noopener noreferrer"
+            ),
+            "."
+        ])
+    ])
+
     return content
 
 
