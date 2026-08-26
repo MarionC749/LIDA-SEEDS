@@ -22,6 +22,10 @@ from data_loading_n_config.load_data import(
     Leeds_postcodes
 )
 
+from data_loading_n_config.config import(
+    Existing_GUIDE_STEPS,
+)
+
 
 
 def create_existing_callbacks(app):
@@ -245,4 +249,78 @@ def create_existing_callbacks(app):
             "Existing_CGSs.csv",
             index=False
         )
+
+    #------------------------------------------------------------------
+    # ------ PopUp Walkthrough Messages Callback ------
+    @app.callback(
+        Output("existing-guide-modal", "is_open"),
+        Output("existing-guide-modal-title", "children"),
+        Output("existing-guide-modal-body", "children"),
+        Output("existing-guide-progress", "children"),
+        Output("existing-guide-back", "style"),
+        Output("existing-guide-next", "style"),
+        Output("existing-guide-finish", "style"),
+        Output("existing-guide-step", "data"),
         
+        Input("existing-guide-next", "n_clicks"),
+        Input("existing-guide-back", "n_clicks"),
+        Input("existing-guide-finish", "n_clicks"),
+        
+        State("existing-guide-step", "data"),
+        
+        prevent_initial_call= False
+    )
+    
+    def update_existing_guide(next_clicks, 
+                              back_clicks,
+                              finish_clicks,
+                              step):
+        
+        #Identify which button was clicked
+        ctx= dash.callback_context
+        
+        if ctx.triggered:
+            button= ctx.triggered[0]["prop_id"].split(".")[0]
+            
+            if button == "existing-guide-next":
+                step += 1
+            
+            elif button == "existing-guide-back":
+                step -= 1
+            
+            elif button == "existing-guide-finish":
+                return(
+                    False, #close modal
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    step
+                )
+        
+        #Keep step within valid range
+        step= max(0, min(step, len(Existing_GUIDE_STEPS) -1))
+        
+        #Get current guide content
+        current = Existing_GUIDE_STEPS[step]
+        progress= f"Step {step + 1} of {len(Existing_GUIDE_STEPS)}"
+        
+        #Button visibility
+        back_style = {"display": "none"} if step == 0 else {}
+        
+        next_style= {"display": "none"} if step == len(Existing_GUIDE_STEPS) - 1 else {}
+        
+        finish_style= {} if step == len(Existing_GUIDE_STEPS) - 1 else {"display": "none"}
+        
+        return(
+            True,
+            current["title"],
+            current["body"],
+            progress,
+            back_style,
+            next_style,
+            finish_style,
+            step
+        )

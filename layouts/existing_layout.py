@@ -170,4 +170,71 @@ def existing_map_layout():
                 )
             ]
         ),
-    ])
+        
+        # ------ Tab Walkthrough PopUps Messages ------
+        dcc.Store(
+            id= "existing-guide-step",
+            data=0
+        ),
+        
+        dbc.Modal([
+            dbc.ModalHeader(
+                dbc.ModalTitle(
+                    id="existing-guide-modal-title"
+                )
+            ),
+            
+            dbc.ModalBody(
+                id="existing-guide-modal-body"
+            ),
+            
+            dbc.ModalFooter([
+                
+                #Back Button
+                html.Div(
+                    dbc.Button(
+                        "Back",
+                        id= "existing-guide-back",
+                        n_clicks=0,
+                    ),
+                    className= "existing-guide-footer-back"
+                ),
+                    
+                #Progress Indicator
+                html.Div(
+                    html.Small(
+                        id="existing-guide-progress",
+                        className= "existing-guide-progress"
+                    ),
+                    className= "existing-guide-footer-progress"
+                ),
+                    
+                #Next and Finish Buttons
+                html.Div([
+                    dbc.Button(
+                        "Next",
+                        id="existing-guide-next",
+                        n_clicks=0
+                    ),
+                    dbc.Button(
+                        "Finish",
+                        id="existing-guide-finish",
+                        n_clicks=0,
+                        style={"display": "none"}
+                    ),
+                ],
+                className="existing-guide-footer-nextfinish"
+                ),
+
+            ],
+            className="existing-guide-footer"
+            )
+        
+        ],
+        id="existing-guide-modal",
+        className= "existing-guide-modal",
+        is_open= True,
+        centered= True,
+        backdrop= "static",
+    )
+])

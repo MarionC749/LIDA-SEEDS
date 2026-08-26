@@ -2,6 +2,7 @@
 # TAB 2 (Imagining Future Grwoing Spaces) - LAYOUT
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 from dash import html, dcc
+import dash_bootstrap_components as dbc
 from functions.dvpt_helpers_Leaflet import dvpt_build_base_map
 
 
@@ -210,5 +211,73 @@ def dvpt_map_layout():
                 ),
             ]
         ),
+                
+        # ------ Tab Walkthrough PopUps Messages ------
+        dcc.Store(
+            id= "dvpt-guide-step",
+            data=0
+        ),
+        
+        dbc.Modal([
+            dbc.ModalHeader(
+                dbc.ModalTitle(
+                    id="dvpt-guide-modal-title"
+                )
+            ),
+            
+            dbc.ModalBody(
+                id="dvpt-guide-modal-body"
+            ),
+            
+            dbc.ModalFooter([
+                
+                #Back Button
+                html.Div(
+                    dbc.Button(
+                        "Back",
+                        id= "dvpt-guide-back",
+                        n_clicks=0,
+                    ),
+                    className= "dvpt-guide-footer-back"
+                ),
+                    
+                #Progress Indicator
+                html.Div(
+                    html.Small(
+                        id="dvpt-guide-progress",
+                        className= "dvpt-guide-progress"
+                    ),
+                    className= "dvpt-guide-footer-progress"
+                ),
+                    
+                #Next and Finish Buttons
+                html.Div([
+                    dbc.Button(
+                        "Next",
+                        id="dvpt-guide-next",
+                        n_clicks=0
+                    ),
+                    dbc.Button(
+                        "Finish",
+                        id="dvpt-guide-finish",
+                        n_clicks=0,
+                        style={"display": "none"}
+                    ),
+                ],
+                className="dvpt-guide-footer-nextfinish"
+                ),
+
+            ],
+            className="dvpt-guide-footer"
+            )
+        
+        ],
+        id="dvpt-guide-modal",
+        className= "dvpt-guide-modal",
+        is_open= True,
+        centered= True,
+        backdrop= "static",
+        )
+
     ])
 

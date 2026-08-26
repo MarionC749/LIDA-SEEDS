@@ -501,3 +501,80 @@ DVPT_SIDEBAR_CONFIG = {
 
 }
 
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# POP UP MESSAGES CONFIGURATION
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+from dash import html
+
+# ----- TAB 1 - Existing Community Growing Schemes -----
+
+Existing_GUIDE_STEPS= [
+    {
+        "title": "Welcome to the SEEDS Dashboard !",
+        "body": html.P(
+            "The SEEDS Dashboard brings together environmental, soil and community data to support community food growing across Leeds.\nLet's take a quick tour to get you started."
+                    ),
+    },
+    {
+        "title": "Explore Existing Community Growing Schemes",
+        "body": html.P([
+            "Use the interactive map to explore existing Community Growing Schemes (CGSs) across Leeds.",
+            html.Br(),
+            html.Br(),
+            "Use the checklist on the left to select different types of schemes.",
+            ]),
+    },
+    {
+        "title": "Explore a Community Growing Scheme",
+        "body": html.P("Click on a scheme on the map to view information in the sidebar, including details about the scheme (location, activities, meeting times & places, contact details where available) and soil health information."
+                    )
+    },
+    {
+        "title": "Find Your Local Area",
+        "body": html.P("Use the postcode search bar at the top to quickly locate and zoom onto an area of interest."
+                    )
+    },
+    {
+        "title": "Download the data",
+        "body": html.P("Click on the 'Download the data' button to download the data displayed on the map."
+                    )
+    },
+]
+
+
+
+# ----- TAB 2 - Imagining Future Community Growing Schemes -----
+
+Dvpt_GUIDE_STEPS= [
+    {
+        "title": "Imagining Future Growing Spaces",
+        "body": html.P([
+            "This tab provides a planning tool.",
+            html.Br(),
+            html.Br(),
+            "Use the map to explore different areas across Leeds and consider where new Community Growing Schemes (CGSs) could potentially be developed.",
+            ]),
+    },
+    {
+        "title": "Select a Data Layer",
+        "body": html.P([
+            "Use the checklist on the left to select a data layer from the different categories. Only one layer can be selected at a time.",
+            html.Br(),
+            html.Br(),
+            "Please refer to the 'User Guide' to learn more about each layer.",
+            ]),
+    },
+    
+
+    
+    {
+        "title": "Explore a Location",
+        "body": html.P("Click anywhere on the map to explore information about the selected location in the sidebar."
+                    )
+    },
+    {
+        "title": "Find Your Local Area",
+        "body": html.P("Use the postcode search bar at the top to quickly locate and zoom onto an area of interest."
+                    )
+    },
+]

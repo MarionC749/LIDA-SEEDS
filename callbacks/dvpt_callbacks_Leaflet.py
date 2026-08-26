@@ -16,6 +16,10 @@ from data_loading_n_config.load_data import(
     Leeds_postcodes,
 )
 
+from data_loading_n_config.config import (
+    Dvpt_GUIDE_STEPS
+)
+
 
 #Function to create all the callbacks of the tab 2 (Imaginging Future Growing Spaces)
 def create_dvpt_callbacks(app):
@@ -376,4 +380,78 @@ def create_dvpt_callbacks(app):
         for pc in pc_filter[:20]
         ]
 
-
+#----------------------------------------------------------------------------------------------------------------------------------------------
+    #------------------------------------------------------------------
+    # ------ PopUp Walkthrough Messages Callback ------
+    @app.callback(
+        Output("dvpt-guide-modal", "is_open"),
+        Output("dvpt-guide-modal-title", "children"),
+        Output("dvpt-guide-modal-body", "children"),
+        Output("dvpt-guide-progress", "children"),
+        Output("dvpt-guide-back", "style"),
+        Output("dvpt-guide-next", "style"),
+        Output("dvpt-guide-finish", "style"),
+        Output("dvpt-guide-step", "data"),
+        
+        Input("dvpt-guide-next", "n_clicks"),
+        Input("dvpt-guide-back", "n_clicks"),
+        Input("dvpt-guide-finish", "n_clicks"),
+        
+        State("dvpt-guide-step", "data"),
+        
+        prevent_initial_call= False
+    )
+    
+    def update_dvpt_guide(next_clicks, 
+                          back_clicks,
+                          finish_clicks,
+                          step):
+        
+        #Identify which button was clicked
+        ctx= dash.callback_context
+        
+        if ctx.triggered:
+            button= ctx.triggered[0]["prop_id"].split(".")[0]
+            
+            if button == "dvpt-guide-next":
+                step += 1
+            
+            elif button == "dvpt-guide-back":
+                step -= 1
+            
+            elif button == "dvpt-guide-finish":
+                return(
+                    False, #close modal
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    dash.no_update,
+                    step
+                )
+        
+        #Keep step within valid range
+        step= max(0, min(step, len(Dvpt_GUIDE_STEPS) -1))
+        
+        #Get current guide content
+        current = Dvpt_GUIDE_STEPS[step]
+        progress= f"Step {step + 1} of {len(Dvpt_GUIDE_STEPS)}"
+        
+        #Button visibility
+        back_style = {"display": "none"} if step == 0 else {}
+        
+        next_style= {"display": "none"} if step == len(Dvpt_GUIDE_STEPS) - 1 else {}
+        
+        finish_style= {} if step == len(Dvpt_GUIDE_STEPS) - 1 else {"display": "none"}
+        
+        return(
+            True,
+            current["title"],
+            current["body"],
+            progress,
+            back_style,
+            next_style,
+            finish_style,
+            step
+        )

@@ -272,6 +272,69 @@ body {
     border: none;
 }
 
+
+/* ------ Modal PopUp Walkthrough Messages Styling ------ */
+
+/*Overall Modal PopUp Window*/
+.existing-guide-modal .modal-content{
+    background-color: #e5e1ce;
+}
+
+.existing-guide-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+}
+
+/*Modal Footer Back Button */
+.existing-guide-footer-back {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/*Modal Footer Progress Indicator*/
+.existing-guide-footer-progress {
+    display: flex;
+    justify-content: center;
+}
+
+/*Modal Footer Next-Finish Button*/
+.existing-guide-footer-nextfinish {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*Modal Footer Buttons */
+.existing-guide-footer .btn {
+    background-color: #92cf3c;
+    border-color: #92cf3c;
+    color: black;
+    box-shadow: none;
+    outline: none;
+}
+
+.existing-guide-footer .btn:hover {
+    background-color: #B7E88A;
+    border-color: #B7E88A;
+    color: black;
+    box-shadow: none;
+}
+
+.existing-guide-footer .btn:focus,
+.existing-guide-footer .btn:focus-visible,
+.existing-guide-footer .btn:active,
+.existing-guide-footer .btn:active {
+    background-color: #92cf3c;
+    border-color: #92cf3c;
+    color: black;
+    box-shadow: none;
+    outline: none;
+}
+
+
+
+
 /* ---------- TAB 2 STYLING ----------------------------------------------------------------------*/
 
 /*Overall Map Area */
@@ -535,6 +598,65 @@ body {
     justify-content: space-between;
     width: 200px;
     font-size: 12px;
+}
+
+/* ------ Modal PopUp Walkthrough Messages Styling ------ */
+
+/*Overall Modal PopUp Window*/
+.dvpt-guide-modal .modal-content{
+    background-color: #e5e1ce;
+}
+
+.dvpt-guide-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+}
+
+/*Modal Footer Back Button */
+.dvpt-guide-footer-back {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/*Modal Footer Progress Indicator*/
+.dvpt-guide-footer-progress {
+    display: flex;
+    justify-content: center;
+}
+
+/*Modal Footer Next-Finish Button*/
+.dvpt-guide-footer-nextfinish {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*Modal Footer Buttons */
+.dvpt-guide-footer .btn {
+    background-color: #92cf3c;
+    border-color: #92cf3c;
+    color: black;
+    box-shadow: none;
+    outline: none;
+}
+
+.dvpt-guide-footer .btn:hover {
+    background-color: #B7E88A;
+    border-color: #B7E88A;
+    color: black;
+    box-shadow: none;
+}
+
+.dvpt-guide-footer .btn:focus,
+.dvpt-guide-footer .btn:focus-visible,
+.dvpt-guide-footer .btn:active,
+.dvpt-guide-footer .btn:active {
+    background-color: #92cf3c;
+    border-color: #92cf3c;
+    color: black;
+    box-shadow: none;
+    outline: none;
 }
 
 
