@@ -376,7 +376,7 @@ def check_threshold(metric_name, value, thresholds_row):
             display_name= threshold_names[name]
             
             warnings.append(
-                f"{metric_name} is above the {limit} {unit} threshold established by the {display_name}")
+                f"{metric_name} is above the {limit} {unit} threshold established by the {display_name}.")
     
     #Lower thresholds
     for threshold_type in [
@@ -388,7 +388,7 @@ def check_threshold(metric_name, value, thresholds_row):
                 name= threshold_type.replace("_lower", "")
                 display_name= threshold_names[name]
                 warnings.append(
-                    f"{metric_name} is below the {limit} {unit} threshold established by the {display_name}")
+                    f"{metric_name} is below the {limit} {unit} threshold established by the {display_name}.")
     
     return warnings
 
@@ -441,6 +441,11 @@ def get_threshold_values(dataset, layer, row):
                 display_name= threshold_names[name]
                 threshold_values.append(
                     f"{display_name} (lower): {limit} {unit}")
+
+    #Add exception for phosphorus
+    if layer == "Phosphorus":
+        threshold_values.append(f"No thresholds available.")
+    
     
     return threshold_values
 
@@ -566,18 +571,22 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
         #Add threshold warnings
         if threshold_warnings:
             content.extend([
+                html.Br(),
                 html.H3("⚠️ Threshold Assessment"),
                 html.Ul([
                     html.Li(warning)
                     for warning in threshold_warnings
-                ])
+                ]),
+                html.Br(),
+                html.P("You may wish to consider further soil testing in this area.")
             ])
         
         #Add threshold values, regardless of whether flagged
         if threshold_values:
             content.extend([
+                html.Br(),
                 html.H3("📏 Threshold Values"),
-                html.P(f"The following threshold values apply to {layer}:"),
+                html.P(f"The following screening values apply to {layer}:"),
                 html.Ul([
                     html.Li(threshold)
                     for threshold in threshold_values
@@ -620,6 +629,7 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                     ]),
         
     content.extend([
+        html.Br(),
         html.Hr(),
         html.P([
             "For any questions or concerns, please contact our SEEDS team ",

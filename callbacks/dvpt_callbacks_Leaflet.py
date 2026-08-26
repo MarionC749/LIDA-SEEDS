@@ -344,7 +344,8 @@ def create_dvpt_callbacks(app):
         
         #Start of sidebar content
         content= [html.H2("Location Information"),
-                  html.Br()]
+                  html.Hr(),
+                  ]
         
         if sidebar_info:
             content.extend(sidebar_info)
