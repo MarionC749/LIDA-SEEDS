@@ -196,7 +196,7 @@ def create_user_guide_layout():
                 [
                     create_accordion_item(
                         title= "Community Orchards",
-                        image= "orchards.png",
+                        image= "orchard.png",
                         description= html.Div([
                             html.H4("What is this layer ?"),
                             

@@ -268,13 +268,9 @@ def create_dvpt_callbacks(app):
             lat= clicked["lat"]
             lon= clicked["lon"]
             
-            #Shift marker away from sidebar
-            # so it looks centred to the reamining map view
-            shifted_lon= lon + 0.015
-            
             #Create click marker
             marker_position= [lat, lon]
-            map_center= [lat, shifted_lon]
+            map_center= [lat, lon]
             
             #Move map to clicked point and zoom
             return(
