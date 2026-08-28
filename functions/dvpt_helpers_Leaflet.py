@@ -461,6 +461,9 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
     
     content= []
     
+    #Track whether any selected layer actually contains info for clicked location, default is false
+    found_info= False
+    
     #Loop through every dataset currently has selected layers
     for dataset, layer in active_layers.items():
         #Skip dataset if no layer is selected
@@ -497,7 +500,12 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
         #If clicked point isnt inside any polygons of this layer, skip it
         if match.empty:
             continue
-            
+        
+        #A match was found, so info exist for clicked location
+        found_info= True
+        
+        
+        #Process every matching polygon
         for _, row in match.iterrows():
             value = row[layer_config["value_column"]]
                 
@@ -548,8 +556,10 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                 
                 #Get threshold values regarless of warnings
                 threshold_values.extend(get_threshold_values(dataset, layer, row))
-                    
+        
+        #-----------------------------------------------------------
         #Add dataset information to sidebar
+        #-----------------------------------------------------------
         if dataset_items:
             content.extend([
                 html.Br(),
@@ -560,8 +570,10 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
         #Add decile info only of demographic layer is selected
         if dataset == "demographics":
             content.append(html.P("Here 1 represents the 10% most deprived areas and 10 represents the 10% least deprived areas."))
-                    
+        
+        #-----------------------------------------------------------
         #Add threshold warnings
+        #-----------------------------------------------------------
         if threshold_warnings:
             content.extend([
                 html.Br(),
@@ -574,7 +586,9 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                 html.P("You may wish to consider further soil testing in this area.")
             ])
         
+        #-----------------------------------------------------------
         #Add threshold values, regardless of whether flagged
+        #-----------------------------------------------------------
         if threshold_values:
             content.extend([
                 html.Br(),
@@ -586,7 +600,9 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                 ]),
             ])
 
+        #-----------------------------------------------------------
         #Add soil improvements resources if soil health layer is selected
+        #-----------------------------------------------------------
         if dataset == "soil_health":
                     content.extend([
                         html.Br(),
@@ -620,26 +636,30 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                                 "."
                         ]),
                     ]),
-        
-    content.extend([
-        html.Br(),
-        html.Hr(),
-        html.P([
-            "For any questions or concerns, please contact our SEEDS team ",
-            html.A(
-                "here",
-                href="mailto: R.Oldroyd@leeds.ac.uk",
+                    
+    #-----------------------------------------------------------
+    #Only add contact section if have location info
+    #-----------------------------------------------------------
+    if found_info:
+        content.extend([
+            html.Br(),
+            html.Hr(),
+            html.P([
+                "For any questions or concerns, please contact our SEEDS team ",
+                html.A(
+                    "here",
+                    href="mailto: R.Oldroyd@leeds.ac.uk",
+                    ),
+                " or get in touch with ",
+                html.A(
+                "Leeds City Council",
+                href="https://www.leeds.gov.uk/contact-us",
+                target="_blank",
+                rel="noopener noreferrer"
                 ),
-            " or get in touch with ",
-            html.A(
-            "Leeds City Council",
-            href="https://www.leeds.gov.uk/contact-us",
-            target="_blank",
-            rel="noopener noreferrer"
-            ),
-            "."
+                "."
+            ])
         ])
-    ])
 
     return content
 
