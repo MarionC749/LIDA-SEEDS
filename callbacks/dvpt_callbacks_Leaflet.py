@@ -241,13 +241,14 @@ def create_dvpt_callbacks(app):
              
         
 #----------------------------------------------------------------------------------------------------------------------------------------------
+
     # ------ Updating map view with postcode and clicked point Callback ------
     
     @app.callback(
-        Output('Future_CGSs_MAP', 'center'), #update center position of map
-        Output('Future_CGSs_MAP', 'zoom'), #update zoom level of map
+        Output('Future_CGSs_MAP', 'viewport'), #update center and zoom of map
         Output('dvpt-click-marker-layer', 'children'), #update click marker position
         Input('dvpt_map_state', 'data'),
+        prevent_initial_call= True
         )
 
     # ------ Priority Zoom System ------
@@ -256,7 +257,6 @@ def create_dvpt_callbacks(app):
         #If no change in state state
         if not dvpt_state:
             return (dash.no_update, #no change in map
-                    dash.no_update, #no change in map
                     []) #no marker
         
         # First priority: clicked location
@@ -274,7 +274,7 @@ def create_dvpt_callbacks(app):
             #Create marker
             marker = dl.CircleMarker(
                 id= "dvpt-click-marker",
-                center=[lat, lon], #set coords to location clicked
+                center=[lat, lon], #set coords to location clicked + shift a bit to fit sidebar
                 radius= 8,
                 color= "black",
                 fill= False, #only keep outline of circle
@@ -282,13 +282,12 @@ def create_dvpt_callbacks(app):
             )
             
             
-            
             #Move map to clicked point and zoom
             return(
-                [lat, lon], #map centre
-                14, # zoom
+                dict(center=[lat, lon + 0.015], zoom=14, transition="flyto"), #map centers and zooms (shift a bit to account for sideabar)
                 [marker], #move marker to clicked position
             )
+            
         
         # Second priority: postcode
         
@@ -300,15 +299,16 @@ def create_dvpt_callbacks(app):
             if not row.empty:
                 centroid= row.iloc[0].geometry.centroid #get postcode center
                 #Move to postcode center and zoom
-                return ([centroid.y, centroid.x], #map center
-                        14, #zoom
+                return (
+                    dict(center=[centroid.y, centroid.x], zoom=14, transition="flyto"), #map centers and zooms
                         [], #no clicked marker
                 )
         
         #If no map click and no postcode, no map change
         return (dash.no_update, #no map change
-                dash.no_update, #no map change
                 []) # no marker
+
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
     # # ------ Sidebar Tabs Callback ------
@@ -338,40 +338,58 @@ def create_dvpt_callbacks(app):
             )
 
         #Sidebar retrieves coords stored from map click
-        clicked= dvpt_state.get('dvpt_clicked_point')
+        clicked= dvpt_state.get('dvpt_clicked_point', {})
         
         #Check user has actually clicked map
-        if clicked["lat"] is None:
+        if clicked.get("lat") is None:
             return ("Click a location to see details",
                     "dvpt_info_sidebar dvpt_info_sidebar_collapsible", #keep sidebar collapsed
             )
+
+
+        #Get active layer
+        active_layer= dvpt_state.get('active_layer', {})
         
-        
-        #Create Shapely Point (convert lat & lon to geometry)
-        point= Point(clicked["lon"], clicked["lat"])
-        
-        #Call helper function
-        # loops through checklist selected datasets
-        # applies filter
-        # finds polygons containing point
-        # creates HTML components (sidebar content)
-        sidebar_info= get_dvpt_sidebar_info(dvpt_state.get("active_layer", {}), point)
+        #Check whether at least one layer has been selected
+        layer_selected= any(
+            bool(layer)
+            for layer in active_layer.values()
+        )
         
         #Start of sidebar content
         content= [html.H2("Location Information"),
-                  html.Hr(),
-                  ]
+                  html.Hr(),]
         
-        if sidebar_info:
-            content.extend(sidebar_info)
+        #If no layer selected
+        if not layer_selected:
+            content.append(html.P("Select a layer on the left checklist to see location information."))
         
+        #if layer is selected
         else:
-            content.append(
-                html.P("No information available for this location"))
+            #Create Shapely Point (convert lat & lon to geometry)
+            point= Point(clicked["lon"], clicked["lat"])
+        
+            #Call helper function
+            # loops through checklist selected datasets
+            # applies filter
+            # finds polygons containing point
+            # creates HTML components (sidebar content)
+            sidebar_info= get_dvpt_sidebar_info(active_layer, point)
+            
+            #If information found
+            if sidebar_info:
+                content.extend(sidebar_info)
+            #Layer selected, but no information at clicked location
+            else:
+                content.append(
+                    html.P("No information available for this location."))
         
         return (content, 
                 "dvpt_info_sidebar dvpt_info_sidebar_open",
                 )
+
+
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
     # ------ Postcode Selection Dropdown Callback ------
