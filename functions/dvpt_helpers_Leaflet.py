@@ -66,10 +66,12 @@ def dvpt_build_base_map():
         style= {"width": "100%", "height": "100%"},
         children= [
             
-            dl.TileLayer( #adds background map tiles from OpenStreetMap
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-                attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                ), 
+            #Add background map tiles from OpenStreetMap 
+            #IMPORTANT: API KEY REQUIRED
+            dl.TileLayer(
+                url= 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png?key=cb1_2fdr_1_03ab219f4f09188e58339272',
+                attribution= '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                ),
             
             #Add Leeds wards
             dl.GeoJSON(
