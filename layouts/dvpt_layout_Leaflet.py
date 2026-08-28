@@ -29,6 +29,12 @@ def dvpt_map_layout():
                 }
             }
         ),
+        
+        #DUMMY
+        html.Div(
+            id="dvpt_map_resize_trigger",
+            style={"display": "none"}
+            ),
     
         # ------ Main Layout ------
         html.Div(

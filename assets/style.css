@@ -372,10 +372,11 @@ body {
 
 /*Overall Map Area */
 .dvpt_map_container {
-    flex: 1; /* fills remaining space */
+    flex: 1 1 auto; /* fills remaining space */
     min-width: 0;
     min-height: 0;
     position: relative; /*makes map container the positioning reference point for absolute children e.g. legend*/
+    overflow: hidden;
 }
 
 /*Loading component*/
@@ -454,11 +455,13 @@ body {
 /* Customized Collapsible Info Sidebar */
 .dvpt_info_sidebar {
     position: relative;
+    box-sizing: border-box;
     padding: 20px;
     width: 0;
     height: 100%;
     overflow: hidden; /*closed state hides content*/
-    transition: 0.3s ease;
+    flex-shrink: 0;
+    transition: width 0.3s ease;
     border-left: 1px solid #ddd;
 }
 
@@ -495,21 +498,6 @@ body {
     padding: 0;
 }
 
-
-/* Info Sidebar when OPEN*/
-.dvpt_info_sidebar_open {
-    overflow-y: auto; /*enales vertical scrolling*/
-    width: 300px;
-    padding: 5px;
-    background: white;
-    border-left: 1px solid #ddd;
-}
-
-/* Info Sidebar when CLOSED*/
-.dvpt_info_sidebar_collapsible {
-    width: 0;
-    padding: 0;
-}
 
 /* Sidebar Buttons */
 .dvpt_sidebar_buttons {
