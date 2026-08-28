@@ -512,7 +512,7 @@ Existing_GUIDE_STEPS= [
     {
         "title": "Welcome to the SEEDS Dashboard !",
         "body": html.P(
-            "The SEEDS Dashboard brings together environmental, soil and community data to support community food growing across Leeds.\nLet's take a quick tour to get you started."
+            "The SEEDS Dashboard brings together environmental, soil and community data to support community food growing across Leeds. Let's take a quick tour to get you started."
                     ),
     },
     {
@@ -522,6 +522,9 @@ Existing_GUIDE_STEPS= [
             html.Br(),
             html.Br(),
             "Use the checklist on the left to select different types of schemes.",
+            html.Br(),
+            html.Br(),
+            "Please refer to the 'User Guide' to learn more about the different types of schemes.",
             ]),
     },
     {
@@ -531,7 +534,7 @@ Existing_GUIDE_STEPS= [
     },
     {
         "title": "Find Your Local Area",
-        "body": html.P("Use the postcode search bar at the top to quickly locate and zoom onto an area of interest."
+        "body": html.P("Use the postcode search bar at the top to quickly locate and zoom in on an area of interest."
                     )
     },
     {

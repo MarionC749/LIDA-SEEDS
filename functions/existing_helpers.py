@@ -213,6 +213,24 @@ def info_show(label, value):
         (f'{label}: '), str(value)
         ])
 
+#Define function to show message if no info available in whole section
+def info_section(title, fields):
+    content= [html.H4(title)]
+    
+    has_information= False
+    
+    for label, value in fields:
+        item= info_show(label, value)
+        
+        if item is not None:
+            content.append(item)
+            has_information= True
+            
+    if not has_information:
+        content.append(html.P("No information available."))
+    
+    return content
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ COMMUNITY TAB FUNCTION ------
 #Build 'Community tab' layout function
@@ -222,39 +240,53 @@ def build_community_tab(row):
             #Build Sidebar Information Display
             html.H3(row['Name']),
             html.Hr(),
-            html.H4('🌱 Quick Information'),
-            info_show("Type", row['Type']),
-            info_show("Management", row['Management']),
-            info_show("Organisation", row['Organisation']),
+            
+            #Quick information
+            *info_section('🌱 Quick Information', [
+                ("Type", row['Type']),
+                ("Management", row['Management']),
+                ("Organisation", row['Organisation']),
+            ]),
             html.Br(),
             html.Hr(),
-            html.H4('🥕 Activity'),
-            info_show("Description", row['Activity_Description']),
+            
+            #Activity
+            *info_section('🥕 Activity', [
+                ("Description", row['Activity_Description']),
+            ]),
             html.Br(),
             html.Hr(),
-            html.H4('📍 About the Venue'),
-            info_show("Entry Conditions", row['Entry_Conditions']),
-            info_show("Day and Time", row['Day_and_Time_(LGAP)']),
-            info_show("Ongoing or set programs?", row['Ongoing_or_set_programs?_(LGAP)']),
-            info_show("All year or seasonal?", row['All_year_or_seasonal?_(LGAP)']),
-            info_show("Seasonal Details", row['Seasonal_details_(LGAP)']),
-            info_show("One location?", row['one_location_(LGAP)']),
-            info_show("Location Description", row['Location_Description']),
-            info_show("Postcode", row['Postcode_(FWC)']),
-            info_show("Site Accessibility", row['Site_Accessibility_(LGAP)']),
-            info_show("Toilets", row['Toilets_(LGAP)']),
-            info_show("Indoor Space", row['Indoor_Space_(LGAP)']),
-            info_show("Indoor Type", row['Indoor_Type_(LGAP)']),
-            info_show("Transport support available", row['Transport_Support_(LGAP)']),
+            
+            #About the Venue
+            *info_section('📍 About the Venue', [
+                ("Entry Conditions", row['Entry_Conditions']),
+                ("Day and Time", row['Day_and_Time_(LGAP)']),
+                ("Ongoing or set programs?", row['Ongoing_or_set_programs?_(LGAP)']),
+                ("All year or seasonal?", row['All_year_or_seasonal?_(LGAP)']),
+                ("Seasonal Details", row['Seasonal_details_(LGAP)']),
+                ("One location?", row['one_location_(LGAP)']),
+                ("Location Description", row['Location_Description']),
+                ("Postcode", row['Postcode_(FWC)']),
+                ("Site Accessibility", row['Site_Accessibility_(LGAP)']),
+                ("Toilets", row['Toilets_(LGAP)']),
+                ("Indoor Space", row['Indoor_Space_(LGAP)']),
+                ("Indoor Type", row['Indoor_Type_(LGAP)']),
+                ("Transport support available", row['Transport_Support_(LGAP)']),
+            ]),
             html.Br(),
             html.Hr(),
-            html.H4('📞 Contact'),
-            info_show("Contact", row['Contact_Name']),
-            info_show("Email", row['Email']),
-            info_show("Phone number", row['Phone_Number_(LGAP)']),
-            info_show("Website", row['Website_Link']),
-            info_show("Facebook", row['Facebook_(FWC)']),
+            
+            #Contact
+            *info_section('📞 Contact', [
+                ("Contact", row['Contact_Name']),
+                ("Email", row['Email']),
+                ("Phone number", row['Phone_Number_(LGAP)']),
+                ("Website", row['Website_Link']),
+                ("Facebook", row['Facebook_(FWC)']),
+            ]),
+            html.Br(),
             html.Hr(),
+            
             html.P([
                 "For any questions or concerns, please contact our SEEDS team ",
                 html.A(
@@ -328,9 +360,19 @@ def build_soil_tab(row):
                     for _, row in metals.iterrows()
                 ])
             ])
+
     
     return html.Div([
         html.H3(row['Name']),
         html.Hr(),
-        *children
+        *children,
+        html.Hr(),
+        html.P([
+            "For any questions or concerns, please contact our SEEDS team ",
+            html.A(
+            "here",
+            href="mailto: R.Oldroyd@leeds.ac.uk",
+            ),
+            "."
+        ]),
     ]) 
