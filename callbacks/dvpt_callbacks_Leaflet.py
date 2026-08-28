@@ -5,6 +5,7 @@ import dash
 from dash import html, Input, Output, State
 from shapely.geometry import Point
 from dash import ALL
+import dash_leaflet as dl
 
 
 from functions.dvpt_helpers_Leaflet import(
@@ -245,7 +246,7 @@ def create_dvpt_callbacks(app):
     @app.callback(
         Output('Future_CGSs_MAP', 'center'), #update center position of map
         Output('Future_CGSs_MAP', 'zoom'), #update zoom level of map
-        Output('dvpt-click-marker', 'center'), #update click marker position
+        Output('dvpt-click-marker-layer', 'children'), #update click marker position
         Input('dvpt_map_state', 'data'),
         )
 
@@ -254,7 +255,9 @@ def create_dvpt_callbacks(app):
         
         #If no change in state state
         if not dvpt_state:
-            return (dash.no_update, dash.no_update, dash.no_update) #no change in map
+            return (dash.no_update, #no change in map
+                    dash.no_update, #no change in map
+                    []) #no marker
         
         # First priority: clicked location
         
@@ -268,15 +271,23 @@ def create_dvpt_callbacks(app):
             lat= clicked["lat"]
             lon= clicked["lon"]
             
-            #Create click marker
-            marker_position= [lat, lon]
-            map_center= [lat, lon]
+            #Create marker
+            marker = dl.CircleMarker(
+                id= "dvpt-click-marker",
+                center=[lat, lon], #set coords to location clicked
+                radius= 8,
+                color= "black",
+                fill= False, #only keep outline of circle
+                interactive= False,
+            )
+            
+            
             
             #Move map to clicked point and zoom
             return(
-                map_center, #map centre
+                [lat, lon], #map centre
                 14, # zoom
-                marker_position #move marker to clicked position
+                [marker], #move marker to clicked position
             )
         
         # Second priority: postcode
@@ -289,13 +300,15 @@ def create_dvpt_callbacks(app):
             if not row.empty:
                 centroid= row.iloc[0].geometry.centroid #get postcode center
                 #Move to postcode center and zoom
-                return ([centroid.y,
-                         centroid.x], 
-                        14,
-                        dash.no_update)
+                return ([centroid.y, centroid.x], #map center
+                        14, #zoom
+                        [], #no clicked marker
+                )
         
         #If no map click and no postcode, no map change
-        return (dash.no_update, dash.no_update, dash.no_update)
+        return (dash.no_update, #no map change
+                dash.no_update, #no map change
+                []) # no marker
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
     # # ------ Sidebar Tabs Callback ------
@@ -321,7 +334,7 @@ def create_dvpt_callbacks(app):
         if not sidebar.get('open'):
             return (
                 'Click a location to see details',
-                'dvpt_info_sidebar dvpt_info_sidebar_collapsible' #keep sidebar collapsed
+                'dvpt_info_sidebar dvpt_info_sidebar_collapsible', #keep sidebar collapsed
             )
 
         #Sidebar retrieves coords stored from map click
@@ -330,7 +343,9 @@ def create_dvpt_callbacks(app):
         #Check user has actually clicked map
         if clicked["lat"] is None:
             return ("Click a location to see details",
-                    "dvpt_info_sidebar dvpt_info_sidebar_collapsible") #keep sidebar collapsed
+                    "dvpt_info_sidebar dvpt_info_sidebar_collapsible", #keep sidebar collapsed
+            )
+        
         
         #Create Shapely Point (convert lat & lon to geometry)
         point= Point(clicked["lon"], clicked["lat"])
@@ -354,7 +369,9 @@ def create_dvpt_callbacks(app):
             content.append(
                 html.P("No information available for this location"))
         
-        return (content, "dvpt_info_sidebar dvpt_info_sidebar_open")
+        return (content, 
+                "dvpt_info_sidebar dvpt_info_sidebar_open",
+                )
 
 #----------------------------------------------------------------------------------------------------------------------------------------------
     # ------ Postcode Selection Dropdown Callback ------

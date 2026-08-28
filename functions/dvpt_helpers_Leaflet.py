@@ -102,18 +102,9 @@ def dvpt_build_base_map():
             #Create empty container for layer selected
             dl.LayerGroup(id= "dvpt-active-map-layers"),
             
-            #Add point when user clicks location
-            #opacity changes to 1 when location is clicked
-            dl.CircleMarker(
-                id= "dvpt-click-marker",
-                center=[0, 0], #set coords somewhere outside map
-                radius= 8,
-                color= "black",
-                fill= True,
-                fillOpacity= 0, #dont fill circle, just show radius
-                opacity= 1, #initially marker is invisible
-                interactive= False,
-            )
+            #Create empty container for location clicked
+            dl.LayerGroup(id= "dvpt-click-marker-layer"),
+            
         ],
     )
               
