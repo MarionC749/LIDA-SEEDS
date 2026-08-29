@@ -42,11 +42,36 @@ def create_user_guide_layout():
          children=[
              
             html.Br(),
-            html.H1("What is the SEEDS Dashboard ?"),
+            html.H1("Introduction"),
             html.Br(),
-            html.P("The SEEDS (Spatial & Ecological Evaluation of Developing Spaces) Dashboard is an interactive mapping tool that brings together environmental, soil and community data to support community food growing across Leeds. It enables users to explore local community growing schemes, assess soil health, and identify opportunities for future growing schemes. The dashboard aims to improve access to data, support community engagement and local food resilience, inform evidence-based urban planning , reduce exposure to contaminated soils, and help communities and decision-makers support the right to grow."
+            html.H2("What is the SEEDS Dashboard ?"),
+            html.P("The SEEDS (Spatial & Ecological Evaluation of Developing Spaces) Dashboard is an interactive mapping tool that brings together information about the environment, soil, communities and food growing across Leeds."
             ),
-             
+            html.P("The dashboard has been developed to help communities, organisations and decision-makers understand where food is currently being grown, the condition of local soils, and where there may be opportunities for new community growing spaces."
+                   ),
+            html.P("You can use the SEEDS dashboard to:"),
+            html.Li([html.Strong("Explore Community Growing Schemes (CGSs)"), " across Leeds, including allotments, orchards and other growing projects."]),
+            html.Li([html.Strong("Learn about local soil health"), " and identify areas where soil may need further investigation or improvement."]),
+            html.Li([html.Strong("Explore potential locations"), " for future community growing spaces."]),
+            html.Li([html.Strong("Understand local communities and their needs"), " using information about population and local areas."]),
+            html.Li([html.Strong("Support planning and decision-making"), " around green spaces, food growing and land use."]),
+            
+            html.Br(),
+            html.H2("Why is this important ?"),
+            html.P("Growing food in towns and cities can play an important role in creating healthier, more sustainable and resilient communities."),
+            html.P("Community growing schemes provide a wide range of benefits for people, communities and the environment. They can:"),
+            html.Li([html.Strong("Support food security"), ", by providing access to locally grown, healthy and affordable food."]),
+            html.Li([html.Strong("Improve health and wellbeing"), ", by encouraging healthier diets, physical activity and time outdoors."]),
+            html.Li([html.Strong("Strengthen communities"), ", by bringing people together, reducing isolation and building social connections."]),
+            html.Li([html.Strong("Promote social inclusion"), ", especially by creating opportunities for vulnerable and disadvantaged groups."]),
+            html.Li([html.Strong("Support learning and skills"), ", by helping people develop growing skills and learn more about food and the environment."]),
+            html.Li([html.Strong("Benefit the environment"), ", by supporting biodiversity, reducing waste and improving climate resilience."]),
+            html.Li([html.Strong("Support the local economy"), ", by helping reduce household food costs, supporting livelihoods and strengthening local food systems."]),
+            
+            html.Br(),
+            html.H2("Using the SEEDS Dashboard"),
+            html.P("The following sections of this guide explain how to use the different features of the SEEDs Dashboard, what the information means, and how to interpret the maps and results."),
+            
              
             html.Br(),
             html.Hr(),

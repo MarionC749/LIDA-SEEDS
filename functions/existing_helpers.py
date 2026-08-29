@@ -200,7 +200,7 @@ def existing_apply_zoom_logic(fig, postcode, sidebar):
         row= Leeds_postcodes[Leeds_postcodes['Postcode'] == str(postcode)]
         if not row.empty:
             geom= row.iloc[0].geometry
-            fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=12))
+            fig.update_layout(map=dict(center={'lat': geom.y, 'lon':geom.x}, zoom=13))
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ DISPLAY SIDEBAR TEXT FUNCTION ------
