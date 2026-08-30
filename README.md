@@ -62,7 +62,7 @@ Variable | Description | Data Scale | File Type | Data Type | Resolution | Publi
 ---------|-------------|------------|-----------|-----------|------------|------------------|------------------|--------
 Land Cover |  | SE Tile | GeoPackage | Vector | | 2024 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
 Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
-Grain Size Class |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
+Soil Descriptor |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
 Soil pH | Topsoil (0-15cm) pH, based on 'Mean value for total soil nitrogen concentration in 2007 modelled by LCM_CLASS and CACO3_RANK' | UK | Shapefile | Raster | 1km x 1km | 2007 | 05/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7)
 Soil SOM | Topsoil (0-15 cm depth) organic matter content , estimated using the loss-on-ignition method (in %), based on 'Mean value for soil loss-on-ignition in 2007 modelled by LCM_CLASS and DOM_GRAIN' | UK | Shapefile | Raster | 1km x 1km | 2007 | 06/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/9e4451f8-23d3-40dc-9302-73e30ad3dd76)
 Nickel (Ni) | Topsoil (5-20 cm depth) concentration in mg/kg,  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
@@ -87,7 +87,7 @@ Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | [Digim
 PPFI and subdomains | Priority Places for Food Index and subdomains | UK | CSV | 2024 | 24/08/26 | [HASP](https://data.hasp.ac.uk/browser/dataset/5276/0)
 IMD | Index of Multiple Deprivation | UK | Excel | 2025 | 24/08/26 | [UK Government](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025)
 
-## Project Worflow ⚙️
+## Data Processing Worflow ⚙️
 
 ### <ins> 1. Existing Community Growing Schemes - Processing </ins> 
 
@@ -102,11 +102,12 @@ The output files from this notebook are:
 
 ### <ins> 2. Soil Health - Processing </ins> 
 
-This notebook `2-SEEDS_soil_health.ipynb` involves collecting,  integrating and cleaning the raw data on soil health (land cover, soil texture, grain size class, heavy metals concentrations). The first cleaned dataset links the existing CGSs to their corresponding soil health metrics, while the second cleaned dataset contains soil health metrics for the entire Leeds local authority area
+This notebook `2-SEEDS_soil_health.ipynb` involves collecting,  integrating and cleaning the raw data on soil health (land cover, soil texture, soil descriptor, toxic elements concentrations). The first cleaned dataset links the existing CGSs to their corresponding soil health metrics, while the other cleaned datasets contain soil health metrics for the entire Leeds local authority area.
 
 The output files from this notebook are:
 * `soil_health_CGSs.csv`
 * `soil_health.gpkg`
+* * `heavy_metals.gpkg`
 
 
 ### <ins> 3. CGSs Development Opportunities - Processing </ins>
@@ -114,10 +115,6 @@ The output files from this notebook are:
 This notebook `3-SEEDS_potentialCGS_search.ipynb` involves collecting,  integrating and cleaning various raw datasets to build the dashboard planning tool, enabling to identify future potential CGS sites.
 
 The output files from this notebook are:
-* `TO_BE_CONTINUED.csv`
-
-
-### <ins> 4. Dashboard Building </ins> 💻
-
-The `seeds_app.py` file contains the main structure and layout of the dashboard. It is linked to the `assets` folder, which contains the `styles.css` stylesheet and the images required for the dashboard's styling and overall appearance.
+* `flooding.gpkg`
+* `Leeds_Demo.gpkg`
 
