@@ -107,7 +107,7 @@ This notebook `2-SEEDS_soil_health.ipynb` involves collecting,  integrating and 
 The output files from this notebook are:
 * `soil_health_CGSs.csv`
 * `soil_health.gpkg`
-* * `heavy_metals.gpkg`
+* `heavy_metals.gpkg`
 
 
 ### <ins> 3. CGSs Development Opportunities - Processing </ins>
