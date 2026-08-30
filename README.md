@@ -12,14 +12,30 @@ This project, in partnership with Hyde Park Source and FoodWise Leeds, aims to a
 
 By improving reproducible data integration and accessibility, this research will support evidence-based urban planning, reduce exposure to contaminated soils, and promote sustainable land management. Ultimately, the project aims to strengthen local food systems, inform policy and contribute to healthier and more resilient urban communities.
 
-## Run Instructions 💻
+## SEEDS Dashboard - Setup and Usage 💻
 
-1. Acquire the datasets stored in the `Raw_Data` subfolder in the `Data` folder.
-2. Run the 3 Jupyter Notebooks in the `Data Processing` folder, to obtain the `Processed_Data` datasets required to build the SEEDS dashboard app.
-3. Install the requirements in the `requirements.txt` file.
-4. Run the `seeds_app.py` file which contains all of the dashbaord building structure.
-5. Assets for the dashboard such as the `styles.css` and images are stored in the `assets` folder.
-6. Older and exploratory versions of the dashboard are stored in the `app_versions` folder.
+Follow the steps below to prepare the data and run the SEEDS dashboard application.
+
+### 1. Acquire the Raw Datasets
+Obtain the datasets stored in the `Raw_Data` subfolder within the `Data` folder.
+
+### 2. Process the Data
+Run the 3 Jupyter Notebooks located in the `Data Processing` folder. These notebooks process the raw datasets and generate the `Processed_Data` datasets required to build and run the SEEDS dashboard app.
+
+### 3. Install the Requirements
+Install the required Python dependencies listed in the `requirements.txt` file.
+
+### 4. Run the Dashboard
+
+The application is organised into the following components:
+* `layouts/` - contains the 4 files that define the layouts for the main application and each of its 3 tabs.
+* `callbacks/` - contains 2 files responsible for the callbacks used for the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
+* `functions/` - contains 2 files containing the functions required by the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
+* `data_loading_n_config/` - contains the 2 files responsible for loading the data and configuring the data used across the different tabs of the app.
+* `assets/` - contains the dashboard assets, including `styles.css` and the images used by the app.
+
+### 5. Previous Dashboard Versions
+Older and exploratory versions of the dashboard are stored in the `app_versions` folder. These versions are retained for reference and are not required to run the current dashboard.
 
 ## Data 📊
 
