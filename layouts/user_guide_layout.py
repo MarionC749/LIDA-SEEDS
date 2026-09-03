@@ -83,16 +83,30 @@ def create_user_guide_layout():
                 #Team member 1
                 html.Div([
                     html.Img(
+                        src="",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Rachel Olroyd - Lead Supervisor"),
+                        html.P("Dr Rachel Oldroyd is a Lecturer in Spatial Data Science at the University of Leeds, based within the School of Geography. Her research broadly explores the role of place in health and health inequalities, using geospatial data and methods to better understand relationships between people, environments and health. She has a particular interest in food environments and food systems, including access to safe, healthy and affordable food."
+                        ),
+                    ],className="team-member-info"),
+                
+                ], className="team-member"),
+                
+                #Team member 2
+                html.Div([
+                    html.Img(
                         src="/assets/PP_Carneiro.jpeg",
                         className='team-photo'
                     ),
                     html.Div([
                         html.H4("Marion Carneiro - Data Scientist"),
-                        html.P("Marion is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges. "
+                        html.P("Marion is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges."
                         ),
                     ],className="team-member-info"),
                 
-                ], className="team-member"),
+                ], className="team-member")
              
             ], className= "team-container"),
             
