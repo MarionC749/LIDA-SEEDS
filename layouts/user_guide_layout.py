@@ -83,7 +83,7 @@ def create_user_guide_layout():
                 #Team member 1
                 html.Div([
                     html.Img(
-                        src="",
+                        src="/assets/PP_Olroyd.png",
                         className='team-photo'
                     ),
                     html.Div([
@@ -91,7 +91,6 @@ def create_user_guide_layout():
                         html.P("Dr Rachel Oldroyd is a Lecturer in Spatial Data Science at the University of Leeds, based within the School of Geography. Her research broadly explores the role of place in health and health inequalities, using geospatial data and methods to better understand relationships between people, environments and health. She has a particular interest in food environments and food systems, including access to safe, healthy and affordable food."
                         ),
                     ],className="team-member-info"),
-                
                 ], className="team-member"),
                 
                 #Team member 2
@@ -105,9 +104,35 @@ def create_user_guide_layout():
                         html.P("Marion is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges."
                         ),
                     ],className="team-member-info"),
+                ], className="team-member"),
+
+                #Team member 3
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Gould.jpg",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Myles Gould - Team Member"),
+                        html.P("Dr Myles Gould is an Associate Professor at the University of Leeds based in the School of Geography. He lectures in population and health geographies. His research interests include analysis of population issues including residential movement, population health and well-being. This includes use of complex population data (e.g. Census microdata) using multilevel modelling."
+                        ),
+                    ],className="team-member-info"),
+                ], className="team-member"),
                 
-                ], className="team-member")
-             
+                #Team member 4
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Carter.jpg",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Laura Carter - Team Member"),
+                        html.P("Dr Laura Carter is a Professor of Environmental Chemistry at the University of Leeds and UKRI Future Leaders Fellow. She leads a research group investigating the risks posed by contaminants in the environment, with a particular focus on emerging contaminant behaviour in soil–plant systems and implications for soil and plant health. Her research combines environmental chemistry, soil science and plant biology to improve understanding of contaminant fate and effects in terrestrial environments with the aim to inform sustainable management practices that safeguard environmental and human health."
+                        ),
+                    ],className="team-member-info"),
+                ], className="team-member"),
+
+
             ], className= "team-container"),
             
             
