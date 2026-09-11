@@ -28,6 +28,7 @@ Install the required Python dependencies listed in the `requirements.txt` file.
 ### 4. Run the Dashboard
 
 The application is organised into the following components:
+* `seeds_app.py` - the main application file responsible for initialising and running the dashboard, and bringing together the layouts, callbacks, functions and configuration used throughout the application.
 * `layouts/` - contains the 4 files that define the layouts for the main application and each of its 3 tabs.
 * `callbacks/` - contains 2 files responsible for the callbacks used for the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
 * `functions/` - contains 2 files containing the functions required by the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
@@ -60,9 +61,9 @@ Composting Collectives | Composting sites, location is postcode centroid | Leeds
 ### Soil Health Data
 Variable | Description | Data Scale | File Type | Data Type | Resolution | Publication Year | Acquisition Date | Source
 ---------|-------------|------------|-----------|-----------|------------|------------------|------------------|--------
-Land Cover |  | SE Tile | GeoPackage | Vector | | 2024 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/roam/map/environment)
-Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
-Soil Descriptor |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | [Digimap](https://digimap.edina.ac.uk/geology)
+Land Cover |  | SE Tile | GeoPackage | Vector | | 2024 | 05/05/2026 | Downloaded through [Digimap - Environment](https://digimap.edina.ac.uk/roam/map/environment), with the underlying dataset provided by [UK Centre for Ecology & Hydrology (UKCEH)](https://catalogue.ceh.ac.uk/documents/d036a1c2-77b2-40ef-a14d-d21fb394b595)
+Soil Texture |  | SE Tile | GeoPackage | Vector | | 2019 | 20/04/2026 | Downloaded through [Digimap - Geology](https://digimap.edina.ac.uk/geology), with the underlying dataset provided by [British Geological Survey](https://www.bgs.ac.uk/datasets/soil-parent-material-model/) 
+Soil Descriptor |  | SE Tile | GeoPackage | Vector | | 2019 | 05/05/2026 | Downloaded through [Digimap - Geology](https://digimap.edina.ac.uk/geology), with the underlying dataset provided by [British Geological Survey](https://www.bgs.ac.uk/datasets/soil-parent-material-model/) 
 Soil pH | Topsoil (0-15cm) pH, based on 'Mean value for total soil nitrogen concentration in 2007 modelled by LCM_CLASS and CACO3_RANK' | UK | Shapefile | Raster | 1km x 1km | 2007 | 05/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/5dd624a9-55c9-4cc0-b366-d335991073c7)
 Soil SOM | Topsoil (0-15 cm depth) organic matter content , estimated using the loss-on-ignition method (in %), based on 'Mean value for soil loss-on-ignition in 2007 modelled by LCM_CLASS and DOM_GRAIN' | UK | Shapefile | Raster | 1km x 1km | 2007 | 06/05/2026 | [UKSO](https://catalogue.ceh.ac.uk/documents/9e4451f8-23d3-40dc-9302-73e30ad3dd76)
 Nickel (Ni) | Topsoil (5-20 cm depth) concentration in mg/kg,  | UK | GeoTIFF | Raster | 500m x 500m | 1978 to 2014 | 29/04/2026 | [UKSO](https://www.ukso.org/static-maps/uk-topsoil-geochemistry.html)
@@ -83,7 +84,7 @@ Leeds LSOA boundaries | Polygons outlining Leeds LSOA boundaries | UK | GeoJSON 
 Urban Green Spaces | CGSs under the OS Function 'Public Park Or Garden' | UK| GeoPackage | Updated every 6 months | 20/04/2026 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Greenspaces, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
 Brownfields |   | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
-Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | [Digimap](https://digimap.edina.ac.uk/geology)
+Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | Downloaded through [Digimap - Geology](https://digimap.edina.ac.uk/geology), with the underlying dataset provided by [British Geological Survey](https://www.bgs.ac.uk/datasets/geological-indicators-of-flooding/) 
 PPFI and subdomains | Priority Places for Food Index and subdomains | UK | CSV | 2024 | 24/08/26 | [HASP](https://data.hasp.ac.uk/browser/dataset/5276/0)
 IMD | Index of Multiple Deprivation | UK | Excel | 2025 | 24/08/26 | [UK Government](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025)
 
