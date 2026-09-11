@@ -28,6 +28,7 @@ Install the required Python dependencies listed in the `requirements.txt` file.
 ### 4. Run the Dashboard
 
 The application is organised into the following components:
+* `seeds_app.py` - the main application file responsible for initialising and running the dashboard, and bringing together the layouts, callbacks, functions and configuration used throughout the application.
 * `layouts/` - contains the 4 files that define the layouts for the main application and each of its 3 tabs.
 * `callbacks/` - contains 2 files responsible for the callbacks used for the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
 * `functions/` - contains 2 files containing the functions required by the "Existing Community Growing Schemes" and the "Imagining Future Growing Spaces" tabs.
