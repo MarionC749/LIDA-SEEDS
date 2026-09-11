@@ -18,6 +18,9 @@ def dvpt_map_layout():
                     "soil_health": None,
                     "heavy_metals": None,
                     "flood": None,
+                    "demographics": None,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": None
                 },  
                 'dvpt_postcode': None,
                 'dvpt_sidebar': {
@@ -146,6 +149,44 @@ def dvpt_map_layout():
                                     {"label": "Accessibility to supermarket retail facilities (decile)", "value": "pp_dec_domain_supermarket_accessibility"},
                                     {"label": "Socio-economic barriers (decile)", "value": "pp_dec_domain_socio_demographic"},
                                     {"label": "Proximity to non-supermarket food provision (decile)", "value": "pp_dec_domain_nonsupermarket_proximity"},
+                                ],
+                                value= None
+                            )
+                        ]
+                    ),
+
+                    html.Details(
+                        className= "dvpt_layer_box",
+                        children=[
+                            html.Summary("🪏 Existing Community Growing Schemes"),
+
+                            dcc.RadioItems(
+                                id= {
+                                    "type": "layer-selector",
+                                    "dataset": "existing_CGSs",
+                                },
+                                className= "dvpt_custom_checklist",
+                                options=[
+                                    {"label": "Existing Community Growing Schemes", "value": "Existing Community Growing Schemes"},
+                                ],
+                                value= None
+                            )
+                        ]
+                    ),
+
+                    html.Details(
+                        className= "dvpt_layer_box",
+                        children=[
+                            html.Summary("🚧 Brownfields"),
+
+                            dcc.RadioItems(
+                                id= {
+                                    "type": "layer-selector",
+                                    "dataset": "LCC_brownfields",
+                                },
+                                className= "dvpt_custom_checklist",
+                                options=[
+                                    {"label": "Brownfields", "value": "Brownfields"},
                                 ],
                                 value= None
                             )

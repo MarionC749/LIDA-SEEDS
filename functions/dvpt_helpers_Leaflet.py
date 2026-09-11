@@ -3,10 +3,12 @@
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 import pandas as pd
 import dash
+import geopandas as gpd
 from dash import html
 import dash_leaflet as dl
 import plotly.colors as pc
 from dash_extensions.javascript import assign
+from shapely.geometry import Point
 
 
 from data_loading_n_config.load_data import(
@@ -140,13 +142,22 @@ def dvpt_add_layer(dataset, #name of dataset
         )
 
     #Map numerical layer
-    else:
+    elif config["type"] == "continuous":
         return add_numeric_layer(
             subset,
             config["column"],
             config["colourscale"],
             config["legend"],
             f"{dataset}-{layer}",
+        )
+    
+    #Map point/polygon layers 
+    elif config["type"] == "points/polygons":
+        return add_points_polygons_layer(
+            subset,
+            config["name_column"],
+            config["color"],
+            f"{dataset}-{layer}"
         )
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -316,6 +327,95 @@ def add_numeric_layer(gdf, #geodataframe in EPSG:4326
     return geojson, legend
         
  
+ 
+ 
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#------ PLOT POINTS/POLYGONS LAYER (Existing CGSs + brownfields) ------
+
+def add_points_polygons_layer(gdf, 
+                              name_column,
+                              color,
+                              layer_id):
+    
+    children= []
+    
+    for _, row in gdf.iterrows():
+        geometry= row.geometry
+        name= row[name_column]
+        
+        # Add Polygons and their centroids to map
+        if geometry.geom_type in ("Polygon", "MultiPolygon"):
+            polygon= dl.GeoJSON(
+                data={
+                    "type": "Feature",
+                    "geometry": geometry.__geo_interface__,
+                    "properties": {"name": name}
+                },
+                options={
+                    "style": {
+                        "color": color,
+                        "weight": 1,
+                        "fillColor": color,
+                        "fillOpacity": 0.5,
+                    }
+                }
+            )
+            children.append(polygon)
+            #centroid of polygon
+            point= geometry.centroid
+
+        # Add Points to map
+        elif geometry.geom_type == "Point":
+            point= geometry
+        
+        #For other geometries use its centroid
+        else: point = geometry.centroid
+        
+        #Add visible marker (point or centroid)
+        marker = dl.CircleMarker(
+            center=[point.y, point.x],
+            radius= 5,
+            color= color,
+            fillColor= color,
+            fillOpacity=1,
+            weight= 1,
+            interactive= False,
+        )
+        
+        children.append(marker)
+        
+    layer= dl.LayerGroup(
+        id= layer_id,
+        children= children,
+    )
+    
+    return layer, None
+ 
+ 
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#------ FIND NEAREST CGS WHEN CLICKING ON MAP (Existing CGSs) ------ 
+ 
+def find_nearest_cgs(lat, lon, gdf, max_distance):
+     
+     #Create point from map click
+     clicked_point= gpd.GeoDataFrame(geometry=[Point(lon, lat)], crs="EPSG:4326")
+     
+     #Project both to UK CRS to use meters
+     gdf_projected= gdf.to_crs("EPSG:27700")
+     clicked_projected= clicked_point.to_crs("EPSG:27700")
+     
+     #Calculate distance to every CGS
+     distances= gdf_projected.geometry.distance(clicked_projected.geometry.iloc[0])
+     #Find nearest CGS
+     nearest_idx= distances.idxmin()
+     nearest_distance= distances.loc[nearest_idx]
+     
+     #Only return a CGS if within the allowed radius
+     if nearest_distance <= max_distance:
+         return gdf.loc[nearest_idx]
+     
+     return None
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ LOOKUP SOIL HEALTH and HEAVY METALS THRESHOLD ------
 def get_threshold_row(dataset, layer, row):
@@ -636,7 +736,35 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                                 "."
                         ]),
                     ]),
-                    
+
+        #-----------------------------------------------------------
+        #Add advice if existing CGSs layer is selected
+        #-----------------------------------------------------------
+        if dataset == "existing_CGSs":
+                    content.extend([
+                        html.Br(),
+                        html.P("Please refer to the 'Existing Community Growing Schemes' tab for more information. This layer is provided for reference to help avoid creating new schemes where one already exists."),
+                    ]),
+        
+        #-----------------------------------------------------------
+        #Add info if brownfields layer is selected
+        #-----------------------------------------------------------
+        if dataset == "LCC_brownfields":
+                    content.extend([
+                        html.Br(),
+                        html.Ul([
+                            html.Li(f"Year: {row['YEAR']:.0f}"),
+                            html.Li(f"Managed by: {row['ORGANISA_1']}"),
+                            html.Li(f"Area: {row['HECTARES']:.2f} ha"),
+                            html.Li(f"Ownership: {row['OWNERSHIPS']}"),
+                            html.Li(f"Planning Status: {row['PLANNINGST']}"),
+                            html.Li(f"Permission: {row['PERMISSION']}"),
+                            html.Li(f"Development: {row['DEVELOPMEN']}"),
+                            html.Li(f"Contact: {row['ORGANISATI']}"),         
+                ]),
+                    ]),
+
+
     #-----------------------------------------------------------
     #Only add contact section if have location info
     #-----------------------------------------------------------

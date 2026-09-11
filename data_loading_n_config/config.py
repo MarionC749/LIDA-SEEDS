@@ -19,7 +19,9 @@ from data_loading_n_config.load_data import(
     heavy_metals,
     thresholds,
     flood,
-    demographics
+    demographics,
+    existing_CGSs,
+    LCC_brownfields,
 )
 
 
@@ -48,6 +50,17 @@ DVPT_DATASETS= {
             "data": demographics,
             "display_name": "🏠 Socio-demographics",
         },
+    
+    "existing_CGSs":{
+            "data": existing_CGSs,
+            "display_name": "🪏 Existing Community Growing Schemes",
+        },
+    
+    "LCC_brownfields": {
+        "data": LCC_brownfields,
+        "display_name": "🚧 Brownfields"
+    }
+
 }
 
 
@@ -65,7 +78,7 @@ land_cover_colours= {
     "Freshwater": "dodgerblue",
     "Heather": "yellow",
     "Heather grassland": "saddlebrown",
-    "Improve grassland": "darkgoldenrod",
+    "Improve grassland": "#946344",
     "Inland rock": "tan",
     "Neutral grassland": "palegreen",
     "Suburban": "mediumvioletred",
@@ -95,10 +108,10 @@ grain_size_colours= {
 }
 
 flood_colours= {
-    "Coastal - High Flood Potential": 'indigo',
-    "Coastal - Secondary Flood Potential": 'blueviolet',
-    "Fluvial - High Flood Potential": 'mediumblue',
-    "Fluvial - Secondary Flood Potential": 'royalblue',
+    "Coastal - High Flood Potential": '#cd34b5',
+    "Coastal - Secondary Flood Potential": '#9d02d7',
+    "Fluvial - High Flood Potential": '#0000ff',
+    "Fluvial - Secondary Flood Potential": '#0000ff',
 }
 
 IMD_Decile_colours= {
@@ -293,7 +306,7 @@ LAYER_CONFIG= {
     },
     
     #Flood Risk Dataset
-        "flood":{
+    "flood":{
         
         "Flood Risk": {
             "column": "Class",
@@ -347,6 +360,26 @@ LAYER_CONFIG= {
             "palette": pp_dec_domain_nonsupermarket_proximity_colours,
             "legend": "Proximity to non-supermarket food provision (decile)",
         },
+    },
+
+    #Existing CGSs Dataset
+    "existing_CGSs":{
+        "Existing Community Growing Schemes": {
+            "type": "points/polygons",
+            "color": "#009E73",
+            "name_column": "Name",
+            "legend": None,
+        },
+    },
+    
+    #Brownfields data
+    "LCC_brownfields":{
+        "Brownfields":{
+            "type": "points/polygons",
+            "color": "sienna",
+            "name_column": "SITENAMEAD",
+            "legend": None,    
+        }
     }
 
 }
@@ -497,7 +530,25 @@ DVPT_SIDEBAR_CONFIG = {
             "LSOA": "LSOA21NM",
         }
     
-    }
+    },
+
+    #Existing CGSs Dataset
+    "existing_CGSs":{
+
+    "Existing Community Growing Schemes": {
+            "value_column": "Name",
+            "title": "Name",
+        },
+    },
+    
+    #Brownfields Dataset
+    "LCC_brownfields":{
+
+    "Brownfields": {
+            "value_column": "SITENAMEAD",
+            "title": "Name",
+        },
+    },
 
 }
 
