@@ -56,6 +56,8 @@ CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Le
 Allotments | Allotments managed by council or associations  | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
 Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | [Fruit Works Co-operative](https://www.fruitworks.org.uk/)
 Composting Collectives | Composting sites, location is postcode centroid | Leeds | Excel | 2026 | 25/06/2026 | [FoodWiseLeeds](https://foodwiseleeds.org/project/ccl/)
+CGSs (additional) | Additional CGSs provided by Seasonwell | Leeds | Excel | 2026 | 04/09/26 | [Seasonwell](https://seasonwell.co.uk/)
+CGSs (raised beds) | Incredible Edible Leeds raised beds sites | Leeds | Excel | 2026 | 11/09/26 | [Incredible Edible Leeds](https://edibleleeds.org.uk/)
 
 
 ### Soil Health Data
