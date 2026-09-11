@@ -428,6 +428,8 @@ body {
     font-weight: bold;
     cursor: pointer; /*show user it's clickable*/
     padding: 5px;
+    width: 250px;
+    overflow-wrap: break-word; /*break into 2 lines if layer name is too long*/
 }
 
 /* Left control panel*/
@@ -441,7 +443,7 @@ body {
 
 /* Customized Layer Selector Checklist */
 .dvpt_custom_checklist label {
-    width: 200px;
+    width: 250px;
     white-space: normal;
     overflow-wrap: break-word; /*break into 2 lines if layer name is too long*/
 }

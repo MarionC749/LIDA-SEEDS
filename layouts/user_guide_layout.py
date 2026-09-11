@@ -427,14 +427,21 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The data comes from ",
+                                "The data was downloaded through ",
                                 html.A(
-                                    "Digimap",
+                                    "Digimap - Environment",
                                     href="https://digimap.edina.ac.uk/roam/map/environment",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                ", with the underlying dataset provided by the ",
+                                html.A(
+                                    "UK Centre for Ecology & Hydrology (UKCEH)",
+                                    href="https://catalogue.ceh.ac.uk/documents/d036a1c2-77b2-40ef-a14d-d21fb394b595",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                ".",
                             ]),
                         ])
                     ),   
@@ -460,14 +467,21 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The data comes from ",
+                                "The data was downloaded through ",
                                 html.A(
-                                    "Digimap",
+                                    "Digimap - Geology",
                                     href="https://digimap.edina.ac.uk/geology",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                ", with the underlying dataset provided by the ",
+                                html.A(
+                                    "British Geological Survey",
+                                    href="https://www.bgs.ac.uk/datasets/soil-parent-material-model/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                ".",
                             ]),
                         ])
                     ),   
@@ -499,14 +513,21 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The data comes from ",
+                                "The data was downloaded through ",
                                 html.A(
-                                    "Digimap",
+                                    "Digimap - Geology",
                                     href="https://digimap.edina.ac.uk/geology",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                ", with the underlying dataset provided by the ",
+                                html.A(
+                                    "British Geological Survey",
+                                    href="https://www.bgs.ac.uk/datasets/soil-parent-material-model/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                ".",
                             ]),
                         ])
                     ),   
@@ -715,14 +736,21 @@ def create_user_guide_layout():
                             html.H4("Where is the data from?"),
                             
                             html.P([
-                                "The data comes from the ",
+                                "The data was downloaded through ",
                                 html.A(
-                                    "Digimap",
+                                    "Digimap - Geology",
                                     href="https://digimap.edina.ac.uk/geology",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                ", with the underlying dataset provided by the ",
+                                html.A(
+                                    "British Geological Survey",
+                                    href="https://www.bgs.ac.uk/datasets/geological-indicators-of-flooding/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                ".",
                             ]),
                         ])
                     ),   
@@ -976,6 +1004,73 @@ def create_user_guide_layout():
                                 html.A(
                                     "Healthy and Sustainable Places (HASP)",
                                     href="https://data.hasp.ac.uk/browser/dataset/5276/0",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " datasets."
+                            ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            html.Br(),
+            html.H5("Existing Community Growing Schemes"),
+            
+            
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Existing Community Growing Schemes",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays existing community growing schemes, for more information on individual schemes, refer to the 'Existing Community Growing Schemes' tab."
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P("This layer is provided for reference to help avoid creating new schemes where one already exists."
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P("Refer to the above 'Existing Communiyt Growing Schemes' data layer guidance section."),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+            html.Br(),
+            html.H5("Brownfields"),
+            
+            
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Brownfields",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays brownfields, defined as land previously used for commercial or residential development and no longer in use. This land is now available for redevelopment."
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P("This information helps to identify underutilised land that could be repurposed for community food growing."
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P([
+                                "The data comes from the ",
+                                html.A(
+                                    "Leeds City Council",
+                                    href="https://www.leeds.gov.uk/planning/planning-policy/evidence-and-monitoring/brownfield-land-register",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),

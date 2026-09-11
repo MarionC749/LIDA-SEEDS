@@ -11,6 +11,7 @@ import dash_leaflet as dl
 from functions.dvpt_helpers_Leaflet import(
     dvpt_add_layer,
     get_dvpt_sidebar_info,
+    find_nearest_cgs
 )
 
 from data_loading_n_config.load_data import(
@@ -18,7 +19,8 @@ from data_loading_n_config.load_data import(
 )
 
 from data_loading_n_config.config import (
-    Dvpt_GUIDE_STEPS
+    Dvpt_GUIDE_STEPS,
+    DVPT_DATASETS
 )
 
 
@@ -44,6 +46,14 @@ def create_dvpt_callbacks(app):
         
         Output({"type": "layer-selector",
                         "dataset": "demographics"},
+                        "value"),
+        
+        Output({"type": "layer-selector",
+                        "dataset": "existing_CGSs"},
+                        "value"),
+       
+        Output({"type": "layer-selector",
+                        "dataset": "LCC_brownfields"},
                         "value"),
         
         Input({"type": "layer-selector",
@@ -73,6 +83,8 @@ def create_dvpt_callbacks(app):
                 "heavy_metals": None,
                 "flood": None,
                 "demographics": None,
+                "existing_CGSs": None,
+                "LCC_brownfields": None,
                 },
             "dvpt_postcode": None,
             "dvpt_sidebar": {"open": False},
@@ -91,6 +103,8 @@ def create_dvpt_callbacks(app):
             heavy_metal_layer= active_layer[1]
             flood_layer= active_layer[2]
             demo_layer= active_layer[3]
+            existing_CGSs_layer= active_layer[4]
+            LCC_brownfields_layer= active_layer[5]
             
             #If a soil health layer is selected
             if triggered_dataset == "soil_health":
@@ -100,10 +114,14 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": None,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": None,
                 }
                 
                 return(dvpt_state,
                        soil_layer,
+                       None,
+                       None,
                        None,
                        None,
                        None)
@@ -116,11 +134,15 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": heavy_metal_layer,
                     "flood": None,
                     "demographics": None,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": None,
                 }
                 
                 return(dvpt_state,
                         None,
                         heavy_metal_layer,
+                        None,
+                        None,
                         None,
                         None)
 
@@ -132,12 +154,16 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": flood_layer,
                     "demographics": None,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": None,
                 }
                 
                 return(dvpt_state,
                         None,
                         None,
                         flood_layer,
+                        None,
+                        None,
                         None)
                 
             #If socio-demo layer is selected
@@ -148,13 +174,57 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": demo_layer,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": None,
                 }
                 
                 return(dvpt_state,
                         None,
                         None,
                         None,
-                        demo_layer)
+                        demo_layer,
+                        None,
+                        None)
+            
+            #If Existing CGSs layer is selected
+            elif triggered_dataset == "existing_CGSs":
+                #Store layer
+                dvpt_state["active_layer"]= {
+                    "soil_health": None,
+                    "heavy_metals": None,
+                    "flood": None,
+                    "demographics": None,
+                    "existing_CGSs": existing_CGSs_layer,
+                    "LCC_brownfields": None,
+                }
+                
+                return(dvpt_state,
+                        None,
+                        None,
+                        None,
+                        None,
+                        existing_CGSs_layer,
+                        None)
+
+            #If Brownfields layer is selected
+            elif triggered_dataset == "LCC_brownfields":
+                #Store layer
+                dvpt_state["active_layer"]= {
+                    "soil_health": None,
+                    "heavy_metals": None,
+                    "flood": None,
+                    "demographics": None,
+                    "existing_CGSs": None,
+                    "LCC_brownfields": LCC_brownfields_layer,
+                }
+                
+                return(dvpt_state,
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                        LCC_brownfields_layer)
 
             
         # ------ POSTCODE ------
@@ -169,12 +239,33 @@ def create_dvpt_callbacks(app):
             lat= click_data["latlng"]["lat"]
             lon= click_data["latlng"]["lng"]
             
+            #Default: use orginal click location
             dvpt_state["dvpt_clicked_point"]= {
                 "lat": lat,
                 "lon": lon
             }
             
-            dvpt_state['dvpt_sidebar']= {'open': True}
+            
+            #Exception if CGS layer is active, find nearest point
+            if dvpt_state["active_layer"].get("existing_CGSs"):
+                
+                cgs_gdf= DVPT_DATASETS["existing_CGSs"]["data"]
+                
+                #Only apply 50m rule to points
+                cgs_points= cgs_gdf[cgs_gdf.geometry.geom_type == "Point"].copy()
+                if not cgs_points.empty:
+                    cgs= find_nearest_cgs(lat, lon, cgs_points, max_distance= 50)
+                
+                    if cgs is not None:
+                        #CGS found in 50m, use that CGS for info sidebar
+                        dvpt_state["dvpt_clicked_point"]= {
+                            "lat": cgs.geometry.y,
+                            "lon": cgs.geometry.x
+                        }
+                        
+                
+            #Always open sidebar
+            dvpt_state["dvpt_sidebar"] = {"open": True}
             
         # ------ CLOSE SIDEBAR BUTTON ------
         #Clicking button closes the sidebar and clears the clicked map location
@@ -192,6 +283,8 @@ def create_dvpt_callbacks(app):
             active_layer[1],
             active_layer[2],
             active_layer[3],
+            active_layer[4],
+            active_layer[5],       
         )
 
 
