@@ -118,6 +118,7 @@ The output files from this notebook are:
 This notebook `3-SEEDS_potentialCGS_search.ipynb` involves collecting,  integrating and cleaning various raw datasets to build the dashboard planning tool, enabling to identify future potential CGS sites.
 
 The output files from this notebook are:
+* `LCC_brownfields.gpkg`
 * `flooding.gpkg`
 * `Leeds_Demo.gpkg`
 
