@@ -274,6 +274,20 @@ def build_community_tab(row):
                 ("Transport support available", row['Transport_Support_(LGAP)']),
             ]),
             html.Br(),
+            
+            #Add direction link to google maps if available
+            html.P([
+                "Get directions ",
+                html.A(
+                    "here",
+                    href=row['Direction'],
+                    target="_blank",
+                    rel="noopener noreferrer"
+                    ),
+                    "."
+            ]) if not pd.isna(row['Direction']) and row['Direction'] != "" else None,
+
+            html.Br(),
             html.Hr(),
             
             #Contact
@@ -284,6 +298,7 @@ def build_community_tab(row):
                 ("Website", row['Website_Link']),
                 ("Facebook", row['Facebook_(FWC)']),
             ]),
+            
             html.Br(),
             html.Hr(),
             

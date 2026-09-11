@@ -250,6 +250,23 @@ def create_user_guide_layout():
                                 ),
                                 " datasets."
                             ]),
+                            html.P([
+                                "Additional data were provided by ",
+                                html.A(
+                                    "SeasonWell",
+                                    href="https://seasonwell.co.uk/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                " and ",
+                                html.A(
+                                    "Incredible Edible Leeds",
+                                    href="https://edibleleeds.org.uk/",
+                                    target="_blank",
+                                    rel="noopener noreferrer"
+                                ),
+                                ".",
+                            ]),
                         ])
                     )
                 ],
@@ -277,14 +294,14 @@ def create_user_guide_layout():
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " and ",
+                                " datasets and data provided by ",
                                 html.A(
                                     "Fruit Works Co-Operative",
                                     href="https://www.fruitworks.org.uk/",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                "."
                             ]),
                         ])
                     )
@@ -335,14 +352,14 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "Composting collectives were identified using ",
+                                "Composting collectives were identified using data provided by ",
                                 html.A(
-                                    "FoodWiseLeeds",
+                                    "FoodWise Leeds",
                                     href="https://foodwiseleeds.org/project/ccl/",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
-                                " datasets."
+                                "."
                             ]),
                         ])
                     )
