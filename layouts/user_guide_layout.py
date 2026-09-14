@@ -409,7 +409,7 @@ def create_user_guide_layout():
             dcc.Markdown("""
                         #### What is this page ?
                         
-                        This page provides a planning tool, allowing to imagine where growing spaces could be created in the future across Leeds. Users can select layers from a variety of categories (soil health, potential toxic elements, flood risk, socio-demographics) to get a general view of these over Leeds, and select specific locations to access more detailed information. Data on the map were last updated in September 2026.
+                        This page provides a planning tool, allowing to imagine where growing spaces could be created in the future across Leeds. Users can select layers from a variety of categories (soil health, potential toxic elements, flood risk, socio-demographics, brownfields, existing CGSs) to get a general view of these over Leeds, and select specific locations to access more detailed information. Data on the map were last updated in September 2026.
 
             """),
                         
@@ -1033,35 +1033,6 @@ def create_user_guide_layout():
             ),
 
             html.Br(),
-            html.H5("Existing Community Growing Schemes"),
-            
-            
-            dbc.Accordion(
-                [
-                    create_accordion_item(
-                        title= "Existing Community Growing Schemes",
-                        image= None,
-                        description= html.Div([
-                            html.H4("What is this layer?"),
-                            
-                            html.P("This layer displays existing community growing schemes, for more information on individual schemes, refer to the 'Existing Community Growing Schemes' tab."
-                            ),
-                            
-                            html.H4("How to use this information?"),
-                            
-                            html.P("This layer is provided for reference to help avoid creating new schemes where one already exists."
-                                   ),
-                            
-                            html.H4("Where is the data from?"),
-                            
-                            html.P("Refer to the above 'Existing Communiyt Growing Schemes' data layer guidance section."),
-                        ])
-                    ),   
-                ],
-                start_collapsed= True
-            ),
-
-            html.Br(),
             html.H5("Brownfields"),
             
             
@@ -1093,6 +1064,36 @@ def create_user_guide_layout():
                                 ),
                                 " datasets."
                             ]),
+                        ])
+                    ),   
+                ],
+                start_collapsed= True
+            ),
+
+
+            html.Br(),
+            html.H5("Existing Community Growing Schemes"),
+            
+            
+            dbc.Accordion(
+                [
+                    create_accordion_item(
+                        title= "Existing Community Growing Schemes",
+                        image= None,
+                        description= html.Div([
+                            html.H4("What is this layer?"),
+                            
+                            html.P("This layer displays existing community growing schemes, for more information on individual schemes, refer to the 'Existing Community Growing Schemes' tab."
+                            ),
+                            
+                            html.H4("How to use this information?"),
+                            
+                            html.P("This layer is provided for reference to help avoid creating new schemes where one already exists."
+                                   ),
+                            
+                            html.H4("Where is the data from?"),
+                            
+                            html.P("Refer to the above 'Existing Communiyt Growing Schemes' data layer guidance section."),
                         ])
                     ),   
                 ],

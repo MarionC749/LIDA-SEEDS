@@ -738,15 +738,6 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                     ]),
 
         #-----------------------------------------------------------
-        #Add advice if existing CGSs layer is selected
-        #-----------------------------------------------------------
-        if dataset == "existing_CGSs":
-                    content.extend([
-                        html.Br(),
-                        html.P("Please refer to the 'Existing Community Growing Schemes' tab for more information. This layer is provided for reference to help avoid creating new schemes where one already exists."),
-                    ]),
-        
-        #-----------------------------------------------------------
         #Add info if brownfields layer is selected
         #-----------------------------------------------------------
         if dataset == "LCC_brownfields":
@@ -763,6 +754,16 @@ def get_dvpt_sidebar_info(active_layers, #dict of selected dataset and layer
                             html.Li(f"Contact: {row['ORGANISATI']}"),         
                 ]),
                     ]),
+                    
+        #-----------------------------------------------------------
+        #Add advice if existing CGSs layer is selected
+        #-----------------------------------------------------------
+        if dataset == "existing_CGSs":
+                    content.extend([
+                        html.Br(),
+                        html.P("Please refer to the 'Existing Community Growing Schemes' tab for more information. This layer is provided for reference to help avoid creating new schemes where one already exists."),
+                    ]),
+        
 
 
     #-----------------------------------------------------------

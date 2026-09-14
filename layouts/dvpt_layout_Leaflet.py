@@ -19,8 +19,8 @@ def dvpt_map_layout():
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": None,
+                    "LCC_brownfields": None,
                     "existing_CGSs": None,
-                    "LCC_brownfields": None
                 },  
                 'dvpt_postcode': None,
                 'dvpt_sidebar': {
@@ -158,25 +158,6 @@ def dvpt_map_layout():
                     html.Details(
                         className= "dvpt_layer_box",
                         children=[
-                            html.Summary("🪏 Existing Community Growing Schemes"),
-
-                            dcc.RadioItems(
-                                id= {
-                                    "type": "layer-selector",
-                                    "dataset": "existing_CGSs",
-                                },
-                                className= "dvpt_custom_checklist",
-                                options=[
-                                    {"label": "Existing Community Growing Schemes", "value": "Existing Community Growing Schemes"},
-                                ],
-                                value= None
-                            )
-                        ]
-                    ),
-
-                    html.Details(
-                        className= "dvpt_layer_box",
-                        children=[
                             html.Summary("🚧 Brownfields"),
 
                             dcc.RadioItems(
@@ -192,8 +173,27 @@ def dvpt_map_layout():
                             )
                         ]
                     ),
-        
+
+                    html.Details(
+                        className= "dvpt_layer_box",
+                        children=[
+                            html.Summary("🪏 Existing Community Growing Schemes"),
+
+                            dcc.RadioItems(
+                                id= {
+                                    "type": "layer-selector",
+                                    "dataset": "existing_CGSs",
+                                },
+                                className= "dvpt_custom_checklist",
+                                options=[
+                                    {"label": "Existing Community Growing Schemes", "value": "Existing Community Growing Schemes"},
+                                ],
+                                value= None
+                            )
+                        ]
+                    ),
                 ]),
+
                 
 
                 # ------ Middle Map with Loading Indicator ------
