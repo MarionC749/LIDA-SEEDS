@@ -86,6 +86,7 @@ body {
     background-color: #B7E88A;
     height: 40px;
     display: flex;
+    z-index: 1000;
 }
 
 .tab {
@@ -694,6 +695,12 @@ body {
 
 .user_guide_container h4 {
     padding-top: 20px;
+}
+
+.user-guide-container hr {
+    position: relative;
+    z-index: 1;
+    margin: 1rem 0;
 }
 
 .user_guide_container .accordion-button {
