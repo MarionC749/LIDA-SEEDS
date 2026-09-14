@@ -47,13 +47,13 @@ def create_dvpt_callbacks(app):
         Output({"type": "layer-selector",
                         "dataset": "demographics"},
                         "value"),
-        
-        Output({"type": "layer-selector",
-                        "dataset": "existing_CGSs"},
-                        "value"),
        
         Output({"type": "layer-selector",
                         "dataset": "LCC_brownfields"},
+                        "value"),
+        
+        Output({"type": "layer-selector",
+                        "dataset": "existing_CGSs"},
                         "value"),
         
         Input({"type": "layer-selector",
@@ -83,8 +83,8 @@ def create_dvpt_callbacks(app):
                 "heavy_metals": None,
                 "flood": None,
                 "demographics": None,
-                "existing_CGSs": None,
                 "LCC_brownfields": None,
+                "existing_CGSs": None,
                 },
             "dvpt_postcode": None,
             "dvpt_sidebar": {"open": False},
@@ -103,8 +103,8 @@ def create_dvpt_callbacks(app):
             heavy_metal_layer= active_layer[1]
             flood_layer= active_layer[2]
             demo_layer= active_layer[3]
-            existing_CGSs_layer= active_layer[4]
-            LCC_brownfields_layer= active_layer[5]
+            LCC_brownfields_layer= active_layer[4]
+            existing_CGSs_layer= active_layer[5]
             
             #If a soil health layer is selected
             if triggered_dataset == "soil_health":
@@ -114,8 +114,8 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": None,
-                    "existing_CGSs": None,
                     "LCC_brownfields": None,
+                    "existing_CGSs": None,
                 }
                 
                 return(dvpt_state,
@@ -134,8 +134,8 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": heavy_metal_layer,
                     "flood": None,
                     "demographics": None,
-                    "existing_CGSs": None,
                     "LCC_brownfields": None,
+                    "existing_CGSs": None,
                 }
                 
                 return(dvpt_state,
@@ -154,8 +154,8 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": flood_layer,
                     "demographics": None,
-                    "existing_CGSs": None,
                     "LCC_brownfields": None,
+                    "existing_CGSs": None,
                 }
                 
                 return(dvpt_state,
@@ -174,8 +174,8 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": demo_layer,
-                    "existing_CGSs": None,
                     "LCC_brownfields": None,
+                    "existing_CGSs": None,
                 }
                 
                 return(dvpt_state,
@@ -184,26 +184,6 @@ def create_dvpt_callbacks(app):
                         None,
                         demo_layer,
                         None,
-                        None)
-            
-            #If Existing CGSs layer is selected
-            elif triggered_dataset == "existing_CGSs":
-                #Store layer
-                dvpt_state["active_layer"]= {
-                    "soil_health": None,
-                    "heavy_metals": None,
-                    "flood": None,
-                    "demographics": None,
-                    "existing_CGSs": existing_CGSs_layer,
-                    "LCC_brownfields": None,
-                }
-                
-                return(dvpt_state,
-                        None,
-                        None,
-                        None,
-                        None,
-                        existing_CGSs_layer,
                         None)
 
             #If Brownfields layer is selected
@@ -214,8 +194,29 @@ def create_dvpt_callbacks(app):
                     "heavy_metals": None,
                     "flood": None,
                     "demographics": None,
-                    "existing_CGSs": None,
                     "LCC_brownfields": LCC_brownfields_layer,
+                    "existing_CGSs": None,
+                }
+                
+                return(dvpt_state,
+                        None,
+                        None,
+                        None,
+                        None,
+                        LCC_brownfields_layer,
+                        None
+                        )
+
+            #If Existing CGSs layer is selected
+            elif triggered_dataset == "existing_CGSs":
+                #Store layer
+                dvpt_state["active_layer"]= {
+                    "soil_health": None,
+                    "heavy_metals": None,
+                    "flood": None,
+                    "demographics": None,
+                    "LCC_brownfields": None,
+                    "existing_CGSs": existing_CGSs_layer,
                 }
                 
                 return(dvpt_state,
@@ -224,7 +225,8 @@ def create_dvpt_callbacks(app):
                         None,
                         None,
                         None,
-                        LCC_brownfields_layer)
+                        existing_CGSs_layer,
+                        )
 
             
         # ------ POSTCODE ------

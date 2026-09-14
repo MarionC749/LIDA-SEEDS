@@ -84,12 +84,12 @@ flood = flood.to_crs(4326)
 demographics = gpd.read_file("Data/Processed_Data/Leeds_Demo.gpkg")
 demographics = demographics.to_crs(4326)
 
-#------ EXISTING CGSs DATA ------
-
-existing_CGSs = gpd.read_file("Data/Processed_Data/Existing_CGSs.gpkg")
-existing_CGSs = existing_CGSs.to_crs(4326)
-
 #------ BROWNFIELDS DATA ------
 
 LCC_brownfields = gpd.read_file("Data/Processed_Data/LCC_brownfields.gpkg")
 LCC_brownfields = LCC_brownfields.to_crs(4326)
+
+#------ EXISTING CGSs DATA ------
+
+existing_CGSs = gpd.read_file("Data/Processed_Data/Existing_CGSs.gpkg")
+existing_CGSs = existing_CGSs.to_crs(4326)

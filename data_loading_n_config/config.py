@@ -50,16 +50,16 @@ DVPT_DATASETS= {
             "data": demographics,
             "display_name": "🏠 Socio-demographics",
         },
+
+    "LCC_brownfields": {
+        "data": LCC_brownfields,
+        "display_name": "🚧 Brownfields"
+    },
     
     "existing_CGSs":{
             "data": existing_CGSs,
             "display_name": "🪏 Existing Community Growing Schemes",
-        },
-    
-    "LCC_brownfields": {
-        "data": LCC_brownfields,
-        "display_name": "🚧 Brownfields"
-    }
+    },
 
 }
 
@@ -361,16 +361,6 @@ LAYER_CONFIG= {
             "legend": "Proximity to non-supermarket food provision (decile)",
         },
     },
-
-    #Existing CGSs Dataset
-    "existing_CGSs":{
-        "Existing Community Growing Schemes": {
-            "type": "points/polygons",
-            "color": "#009E73",
-            "name_column": "Name",
-            "legend": None,
-        },
-    },
     
     #Brownfields data
     "LCC_brownfields":{
@@ -380,7 +370,18 @@ LAYER_CONFIG= {
             "name_column": "SITENAMEAD",
             "legend": None,    
         }
-    }
+    },
+    
+    #Existing CGSs Dataset
+    "existing_CGSs":{
+        "Existing Community Growing Schemes": {
+            "type": "points/polygons",
+            "color": "#009E73",
+            "name_column": "Name",
+            "legend": None,
+        },
+    },
+
 
 }
 
@@ -531,21 +532,21 @@ DVPT_SIDEBAR_CONFIG = {
         }
     
     },
-
-    #Existing CGSs Dataset
-    "existing_CGSs":{
-
-    "Existing Community Growing Schemes": {
-            "value_column": "Name",
-            "title": "Name",
-        },
-    },
     
     #Brownfields Dataset
     "LCC_brownfields":{
 
     "Brownfields": {
             "value_column": "SITENAMEAD",
+            "title": "Name",
+        },
+    },
+
+    #Existing CGSs Dataset
+    "existing_CGSs":{
+
+    "Existing Community Growing Schemes": {
+            "value_column": "Name",
             "title": "Name",
         },
     },
