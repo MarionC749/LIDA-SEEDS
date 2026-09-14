@@ -56,6 +56,8 @@ CGSs | CGSs from the 'Gardening' and 'Gardening and Animal Care' categories | Le
 Allotments | Allotments managed by council or associations  | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://www.leeds.gov.uk/parks-and-countryside/grow-your-own/allotments)
 Community Orchards | Orchards, location is postcode centroid | Leeds | Excel | 2026 | 23/07/2026 | [Fruit Works Co-operative](https://www.fruitworks.org.uk/)
 Composting Collectives | Composting sites, location is postcode centroid | Leeds | Excel | 2026 | 25/06/2026 | [FoodWiseLeeds](https://foodwiseleeds.org/project/ccl/)
+CGSs (additional) | Additional CGSs provided by Seasonwell | Leeds | Excel | 2026 | 04/09/26 | [Seasonwell](https://seasonwell.co.uk/)
+CGSs (raised beds) | Incredible Edible Leeds raised beds sites | Leeds | Excel | 2026 | 11/09/26 | [Incredible Edible Leeds](https://edibleleeds.org.uk/)
 
 
 ### Soil Health Data
@@ -83,7 +85,7 @@ Variable | Description | Data Scale | File Type | Publication Year | Acquisition
 Leeds LSOA boundaries | Polygons outlining Leeds LSOA boundaries | UK | GeoJSON | 2021 | 24/08/26 | [ONS](https://geoportal.statistics.gov.uk/datasets/ons::lower-layer-super-output-areas-december-2021-boundaries-ew-bsc-v4-2/about)
 Urban Green Spaces | CGSs under the OS Function 'Public Park Or Garden' | UK| GeoPackage | Updated every 6 months | 20/04/2026 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Greenspaces, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
-Brownfields |   | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
+Brownfields | Land previously used for commercial or residential development and no longer in use. Now available for redevelopment. | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
 Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | Downloaded through [Digimap - Geology](https://digimap.edina.ac.uk/geology), with the underlying dataset provided by [British Geological Survey](https://www.bgs.ac.uk/datasets/geological-indicators-of-flooding/) 
 PPFI and subdomains | Priority Places for Food Index and subdomains | UK | CSV | 2024 | 24/08/26 | [HASP](https://data.hasp.ac.uk/browser/dataset/5276/0)
 IMD | Index of Multiple Deprivation | UK | Excel | 2025 | 24/08/26 | [UK Government](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025)
@@ -116,6 +118,7 @@ The output files from this notebook are:
 This notebook `3-SEEDS_potentialCGS_search.ipynb` involves collecting,  integrating and cleaning various raw datasets to build the dashboard planning tool, enabling to identify future potential CGS sites.
 
 The output files from this notebook are:
+* `LCC_brownfields.gpkg`
 * `flooding.gpkg`
 * `Leeds_Demo.gpkg`
 
