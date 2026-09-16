@@ -101,7 +101,7 @@ def create_user_guide_layout():
                     ),
                     html.Div([
                         html.H4("Marion Carneiro - Data Scientist"),
-                        html.P("Marion is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges."
+                        html.P("Marion Carneiro is a Data Scientist who delivered the SEEDS dashboard as part of the Data Scientist Development Programme (DSDP) at the Leeds Institute for Data Analytics (LIDA). With a background in ecology and environmental data science, she is passionate about leveraging spatial data to tackle real-world environmental and sustainability challenges."
                         ),
                     ],className="team-member-info"),
                 ], className="team-member"),
@@ -128,6 +128,19 @@ def create_user_guide_layout():
                     html.Div([
                         html.H4("Laura Carter - Team Member"),
                         html.P("Dr Laura Carter is a Professor of Environmental Chemistry at the University of Leeds and UKRI Future Leaders Fellow. She leads a research group investigating the risks posed by contaminants in the environment, with a particular focus on emerging contaminant behaviour in soil–plant systems and implications for soil and plant health. Her research combines environmental chemistry, soil science and plant biology to improve understanding of contaminant fate and effects in terrestrial environments with the aim to inform sustainable management practices that safeguard environmental and human health."
+                        ),
+                    ],className="team-member-info"),
+                ], className="team-member"),
+
+                #Team member 5
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Pontin.jpg",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Fran Pontin - Team Member"),
+                        html.P("Dr Fran Pontin is a Research Fellow in Spatial Data Science at the University of Leeds, specialising in the use of geospatial data, open data and reproducible analytical methods to inform policy and decision-making. Her research focuses on food systems, health inequalities and place-based disadvantage."
                         ),
                     ],className="team-member-info"),
                 ], className="team-member"),
