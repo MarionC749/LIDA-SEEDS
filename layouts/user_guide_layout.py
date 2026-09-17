@@ -497,14 +497,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The data was downloaded through ",
-                                html.A(
-                                    "Digimap - Geology",
-                                    href="https://digimap.edina.ac.uk/geology",
-                                    target="_blank",
-                                    rel="noopener noreferrer"
-                                ),
-                                ", with the underlying dataset provided by the ",
+                                "The data was downloaded from the ",
                                 html.A(
                                     "British Geological Survey",
                                     href="https://www.bgs.ac.uk/datasets/soil-parent-material-model/",
@@ -543,14 +536,7 @@ def create_user_guide_layout():
                             html.H4("Where is the data from ?"),
                             
                             html.P([
-                                "The data was downloaded through ",
-                                html.A(
-                                    "Digimap - Geology",
-                                    href="https://digimap.edina.ac.uk/geology",
-                                    target="_blank",
-                                    rel="noopener noreferrer"
-                                ),
-                                ", with the underlying dataset provided by the ",
+                                "The data was downloaded through the ",
                                 html.A(
                                     "British Geological Survey",
                                     href="https://www.bgs.ac.uk/datasets/soil-parent-material-model/",
