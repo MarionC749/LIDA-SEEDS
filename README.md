@@ -86,7 +86,7 @@ Leeds LSOA boundaries | Polygons outlining Leeds LSOA boundaries | UK | GeoJSON 
 Urban Green Spaces | CGSs under the OS Function 'Public Park Or Garden' | UK| GeoPackage | Updated every 6 months | 20/04/2026 | [Ordnance Survey - Open Greenspace](https://osdatahub.os.uk/data/downloads/open/OpenGreenspace)
 Urban Green Spaces | Greenspaces, see notebook table for API OSM keys and values | Chosen LA (Leeds) | Shapefile | Updated live | Live | [OpenStreetMap API](https://www.openstreetmap.org/#map=13/53.81089/-1.58512)
 Brownfields | Land previously used for commercial or residential development and no longer in use. Now available for redevelopment. | Leeds | Web scraped - CSV | Not known | Live | [Leeds City Council](https://mapservices.leeds.gov.uk/arcgis/rest/services/Public/Strategic_Planning/MapServer/14)
-Flood Risk | Likelihood of flooding. | UK | ShapeFile | 2010 | 20/04/26 | Downloaded through [Digimap - Geology](https://digimap.edina.ac.uk/geology), with the underlying dataset provided by [British Geological Survey](https://www.bgs.ac.uk/datasets/geological-indicators-of-flooding/) 
+Flood Risk | Likelihood of flooding. | England | GeoJSON | 2023 | 17/09/26 | Downloaded through [UK Gov](https://www.planning.data.gov.uk/dataset/flood-risk-zone)
 PPFI and subdomains | Priority Places for Food Index and subdomains | UK | CSV | 2024 | 24/08/26 | [HASP](https://data.hasp.ac.uk/browser/dataset/5276/0)
 IMD | Index of Multiple Deprivation | UK | Excel | 2025 | 24/08/26 | [UK Government](https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025)
 
