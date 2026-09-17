@@ -108,10 +108,8 @@ grain_size_colours= {
 }
 
 flood_colours= {
-    "Coastal - High Flood Potential": '#cd34b5',
-    "Coastal - Secondary Flood Potential": '#9d02d7',
-    "Fluvial - High Flood Potential": '#0000ff',
-    "Fluvial - Secondary Flood Potential": '#0000ff',
+    "Fluvial - High Flood Potential": '#40039C',
+    "Fluvial - Secondary Flood Potential": '#377eb8',
 }
 
 IMD_Decile_colours= {

@@ -755,7 +755,7 @@ def create_user_guide_layout():
                         description= html.Div([
                             html.H4("What is this layer?"),
                             
-                            html.P("This layer displays the likely susceptibility to flooding, either from coastal inundation or fluvial (inland) water flow."
+                            html.P("This layer displays the likely susceptibility to flooding, from fluvial (inland) water flow."
                             ),
                             
                             html.H4("How to use this information?"),
@@ -766,17 +766,10 @@ def create_user_guide_layout():
                             html.H4("Where is the data from?"),
                             
                             html.P([
-                                "The data was downloaded through ",
+                                "The data was downloaded from the ",
                                 html.A(
-                                    "Digimap - Geology",
-                                    href="https://digimap.edina.ac.uk/geology",
-                                    target="_blank",
-                                    rel="noopener noreferrer"
-                                ),
-                                ", with the underlying dataset provided by the ",
-                                html.A(
-                                    "British Geological Survey",
-                                    href="https://www.bgs.ac.uk/datasets/geological-indicators-of-flooding/",
+                                    "UK Government",
+                                    href="https://www.planning.data.gov.uk/dataset/flood-risk-zone",
                                     target="_blank",
                                     rel="noopener noreferrer"
                                 ),
