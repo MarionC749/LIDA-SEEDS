@@ -1117,7 +1117,10 @@ def create_user_guide_layout():
                     href="mailto: R.Oldroyd@leeds.ac.uk",
                     ),
                 "."
-            ])
+            ]),
+            
+            html.Br(),
+            html.P("This dashboard is designed for use on laptops and desktops. For the best experience, please view it on a larger screen, as the layout is not optimised for mobile devices.")
          ]
      )
 
