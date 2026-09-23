@@ -57,13 +57,22 @@ def create_main_layout():
                 className='footer-navbar',
                 children=[
                     html.Img(
+                        src='/assets/FWL_logo_2.png',
+                        style={'height': '40px'}
+                    ),
+                    html.Img(
                         src='/assets/University-of-Leeds_logo.png',
                         style={'height': '120px'}
-                        ),
+                    ),
                     html.Img(
                         src='/assets/lida_logo.png',
                         style={'height': '40px'}
-                    )
+                    ),
+                    html.Img(
+                        src='/assets/HPS logo.png',
+                        style={'height': '40px'}
+                    ),
+                    
                 ]
             )
         ]

@@ -231,6 +231,16 @@ def info_section(title, fields):
     
     return content
 
+
+def combine_entries(value1, value2, separator= " - "):
+    values= []
+    for value in [value1, value2]:
+        if pd.notna(value) and str(value).strip() != "":
+            values.append(str(value).strip())
+    if not values:
+        return pd.NA
+    return separator.join(values if values else pd.NA)
+
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #------ COMMUNITY TAB FUNCTION ------
 #Build 'Community tab' layout function
@@ -267,10 +277,16 @@ def build_community_tab(row):
                 ("One location?", row['one_location_(LGAP)']),
                 ("Location Description", row['Location_Description']),
                 ("Postcode", row['Postcode_(FWC)']),
-                ("Site Accessibility", row['Site_Accessibility_(LGAP)']),
+                ("Site Accessibility", combine_entries(
+                    row['Site_Accessibility_(LGAP)'],
+                    row['Site_Accessibility_(LGAP)_Desc']
+                 )),
                 ("Toilets", row['Toilets_(LGAP)']),
                 ("Indoor Space", row['Indoor_Space_(LGAP)']),
-                ("Indoor Type", row['Indoor_Type_(LGAP)']),
+                ("Indoor Type", combine_entries(
+                    row['Indoor_Type_(LGAP)'],
+                    row['Indoor_Other_(LGAP)']
+                )),
                 ("Transport support available", row['Transport_Support_(LGAP)']),
             ]),
             html.Br(),

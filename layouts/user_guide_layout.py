@@ -79,21 +79,8 @@ def create_user_guide_layout():
             html.H1("Meet the team behind SEEDS"),
              
             html.Div([
-                 
+
                 #Team member 1
-                html.Div([
-                    html.Img(
-                        src="/assets/PP_Olroyd.png",
-                        className='team-photo'
-                    ),
-                    html.Div([
-                        html.H4("Rachel Olroyd - Lead Supervisor"),
-                        html.P("Dr Rachel Oldroyd is a Lecturer in Spatial Data Science at the University of Leeds, based within the School of Geography. Her research broadly explores the role of place in health and health inequalities, using geospatial data and methods to better understand relationships between people, environments and health. She has a particular interest in food environments and food systems, including access to safe, healthy and affordable food."
-                        ),
-                    ],className="team-member-info"),
-                ], className="team-member"),
-                
-                #Team member 2
                 html.Div([
                     html.Img(
                         src="/assets/PP_Carneiro.jpeg",
@@ -106,6 +93,19 @@ def create_user_guide_layout():
                     ],className="team-member-info"),
                 ], className="team-member"),
 
+                #Team member 2
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Olroyd.png",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Rachel Olroyd - Lead Supervisor"),
+                        html.P("Dr Rachel Oldroyd is a Lecturer in Spatial Data Science at the University of Leeds, based within the School of Geography. Her research broadly explores the role of place in health and health inequalities, using geospatial data and methods to better understand relationships between people, environments and health. She has a particular interest in food environments and food systems, including access to safe, healthy and affordable food."
+                        ),
+                    ],className="team-member-info"),
+                ], className="team-member"),
+                
                 #Team member 3
                 html.Div([
                     html.Img(
