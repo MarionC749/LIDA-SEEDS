@@ -145,6 +145,19 @@ def create_user_guide_layout():
                     ],className="team-member-info"),
                 ], className="team-member"),
 
+                #Team member 6
+                html.Div([
+                    html.Img(
+                        src="/assets/PP_Roast.jpg",
+                        className='team-photo'
+                    ),
+                    html.Div([
+                        html.H4("Asa Roast - Team Member"),
+                        html.P("Dr Asa Roast is an urban geographer with an interest in informality, infrastructure and urbanisation. He previously did long term research on informal urban agriculture in the megacity of Chongqing, China."
+                        ),
+                    ],className="team-member-info"),
+                ], className="team-member"),
+
 
             ], className= "team-container"),
             
